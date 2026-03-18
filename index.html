@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Base href: update if deploying under a repo path -->
+  <base href="/Ardaita-Unity-and-Development-Association/">
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kecho NGO Website built with Flutter Web">
+  <meta name="keywords" content="NGO, Charity, Flutter, Donations, Community">
+  <meta name="author" content="Kecho Organization">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="kecho">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <title>Kecho NGO Website</title>
+
+  <!-- Basic styling for loading screen -->
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    #loading {
+      text-align: center;
+      color: #333;
+    }
+    #loading img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+<!-- Loading screen before Flutter app initializes -->
+<div id="loading">
+  <img src="assets/icons/icon-192.png" alt="Loading icon">
+  <p>Loading Kecho NGO Website...</p>
+</div>
+
+<!-- Flutter bootstrap script -->
+<script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
