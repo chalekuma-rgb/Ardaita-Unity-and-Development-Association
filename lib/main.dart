@@ -130,7 +130,7 @@ class HomePage extends StatelessWidget {
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/Ardaita.jpg'),
+                    image: AssetImage('assets/Ardaita2.jpg'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -279,7 +279,7 @@ class HomePage extends StatelessWidget {
             child: const Column(
               children: [
                 Text(
-                  '© 2023 Ardaita Unity and Development Association. All rights reserved.',
+                  '© 2026 Ardaita Unity and Development Association. All rights reserved.',
                   style: TextStyle(color: Colors.white70),
                 ),
                 SizedBox(height: 8),
@@ -378,11 +378,25 @@ class WhoWeAreTab extends StatelessWidget {
               children: [
                 _buildTreeLevel('General Assembly', 'Highest Authority', Icons.groups_rounded, isRoot: true),
                 _buildVerticalLine(),
-                _buildTreeLevel('Board Chairman', 'Strategic Lead', Icons.person_rounded),
+                _buildTreeLevel('Dejen Kuma(Phd)', 'Board Chairman', Icons.person_rounded, imagePath: 'assets/Board_Chair_Man.jpg'),
                 _buildVerticalLine(),
-                _buildTreeLevel('Main Executive', 'Operations Lead', Icons.settings_accessibility_rounded),
-                _buildVerticalLine(),
-                _buildTreeLevel('Legal Officer', 'Compliance & Ethics', Icons.gavel_rounded),
+                
+                // Secondary row: Vice Chair, Secretary, Treasurer, Board Members
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildTreeLevel('TBD', 'Vice Chair', Icons.person_outline_rounded, width: 200),
+                      const SizedBox(width: 16),
+                      _buildTreeLevel('TBD', 'Secretary', Icons.edit_note_rounded, width: 200),
+                      const SizedBox(width: 16),
+                      _buildTreeLevel('TBD', 'Treasurer', Icons.account_balance_wallet_rounded, width: 200),
+                      const SizedBox(width: 16),
+                      _buildTreeLevel('Board Members', 'Community Reps', Icons.people_outline_rounded, width: 200),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -391,7 +405,7 @@ class WhoWeAreTab extends StatelessWidget {
           Text('Authority & Governance', style: Theme.of(context).textTheme.displayMedium),
           const SizedBox(height: 24),
           const Text(
-            'AUDA follows a best-practice democratic governance model. The General Assembly, composed of all members, holds the ultimate decision-making power. The Board Chairman translates this vision into strategy, while the Executive team ensures daily operational excellence under legal oversight.',
+            'AUDA follows a best-practice democratic governance model. The General Assembly, composed of all members, holds the ultimate decision-making power. The Board Chairman translates this vision into strategy, while the specialized officers (Vice Chair, Secretary, Treasurer) and the Board Members ensure daily operational excellence and community representation.',
             style: TextStyle(fontSize: 18, height: 1.6),
           ),
         ],
@@ -399,9 +413,9 @@ class WhoWeAreTab extends StatelessWidget {
     );
   }
 
-  Widget _buildTreeLevel(String title, String subtitle, IconData icon, {bool isRoot = false}) {
+  Widget _buildTreeLevel(String title, String subtitle, IconData icon, {bool isRoot = false, double width = 300, String? imagePath}) {
     return Container(
-      width: 300,
+      width: width,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: isRoot ? const Color(0xFF2E7D32) : Colors.white,
@@ -413,7 +427,13 @@ class WhoWeAreTab extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(icon, color: isRoot ? Colors.white : const Color(0xFF2E7D32), size: 32),
+          imagePath != null
+              ? CircleAvatar(
+                  radius: 32,
+                  backgroundImage: AssetImage(imagePath),
+                  onBackgroundImageError: (exception, stackTrace) => const Icon(Icons.person_rounded, size: 32),
+                )
+              : Icon(icon, color: isRoot ? Colors.white : const Color(0xFF2E7D32), size: 32),
           const SizedBox(height: 12),
           Text(
             title,
@@ -536,44 +556,44 @@ class ProjectsPage extends StatelessWidget {
         'subtitle': 'Sustainability & Conservation',
         'icon': Icons.eco_rounded,
         'activities': [
-          'Community-led reforestation and tree planting programs.',
-          'Advocating for sustainable waste management practices.',
-          'Protecting local biodiversity and natural habitats.',
-          'Promoting renewable energy and eco-friendly solutions.'
-        ],
+          'Community reforestation projects',
+          'Sustainable water resource management',
+          'Environment awareness workshops',
+          'Waste reduction initiatives'
+        ]
       },
       {
         'title': 'Education',
         'subtitle': 'Learning & Development',
         'icon': Icons.school_rounded,
         'activities': [
-          'Expanding access to school materials and basic infrastructure.',
-          'Providing vocational training and digital literacy skills.',
-          'Supporting lifelong learning opportunities for all ages.',
-          'Mentorship programs for youth and students.'
-        ],
+          'Primary school support programs',
+          'Vocational training for youth',
+          'Digital literacy classes',
+          'Educational resource distribution'
+        ]
       },
       {
         'title': 'Health',
         'subtitle': 'Public Wellness & Safety',
         'icon': Icons.health_and_safety_rounded,
         'activities': [
-          'Facilitating mobile clinics and health outreach services.',
-          'Conducting awareness campaigns on hygiene and nutrition.',
-          'Improving access to clean water and sanitation facilities.',
-          'Maternal and child health support initiatives.'
-        ],
+          'Public health awareness campaigns',
+          'Mental wellness support sessions',
+          'Preventive care education',
+          'Medical resource facilitation'
+        ]
       },
       {
         'title': 'Economic activities',
         'subtitle': 'Growth & Empowerment',
         'icon': Icons.trending_up_rounded,
         'activities': [
-          'Providing micro-grants and support for small entrepreneurs.',
-          'Offering training in financial management and business.',
-          'Supporting agricultural innovation and market access.',
-          'Empowering women and marginalized groups economically.'
-        ],
+          'Micro-finance group support',
+          'Small business mentorship',
+          'Entrepreneurship training',
+          'Agricultural development support'
+        ]
       },
     ];
 
@@ -584,13 +604,12 @@ class ProjectsPage extends StatelessWidget {
         children: [
           Text('Trending Initiatives', style: Theme.of(context).textTheme.displayMedium),
           const SizedBox(height: 32),
-          // Directly placing the GridView logic here to avoid layout issues
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 500,
-              childAspectRatio: 1.2,
+              mainAxisExtent: 320,
               crossAxisSpacing: 24,
               mainAxisSpacing: 24,
             ),
@@ -612,8 +631,7 @@ class ProjectsPage extends StatelessWidget {
                       Row(
                         children: [
                           Container(
-                            width: 50,
-                            height: 50,
+                            padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
                               color: Colors.green.shade50,
                               borderRadius: BorderRadius.circular(12),
@@ -625,7 +643,7 @@ class ProjectsPage extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(item['title'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                                Text(item['title'], style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                                 Text(item['subtitle'], style: const TextStyle(color: Colors.grey, fontSize: 13)),
                               ],
                             ),
@@ -633,18 +651,24 @@ class ProjectsPage extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      const Text('Core Activities:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black87)),
+                      const Text('Core Activities:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                       const SizedBox(height: 12),
-                      ...((item['activities'] as List<String>).map((activity) => Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('• ', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
-                            Expanded(child: Text(activity, style: const TextStyle(fontSize: 14))),
-                          ],
+                      Expanded(
+                        child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: (item['activities'] as List).length,
+                          itemBuilder: (ctx, i) => Padding(
+                            padding: const EdgeInsets.only(bottom: 6.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text('• ', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                                Expanded(child: Text(item['activities'][i], style: const TextStyle(fontSize: 14))),
+                              ],
+                            ),
+                          ),
                         ),
-                      ))),
+                      ),
                     ],
                   ),
                 ),
@@ -674,7 +698,7 @@ class DocumentsPage extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-              itemCount: 8,
+              itemCount: 1,
               separatorBuilder: (context, index) => const Divider(height: 1),
               itemBuilder: (context, index) {
                 return ListTile(
@@ -683,9 +707,9 @@ class DocumentsPage extends StatelessWidget {
                     backgroundColor: Color(0xFF2E7D32),
                     child: Icon(Icons.picture_as_pdf, color: Colors.white),
                   ),
-                  title: Text('Structure_Guide_v${index + 1}.pdf', style: const TextStyle(fontWeight: FontWeight.w500)),
-                  subtitle: const Text('Detailed architectural analysis and implementation notes'),
-                  trailing: const Text('1.2 MB', style: TextStyle(color: Colors.grey)),
+                  title: const Text('Ardaita_Amharic.pdf', style: TextStyle(fontWeight: FontWeight.w500)),
+                  subtitle: const Text('Official community development document in Amharic'),
+                  trailing: const Icon(Icons.download_rounded, color: Colors.green),
                   onTap: () {},
                 );
               },
@@ -790,23 +814,11 @@ class ContactUsPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildContactMethod(
-                      Icons.location_on_rounded,
-                      'Our Office',
-                      'Ardaita, Ethiopia',
-                    ),
+                    _buildContactMethod(Icons.location_on_rounded, 'Our Office', 'Ardaita, Ethiopia'),
                     const SizedBox(height: 24),
-                    _buildContactMethod(
-                      Icons.email_rounded,
-                      'Email Us',
-                      'info@ardaitaunity.org',
-                    ),
+                    _buildContactMethod(Icons.email_rounded, 'Email Us', 'info@ardaitaunity.org'),
                     const SizedBox(height: 24),
-                    _buildContactMethod(
-                      Icons.phone_rounded,
-                      'Call Us',
-                      '+251 911 000 000',
-                    ),
+                    _buildContactMethod(Icons.phone_rounded, 'Call Us', '+251 911 000 000'),
                   ],
                 ),
               ),
@@ -825,27 +837,11 @@ class ContactUsPage extends StatelessWidget {
                     children: [
                       const Text('Send us a message', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 24),
-                      const TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Full Name',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
+                      const TextField(decoration: InputDecoration(labelText: 'Full Name', border: OutlineInputBorder())),
                       const SizedBox(height: 16),
-                      const TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Email Address',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
+                      const TextField(decoration: InputDecoration(labelText: 'Email Address', border: OutlineInputBorder())),
                       const SizedBox(height: 16),
-                      const TextField(
-                        maxLines: 4,
-                        decoration: InputDecoration(
-                          labelText: 'Message',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
+                      const TextField(maxLines: 4, decoration: InputDecoration(labelText: 'Message', border: OutlineInputBorder())),
                       const SizedBox(height: 24),
                       ElevatedButton(
                         onPressed: () {},
