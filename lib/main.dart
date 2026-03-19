@@ -1,3 +1,4 @@
+import 'dart:html' as html;
 import 'package:flutter/material.dart';
 
 void main() {
@@ -46,22 +47,17 @@ class MainLayout extends StatefulWidget {
 
 class _MainLayoutState extends State<MainLayout> {
   int _selectedIndex = 0;
+  int? _aboutUsSubTab;
 
-  late final List<Widget> _pages;
-
-  @override
-  void initState() {
-    super.initState();
-    _pages = [
-      HomePage(onNavigate: (index) => setState(() => _selectedIndex = index)),
-      const AboutUsPage(),
-      const ProjectsPage(),
-      const DocumentsPage(),
-      const GalleryPage(),
-      const ContactUsPage(),
-      const DonatePage(),
-    ];
-  }
+  List<Widget> get _pages => [
+    HomePage(onNavigate: (index) => setState(() => _selectedIndex = index)),
+    AboutUsPage(initialSubTab: _aboutUsSubTab),
+    const ProjectsPage(),
+    const ResourcesPage(),
+    const GalleryPage(),
+    const ContactUsPage(),
+    const DonatePage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +67,9 @@ class _MainLayoutState extends State<MainLayout> {
           style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2)),
         actions: [
           _buildTopMenuItem(0, 'Home'),
-          _buildTopMenuItem(1, 'About Us'),
+          _buildAboutUsMenu(),
           _buildTopMenuItem(2, 'Initiatives'),
-          _buildTopMenuItem(3, 'Documents'),
+          _buildTopMenuItem(3, 'Resources'),
           _buildTopMenuItem(4, 'Gallery'),
           _buildTopMenuItem(5, 'Contact Us'),
           _buildTopMenuItem(6, 'Donate'),
@@ -106,6 +102,52 @@ class _MainLayoutState extends State<MainLayout> {
           style: TextStyle(
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             fontSize: 14,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAboutUsMenu() {
+    final isSelected = _selectedIndex == 1;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: PopupMenuButton<int?>(
+        onSelected: (value) {
+          setState(() {
+            _selectedIndex = 1;
+            _aboutUsSubTab = value;
+          });
+        },
+        itemBuilder: (context) => const [
+          PopupMenuItem<int?>(value: null, child: Text('About Us')), 
+          PopupMenuItem<int?>(value: 0, child: Text('Who We Are')),
+          PopupMenuItem<int?>(value: 1, child: Text('What We Do')),
+        ],
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.white.withOpacity(0.1) : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'About Us',
+                style: TextStyle(
+                  color: isSelected ? Colors.white : Colors.green.shade100,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Icon(
+                Icons.arrow_drop_down,
+                color: isSelected ? Colors.white : Colors.green.shade100,
+                size: 20,
+              ),
+            ],
           ),
         ),
       ),
@@ -215,7 +257,7 @@ class HomePage extends StatelessWidget {
                 _buildStatItem(context, Icons.people, '1000+', 'Lives Impacted'),
                 _buildStatItem(context, Icons.school, '20+', 'Education Programs'),
                 _buildStatItem(context, Icons.eco, '100+', 'Green Initiatives'),
-                _buildStatItem(context, Icons.health_and_safety, '24/7', 'Community Support'),
+                _buildStatItem(context, Icons.trending_up, '24/7', 'Community Support'),
               ],
             ),
           ),
@@ -323,42 +365,88 @@ class MaxWidthContainer extends StatelessWidget {
   }
 }
 
-class AboutUsPage extends StatelessWidget {
-  const AboutUsPage({super.key});
+class AboutUsPage extends StatefulWidget {
+  final int? initialSubTab;
+
+  const AboutUsPage({super.key, this.initialSubTab});
+
+  @override
+  State<AboutUsPage> createState() => _AboutUsPageState();
+}
+
+class _AboutUsPageState extends State<AboutUsPage> {
+  int? selectedSubTab; // null = nothing selected initially
+
+  @override
+  void initState() {
+    super.initState();
+    selectedSubTab = widget.initialSubTab;
+  }
+
+  @override
+  void didUpdateWidget(covariant AboutUsPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialSubTab != widget.initialSubTab) {
+      selectedSubTab = widget.initialSubTab;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Column(
-        children: [
-          Container(
-            color: Colors.white,
-            child: TabBar(
-              labelColor: const Color(0xFF2E7D32),
-              unselectedLabelColor: Colors.grey,
-              indicatorColor: const Color(0xFF2E7D32),
-              indicatorWeight: 3,
-              tabs: const [
-                Tab(text: 'Who We Are'),
-                Tab(text: 'What We Do'),
-              ],
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset('assets/Ardaita2.jpg', fit: BoxFit.cover),
+        ),
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black.withOpacity(0.55),
+                  Colors.black.withOpacity(0.35),
+                ],
+              ),
             ),
           ),
-          const Expanded(
-            child: TabBarView(
-              children: [
-                WhoWeAreTab(),
-                WhatWeDoTab(),
-              ],
+        ),
+        Column(
+          children: [
+            // Content area
+            Expanded(
+              child: selectedSubTab == null
+                  ? const Center(
+                      child: Text(
+                        'Select a section to view details',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                  : Container(
+                      margin: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.93),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        child: selectedSubTab == 0
+                            ? const WhoWeAreTab()
+                            : const WhatWeDoTab(),
+                      ),
+                    ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 }
-
 class WhoWeAreTab extends StatelessWidget {
   const WhoWeAreTab({super.key});
 
@@ -371,7 +459,7 @@ class WhoWeAreTab extends StatelessWidget {
         children: [
           Text('Organizational Structure', style: Theme.of(context).textTheme.displayMedium),
           const SizedBox(height: 48),
-          
+
           // Tree Structure
           Center(
             child: Column(
@@ -380,7 +468,7 @@ class WhoWeAreTab extends StatelessWidget {
                 _buildVerticalLine(),
                 _buildTreeLevel('Dejen Kuma(Phd)', 'Board Chairman', Icons.person_rounded, imagePath: 'assets/Board_Chair_Man.jpg'),
                 _buildVerticalLine(),
-                
+
                 // Secondary row: Vice Chair, Secretary, Treasurer, Board Members
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -595,6 +683,16 @@ class ProjectsPage extends StatelessWidget {
           'Agricultural development support'
         ]
       },
+      {
+        'title': 'Social Care',
+        'subtitle': 'Care for Vulnerable children & elderly',
+        'icon': Icons.trending_up_rounded,
+        'activities': [
+          'Protect Children & Elderly',
+          'Support At-Risk Children',
+          'Assist Vulnerable Elderly',
+        ]
+      },
     ];
 
     return SingleChildScrollView(
@@ -681,8 +779,8 @@ class ProjectsPage extends StatelessWidget {
   }
 }
 
-class DocumentsPage extends StatelessWidget {
-  const DocumentsPage({super.key});
+class ResourcesPage extends StatelessWidget {
+  const ResourcesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -693,7 +791,7 @@ class DocumentsPage extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(40, 40, 40, 10),
-            child: Text('Resource Documents', style: Theme.of(context).textTheme.displayMedium),
+            child: Text('Resources', style: Theme.of(context).textTheme.displayMedium),
           ),
           Expanded(
             child: ListView.separated(
@@ -710,7 +808,13 @@ class DocumentsPage extends StatelessWidget {
                   title: const Text('Ardaita_Amharic.pdf', style: TextStyle(fontWeight: FontWeight.w500)),
                   subtitle: const Text('Official community development document in Amharic'),
                   trailing: const Icon(Icons.download_rounded, color: Colors.green),
-                  onTap: () {},
+                  onTap: () {
+                    html.AnchorElement(
+                      href: 'assets/Ardaita_Amharic.pdf',
+                    )
+                      ..setAttribute('download', 'Ardaita_Amharic.pdf')
+                      ..click();
+                  },
                 );
               },
             ),
@@ -934,9 +1038,9 @@ class DonatePage extends StatelessWidget {
             runSpacing: 24,
             alignment: WrapAlignment.center,
             children: [
-              _buildDonationCard(context, '\$25', 'Provides school supplies for one student'),
-              _buildDonationCard(context, '\$100', 'Supports a local community health workshop'),
-              _buildDonationCard(context, '\$500', 'Funds a small-scale conservation project'),
+              _buildDonationCard(context, '\$1', 'Provides school supplies for one student'),
+              _buildDonationCard(context, '\$5', 'Supports a local community health workshop'),
+              _buildDonationCard(context, '\$10', 'Funds a small-scale conservation project'),
               _buildDonationCard(context, 'Custom', 'Any amount makes a significant difference'),
             ],
           ),
