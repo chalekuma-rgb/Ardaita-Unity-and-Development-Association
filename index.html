@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AUDA – Hope for Our Community | Ethiopia</title>
+
+<meta name="description" content="AUDA – Hope for Our Community is a local NGO in Aradita, West Arsi Zone, Oromia, Ethiopia working in environment, education and health.">
+  <style>
+    :root{
+      --primary:#2a7a4a;
+      --accent:#f0a500;
+      --muted:#6b6b6b;
+      --bg:#fafafa;
+      --card:#ffffff;
+      --max-width:1100px;
+      --radius:10px;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:#111;line-height:1.5}
+    .container{max-width:var(--max-width);margin:0 auto;padding:1rem}
+    header{background:linear-gradient(90deg,var(--primary),#1f5f3b);color:#fff;padding:.75rem 0}
+    .nav{display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:.75rem;font-weight:700}
+    .brand .logo{width:48px;height:48px;border-radius:8px;background:#fff6;padding:.25rem;display:inline-grid;place-items:center;color:var(--primary);font-weight:800}
+    nav ul{list-style:none;margin:0;padding:0;display:flex;gap:1rem;align-items:center}
+    nav a{color:#fff;text-decoration:none;font-weight:600}
+    .hero{display:grid;grid-template-columns:1fr;gap:1.25rem;align-items:center;padding:2rem 0}
+    .hero-card{background:var(--card);padding:1.25rem;border-radius:var(--radius);box-shadow:0 6px 20px rgba(0,0,0,.07)}
+    .cta{display:inline-block;background:var(--accent);color:#222;padding:.6rem 1rem;border-radius:8px;text-decoration:none;font-weight:700}
+    .grid{display:grid;gap:1rem}
+    @media(min-width:800px){.hero{grid-template-columns:1fr 420px}.grid-3{grid-template-columns:repeat(3,1fr)}.grid-2{grid-template-columns:1fr 1fr}}
+    section{padding:2rem 0}
+    h1,h2,h3{margin:0 0 .5rem 0}
+    p{margin:0 0 1rem 0}
+    .card{background:var(--card);padding:1rem;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.05)}
+    .initiative{display:flex;flex-direction:column;gap:.5rem}
+    .initiative .icon{width:48px;height:48px;border-radius:8px;display:grid;place-items:center;font-weight:700;color:#fff}
+    .env{background:#2a7a4a}.edu{background:#0b6fa4}.health{background:#d64545}
+    .projects{display:grid;gap:1rem}
+    .project{display:flex;gap:1rem;align-items:flex-start}
+    .project img{width:120px;height:80px;object-fit:cover;border-radius:8px}
+    form{display:grid;gap:.5rem}
+    label{font-size:.9rem;color:var(--muted)}
+    input,textarea,select{padding:.6rem;border:1px solid #e6e6e6;border-radius:8px;font-size:1rem}
+    button{background:var(--primary);color:#fff;border:none;padding:.7rem 1rem;border-radius:8px;font-weight:700;cursor:pointer}
+    footer{padding:1.25rem 0;text-align:center;color:var(--muted);font-size:.9rem}
+    .small{font-size:.9rem;color:var(--muted)}
+    .flex{display:flex;gap:1rem;align-items:center}
+    .pill{background:#fff;padding:.35rem .6rem;border-radius:999px;font-weight:700;color:var(--primary)}
+    a.external{color:var(--primary);text-decoration:underline}
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+    <div class="brand">
+      <div class="logo">AU</div>
+      <div>
+          <div style="font-size:1.05rem">AUDA-Hope for Our Community</div>
+          <div class="small">Supporting environment, education, and health in rural Ethiopia</div>
+      </div>
+    </div>
+
+    <nav>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#initiatives">Initiatives</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#get-involved">Get Involved</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="lang-switch">
+      <button onclick="setLang('en')">EN</button>
+      <button onclick="setLang('am')">አማ</button>
+      <button onclick="setLang('or')">OR</button>
+    </div>
+  </div>
+</header>
+
+ <main>
+
+  <div class="container hero" role="main">
+
+    <!-- HERO CONTENT -->
+    <div class="hero-card fade-in">
+
+      <h1 
+        data-en="Working together for a healthier, greener, and brighter community"
+        data-am="ጤናማ፣ አረንጓዴ እና የተሻለ ማህበረሰብ እንደግፋለን"
+        data-or="Hawaasa fayyaa, magariisaa fi ifaa ta'e waliin ijaarra">
+        Working together for a healthier, greener, and brighter community
+      </h1>
+
+      <p
+        data-en="Hope for Our Community is a local charity serving a small rural community in Ethiopia. We design and implement projects that restore the environment, expand access to education, and improve community health using locally led solutions."
+        data-am="Hope for Our Community በኢትዮጵያ ያለ ትንሽ ገጠር ማህበረሰብን የሚያገለግል የአካባቢ ድርጅት ነው። አካባቢን ለማሻሻል፣ ትምህርትን ለማስፋፋት እና ጤናን ለማሻሻል በአካባቢ የተመራ ፕሮጀክቶችን እናቀርባለን።"
+        data-or="Hope for Our Community dhaabbata naannoo xiqqoo baadiyyaa Itoophiyaa keessatti hojjetu dha. Pirojektoota naannoo deebisuu, barnoota babal’isu fi fayyaa hawaasaa fooyyessu furmaata naannoon hogganamuun hojjanna.">
+        Hope for Our Community is a local charity serving a small rural community in Ethiopia...
+      </p>
+
+      <div class="flex" style="margin-top:1rem">
+
+        <a class="cta" href="#get-involved"
+           data-en="Donate / Volunteer"
+           data-am="ድጋፍ ያድርጉ / በፈቃደኝነት ይሳተፉ"
+           data-or="Deeggarsa / Tola ooltummaa">
+           Donate / Volunteer
+        </a>
+
+        <a class="pill" href="#projects"
+           data-en="See Impact"
+           data-am="ውጤቶችን ይመልከቱ"
+           data-or="Bu'aa Ilaali">
+           See Impact
+        </a>
+
+      </div>
+    </div>
+
+    <!-- QUICK FACTS -->
+    <aside class="card fade-in" aria-label="Quick facts">
+
+      <h3
+        data-en="Quick Facts"
+        data-am="ፈጣን መረጃ"
+        data-or="Odeeffannoo Gabaabaa">
+        Quick Facts
+      </h3>
+
+      <ul style="margin:0 0 1rem 1rem">
+
+        <li
+          data-en="Community population: ~3,500"
+          data-am="የማህበረሰብ ብዛት: ~3,500"
+          data-or="Lakkoofsa hawaasaa: ~3,500">
+          Community population: ~3,500
+        </li>
+
+        <li
+          data-en="Programs: Environment • Education • Health"
+          data-am="ፕሮግራሞች: አካባቢ • ትምህርት • ጤና"
+          data-or="Sagantaawwan: Naannoo • Barnoota • Fayyaa">
+          Programs: Environment • Education • Health
+        </li>
+
+        <li
+          data-en="Local staff and volunteer-led"
+          data-am="በአካባቢ ሰራተኞች እና በፈቃደኞች የሚመራ"
+          data-or="Hojjettoota naannoo fi tola ooltota hogganamu">
+          Local staff and volunteer-led
+        </li>
+
+      </ul>
+
+      <div>
+        <strong
+          data-en="Contact:"
+          data-am="መገኛ:"
+          data-or="Quunnamtii:">
+          Contact:
+        </strong>
+
+        <div class="small">hiliyomi2012@gmail.com</div>
+        <div class="small">emuabdoasratabdo@gmail.com</div>
+        <div class="small">fishomed@gmail.com</div>
+        <div class="small">+353123456789</div>
+        <div class="small">+251912345678</div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="container fade-in">
+    <div class="card">
+      <h2
+        data-en="About Us"
+        data-am="ስለ እኛ"
+        data-or="Waa’ee Keenya">
+        About Us
+    </h2>
+
+      <p
+        data-en="Founded by members of the community, our mission is to create sustainable, locally owned programs that improve livelihoods and wellbeing. We coordinate with local leaders and partner organizations to ensure culturally appropriate and effective interventions."
+        data-am="በማህበረሰቡ አባላት የተመሰረተ ድርጅታችን ዘላቂ እና በአካባቢ ባለቤትነት የሚመሩ ፕሮግራሞችን ለመፍጠር ይሰራል።"
+        data-or="Dhaabbanni keenya miseensota hawaasaa irraa hundaa’ee sagantaawwan itti fufiinsa qaban fi naannoon abbaa ta’e uumuuf hojjetaa jira.">
+        Founded by members of the community, our mission is to create sustainable...
+      </p>
+    </div>
+  </section>
+
+</main>
+      </div>
+    </section>
+
+    <section id="initiatives" class="container">
+      <h2>Our Initiatives</h2>
+      <div class="grid grid-3" style="margin-top:1rem">
+        <div class="card initiative" aria-labelledby="env">
+          <div class="icon env">E</div>
+          <div>
+            <h3 id="env">Environmental Stewardship</h3>
+            <p>Tree planting, soil conservation, water catchment systems, and training in sustainable farming to restore degraded land and increase food security.</p>
+          </div>
+        </div>
+
+        <div class="card initiative" aria-labelledby="edu">
+          <div class="icon edu">Ed</div>
+          <div>
+            <h3 id="edu">Education & Youth</h3>
+            <p>Support for local primary schools, scholarships, adult literacy classes, and vocational training to build skills and long-term opportunities.</p>
+          </div>
+        </div>
+
+        <div class="card initiative" aria-labelledby="health">
+          <div class="icon health">H</div>
+          <div>
+            <h3 id="health">Health & Hygiene</h3>
+            <p>Community health workshops, vaccination outreach support, clean water projects, and training of community health workers to improve public health outcomes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="container">
+      <h2>Current Projects & Impact</h2>
+      <div class="projects" style="margin-top:1rem">
+        <div class="project card">
+          <img src="https://via.placeholder.com/320x200?text=Tree+Planting" alt="Community tree planting">
+          <div>
+            <h3>Village Tree Planting & Nursery</h3>
+            <p>Planted 5,000+ seedlings in erosion-prone areas and established a local nursery managed by women-led groups.</p>
+          </div>
+        </div>
+
+        <div class="project card">
+          <img src="https://via.placeholder.com/320x200?text=School+Support" alt="Students in a classroom">
+          <div>
+            <h3>School Supplies & Teacher Training</h3>
+            <p>Provided learning materials for the primary schools at Ardaita and its surrounding and organized teacher training on interactive, contextual lessons.</p>
+          </div>
+        </div>
+
+        <div class="project card">
+          <img src="https://via.placeholder.com/320x200?text=Health+Clinic" alt="Community health clinic and workers">
+          <div>
+            <h3>Community Health Outreach</h3>
+            <p>Supported vaccination drives and trained 12 community health volunteers to monitor maternal and child health.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="get-involved" class="container">
+      <h2>Get Involved</h2>
+      <div class="grid grid-2" style="gap:1rem;margin-top:1rem">
+        <div class="card">
+          <h3>Volunteer</h3>
+          <p>We welcome local and international volunteers who work alongside community members. Roles include teaching support, nursery management, and health outreach assistance.</p>
+          <form id="volunteerForm" onsubmit="submitVolunteer(event)" aria-label="Volunteer form">
+            <label for="vname">Full name</label>
+            <input id="vname" name="name" required />
+            <label for="vemail">Email</label>
+            <input id="vemail" type="email" name="email" required />
+            <label for="vrole">Area of interest</label>
+            <select id="vrole" name="role" required>
+              <option value="">Select...</option>
+              <option>Environment</option>
+              <option>Education</option>
+              <option>Health</option>
+              <option>Other</option>
+            </select>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Donate</h3>
+          <p>Donations support local projects, materials, and training. We prioritize transparency and local procurement to maximize impact.</p>
+          <p class="small">Secure donations processed via partner platforms. For bank transfers or in-kind support, contact our team.</p>
+          <div style="margin-top:1rem">
+            <a class="cta" href="#" onclick="alert('Placeholder: link to donation platform')">Donate Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="container">
+      <div class="card">
+        <h2>Contact & Local Office</h2>
+        <p class="small">We operate with a small office in the Oromia region, West Arsi zone, Aradita and rotating field teams. To reach us, complete the form or use the email and phone below.</p>
+        <div style="display:grid;gap:.5rem;margin-top:1rem;max-width:640px">
+          <form id="contactForm" onsubmit="submitContact(event)" aria-label="Contact form">
+            <label for="cname">Name</label>
+            <input id="cname" name="name" required />
+            <label for="cphone">Phone</label>
+            <input id="cphone" name="phone" />
+            <label for="cmessage">Message</label>
+            <textarea id="cmessage" name="message" rows="4" required></textarea>
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="small">Hope for Our Community — Registered local charity. All programs driven by community priorities.</div>
+      <div style="margin-top:.5rem" class="small">Follow our updates on local noticeboards and partner channels.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Simple client-side handlers (placeholders for real integration)
+    function submitVolunteer(e){
+      e.preventDefault();
+      const name = document.getElementById('vname').value.trim();
+      if(!name){alert('Please enter your name'); return;}
+      alert('Thank you, ' + name + '. We will contact you about volunteer opportunities.');
+      e.target.reset();
+    }
+    function submitContact(e){
+      e.preventDefault();
+      const name = document.getElementById('cname').value.trim();
+      if(!name){alert('Please enter your name'); return;}
+      alert('Message received. We will respond shortly.');
+      e.target.reset();
+    }
+    // Accessible focus outline for keyboard users only
+    (function(){
+      function handleFirstTab(e){
+        if(e.key === 'Tab'){
+          document.body.classList.add('show-focus');
+          window.removeEventListener('keydown', handleFirstTab);
+        }
+      }
+      window.addEventListener('keydown', handleFirstTab);
+    })();
+  </script>
+</body>
+
+</html>
+
