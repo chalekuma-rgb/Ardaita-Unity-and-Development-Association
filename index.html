@@ -1,60 +1,704 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <!-- Base href: update if deploying under a repo path -->
-  <base href="/Ardaita-Unity-and-Development-Association/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AUDA – Ardaita Unity and Development Association | Ethiopia</title>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ARDAITA NGO Website built with Flutter Web">
-  <meta name="keywords" content="NGO, Charity, Flutter, Donations, Community">
-  <meta name="author" content="Ardaita Organization">
+<meta name="description" content="Ardaita Unity and Development Association (AUDA) is a community-driven NGO in Ardaita, West Arsi Zone, Oromia, Ethiopia working in environment, education, health, and economic development.">
+<meta name="keywords" content="NGO, Charity, Ethiopia, Ardaita, Community Development, Education, Health, Environment">
+<meta name="author" content="Ardaita Unity and Development Association">
 
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="kecho">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+<link rel="icon" type="image/png" href="favicon.png"/>
+<link rel="manifest" href="manifest.json">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+<style>
+  :root{
+    --primary:#2E7D32;
+    --primary-dark:#1B5E20;
+    --primary-light:#4CAF50;
+    --accent:#F9A825;
+    --muted:#6b6b6b;
+    --bg:#fafafa;
+    --card:#ffffff;
+    --max-width:1100px;
+    --radius:10px;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:#111;line-height:1.5}
+  .container{max-width:var(--max-width);margin:0 auto;padding:1rem}
+  a{color:var(--primary)}
 
-  <!-- Manifest -->
-  <link rel="manifest" href="manifest.json">
+  /* Header */
+  header{background:linear-gradient(90deg,var(--primary),var(--primary-dark));color:#fff;padding:.75rem 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+  .nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+  .brand{display:flex;align-items:center;gap:.75rem;font-weight:700;text-decoration:none;color:#fff}
+  .brand .logo{width:48px;height:48px;border-radius:8px;background:rgba(255,255,255,.15);padding:.25rem;display:inline-grid;place-items:center;color:#fff;font-weight:800;font-size:1.1rem;flex-shrink:0}
+  nav ul{list-style:none;margin:0;padding:0;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+  nav a{color:#fff;text-decoration:none;font-weight:600;padding:.4rem .6rem;border-radius:6px;transition:background .2s}
+  nav a:hover{background:rgba(255,255,255,.15)}
+  .lang-switch{display:flex;gap:.35rem}
+  .lang-switch button{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);padding:.3rem .65rem;border-radius:6px;cursor:pointer;font-weight:600;font-size:.85rem;transition:background .2s}
+  .lang-switch button:hover,.lang-switch button.active{background:rgba(255,255,255,.35)}
 
-  <title>Kecho NGO Website</title>
+  /* Hero */
+  .hero-section{position:relative;height:480px;overflow:hidden;display:flex;align-items:flex-end}
+  .hero-section img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.75) 30%, rgba(0,0,0,.15))}
+  .hero-content{position:relative;z-index:1;color:#fff;padding:2rem}
+  .hero-content h1{font-size:clamp(1.6rem,4vw,2.8rem);margin:0 0 .75rem;text-shadow:0 2px 6px rgba(0,0,0,.5)}
+  .hero-content p{font-size:1.1rem;max-width:640px;margin:0 0 1.5rem;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+  .hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+  .btn-primary{display:inline-block;background:var(--accent);color:#222;padding:.65rem 1.25rem;border-radius:8px;text-decoration:none;font-weight:700;transition:filter .2s}
+  .btn-primary:hover{filter:brightness(1.1);color:#222}
+  .btn-outline{display:inline-block;border:2px solid #fff;color:#fff;padding:.6rem 1.2rem;border-radius:8px;text-decoration:none;font-weight:700;transition:background .2s}
+  .btn-outline:hover{background:rgba(255,255,255,.15)}
 
-  <!-- Basic styling for loading screen -->
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    #loading {
-      text-align: center;
-      color: #333;
-    }
-    #loading img {
-      width: 80px;
-      height: 80px;
-      margin-bottom: 20px;
-    }
-  </style>
+  /* Stats bar */
+  .stats-bar{background:var(--primary);color:#fff;padding:1.25rem 0}
+  .stats-grid{display:flex;justify-content:space-around;flex-wrap:wrap;gap:1rem;text-align:center}
+  .stat-item .val{font-size:1.8rem;font-weight:800}
+  .stat-item .lbl{font-size:.85rem;opacity:.85}
+
+  /* Sections */
+  section{padding:2.5rem 0}
+  h2{margin:0 0 1rem;color:var(--primary);font-size:clamp(1.4rem,3vw,2rem)}
+  h3{margin:0 0 .5rem;color:var(--primary-dark)}
+  p{margin:0 0 1rem}
+
+  /* Cards */
+  .card{background:var(--card);padding:1.25rem;border-radius:var(--radius);box-shadow:0 4px 16px rgba(0,0,0,.06)}
+  .grid{display:grid;gap:1rem}
+  @media(min-width:700px){.grid-3{grid-template-columns:repeat(3,1fr)}}
+  @media(min-width:600px){.grid-2{grid-template-columns:1fr 1fr}}
+  @media(min-width:800px){.grid-4{grid-template-columns:repeat(4,1fr)}}
+
+  /* Initiatives */
+  .initiative-icon{width:52px;height:52px;border-radius:10px;display:grid;place-items:center;font-weight:800;color:#fff;font-size:1.1rem;margin-bottom:.75rem}
+  .env-bg{background:var(--primary)}.edu-bg{background:#0b6fa4}.health-bg{background:#d64545}.econ-bg{background:#e65100}.social-bg{background:#6a1b9a}
+
+  /* Projects */
+  .project-card{display:flex;gap:1rem;align-items:flex-start}
+  .project-card img{width:120px;height:80px;object-fit:cover;border-radius:8px;flex-shrink:0}
+
+  /* Org chart */
+  .org-tree{display:flex;flex-direction:column;align-items:center;gap:0;overflow-x:auto;padding:1rem 0}
+  .org-node{background:#fff;border:2px solid var(--primary);border-radius:12px;padding:.75rem 1.25rem;text-align:center;font-weight:600;min-width:160px;font-size:.9rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .org-node.root{background:var(--primary);color:#fff;font-size:1rem}
+  .org-connector{width:2px;height:24px;background:var(--primary);margin:0 auto}
+  .org-branch{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap}
+  .org-col{display:flex;flex-direction:column;align-items:center;gap:0}
+
+  /* Gallery */
+  .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
+  .gallery-item{border-radius:12px;overflow:hidden;position:relative;aspect-ratio:4/3;background:var(--bg)}
+  .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+  .gallery-item:hover img{transform:scale(1.04)}
+  .gallery-caption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,.65),transparent);color:#fff;padding:.6rem .85rem;font-size:.85rem;font-weight:600}
+
+  /* Resources */
+  .resource-list{list-style:none;margin:0;padding:0;display:grid;gap:.75rem}
+  .resource-item{display:flex;align-items:center;gap:1rem;background:#fff;border-radius:10px;padding:.85rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.05);text-decoration:none;color:#111;transition:box-shadow .2s}
+  .resource-item:hover{box-shadow:0 4px 16px rgba(0,0,0,.12)}
+  .res-icon{width:44px;height:44px;border-radius:8px;background:var(--primary);display:grid;place-items:center;color:#fff;font-weight:800;font-size:.8rem;flex-shrink:0}
+  .res-info{flex:1;min-width:0}
+  .res-name{font-weight:600;font-size:.95rem}
+  .res-desc{font-size:.85rem;color:var(--muted)}
+  .res-dl{color:var(--primary);font-size:.85rem;font-weight:600;white-space:nowrap}
+
+  /* Forms */
+  form{display:grid;gap:.6rem}
+  label{font-size:.9rem;color:var(--muted);font-weight:500}
+  input,textarea,select{padding:.6rem .75rem;border:1px solid #e0e0e0;border-radius:8px;font-size:1rem;width:100%;font-family:inherit}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--primary-light);border-color:var(--primary-light)}
+  button[type=submit]{background:var(--primary);color:#fff;border:none;padding:.75rem 1rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:1rem;transition:background .2s}
+  button[type=submit]:hover{background:var(--primary-dark)}
+
+  /* Donate */
+  .donate-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-top:1rem}
+  .donate-card{background:#fff;border:2px solid rgba(46,125,50,.15);border-radius:14px;padding:1.25rem;text-align:center;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+  .donate-card:hover{border-color:var(--primary);box-shadow:0 4px 14px rgba(46,125,50,.12)}
+  .donate-card .amount{font-size:1.8rem;font-weight:800;color:var(--primary)}
+  .donate-card .desc{font-size:.85rem;color:var(--muted);margin-top:.35rem}
+  .bank-info{background:#E8F5E9;border:1px solid #A5D6A7;border-radius:12px;padding:1.25rem;margin-top:1rem}
+  .bank-info h3{color:var(--primary);margin:0 0 .5rem}
+
+  /* Contact info */
+  .contact-info{display:grid;gap:1rem}
+  .contact-method{display:flex;gap:.85rem;align-items:flex-start}
+  .contact-icon{width:42px;height:42px;border-radius:8px;background:var(--primary);display:grid;place-items:center;color:#fff;font-size:1.1rem;flex-shrink:0}
+
+  /* Footer */
+  footer{background:var(--primary-dark);color:rgba(255,255,255,.8);padding:2rem 0;text-align:center;font-size:.9rem}
+  footer a{color:rgba(255,255,255,.7);text-decoration:underline}
+
+  /* Utility */
+  .small{font-size:.9rem;color:var(--muted)}
+  .text-center{text-align:center}
+  .mt-1{margin-top:1rem}
+  .section-intro{max-width:640px;margin:0 0 1.5rem;color:var(--muted)}
+
+  /* Fade-in animation */
+  .fade-in{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
+  .fade-in.visible{opacity:1;transform:none}
+
+  /* Responsive nav */
+  @media(max-width:700px){
+    nav ul{gap:.25rem}
+    nav a{padding:.3rem .4rem;font-size:.85rem}
+    .hero-section{height:340px}
+    .project-card{flex-direction:column}
+    .project-card img{width:100%;height:160px}
+  }
+
+  /* Body focus outline for keyboard users */
+  body:not(.show-focus) *:focus{outline:none}
+</style>
 </head>
 <body>
-<!-- Loading screen before Flutter app initializes -->
-<div id="loading">
-  <img src="icons/Icon-192.png" alt="Loading icon">
-  <p>Loading Kecho NGO Website...</p>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="container nav">
+    <a class="brand" href="#">
+      <div class="logo">AU</div>
+      <div>
+        <div style="font-size:1rem;font-weight:700">AUDA – Ardaita Unity &amp; Development</div>
+        <div style="font-size:.78rem;opacity:.85;font-weight:400">Environment · Education · Health · Community</div>
+      </div>
+    </a>
+
+    <nav aria-label="Main navigation">
+      <ul>
+        <li><a href="#about" data-en="About" data-am="ስለ እኛ" data-or="Waa'ee Keenya">About</a></li>
+        <li><a href="#initiatives" data-en="Initiatives" data-am="ተነሳሽነቶች" data-or="Sagantaawwan">Initiatives</a></li>
+        <li><a href="#projects" data-en="Projects" data-am="ፕሮጀክቶች" data-or="Pirojektoota">Projects</a></li>
+        <li><a href="#gallery" data-en="Gallery" data-am="ምስሎች" data-or="Suuraalee">Gallery</a></li>
+        <li><a href="#resources" data-en="Resources" data-am="ሰነዶች" data-or="Qabeenya">Resources</a></li>
+        <li><a href="#get-involved" data-en="Get Involved" data-am="ይሳተፉ" data-or="Hirmaadhu">Get Involved</a></li>
+        <li><a href="#contact" data-en="Contact" data-am="ያግኙን" data-or="Nu Quunnamaa">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="lang-switch" aria-label="Language switcher">
+      <button onclick="setLang('en')" id="btn-en" class="active" title="English">EN</button>
+      <button onclick="setLang('am')" id="btn-am" title="Amharic">አማ</button>
+      <button onclick="setLang('or')" id="btn-or" title="Afaan Oromo">OR</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<div class="hero-section fade-in">
+  <img src="assets/Ardaita2.jpg" alt="Ardaita community landscape">
+  <div class="hero-overlay"></div>
+  <div class="hero-content container">
+    <h1
+      data-en="Empowering Ardaita Together"
+      data-am="አርዳይታን አብሮ ማብቃት"
+      data-or="Ardaita Waliin Jabina">
+      Empowering Ardaita Together
+    </h1>
+    <p
+      data-en="Unity, Development, and Sustainable Growth for our Community in Ardaita, West Arsi Zone, Oromia, Ethiopia."
+      data-am="አርዳይታ፣ ምዕራብ አርሲ ዞን፣ ኦሮሚያ፣ ኢትዮጵያ ውስጥ ለማህበረሰባችን አንድነት፣ ልማትና ዘላቂ እድገት።"
+      data-or="Tokkummaa, Misooma fi Guddina Itti Fufinsa Qabu hawaasa keenya Ardaita, Aanaa Arsi Dhihaa, Oromiyaa, Itoophiyaa keessaaf.">
+      Unity, Development, and Sustainable Growth for our Community in Ardaita, West Arsi Zone, Oromia, Ethiopia.
+    </p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="#get-involved"
+         data-en="Get Involved"
+         data-am="ይሳተፉ"
+         data-or="Hirmaadhu">
+        Get Involved
+      </a>
+      <a class="btn-outline" href="#initiatives"
+         data-en="Explore Initiatives"
+         data-am="ፕሮግራሞቻችንን ይመልከቱ"
+         data-or="Sagantaawwan Ilaali">
+        Explore Initiatives
+      </a>
+    </div>
+  </div>
 </div>
 
-<!-- Flutter bootstrap script -->
-<script src="flutter_bootstrap.js" async></script>
+<!-- ===== STATS BAR ===== -->
+<div class="stats-bar fade-in">
+  <div class="container stats-grid">
+    <div class="stat-item">
+      <div class="val">1,000+</div>
+      <div class="lbl" data-en="Lives Impacted" data-am="ተጠቃሚዎች" data-or="Lubbuu Miidhamte">Lives Impacted</div>
+    </div>
+    <div class="stat-item">
+      <div class="val">20+</div>
+      <div class="lbl" data-en="Education Programs" data-am="የትምህርት ፕሮግራሞች" data-or="Sagantaa Barnoota">Education Programs</div>
+    </div>
+    <div class="stat-item">
+      <div class="val">100+</div>
+      <div class="lbl" data-en="Green Initiatives" data-am="አረንጓዴ ተነሳሽነቶች" data-or="Sagantaa Magariisaa">Green Initiatives</div>
+    </div>
+    <div class="stat-item">
+      <div class="val">~3,500</div>
+      <div class="lbl" data-en="Community Population" data-am="የማህበረሰብ ብዛት" data-or="Lakkoofsa Hawaasaa">Community Population</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<section id="about" class="container fade-in">
+  <h2 data-en="About Us" data-am="ስለ እኛ" data-or="Waa'ee Keenya">About Us</h2>
+
+  <div class="grid grid-2" style="gap:1.5rem;align-items:start">
+    <div>
+      <div class="card">
+        <h3 data-en="Who We Are" data-am="እኛ እነማን ነን" data-or="Eenyuu Kan Taane">Who We Are</h3>
+        <p data-en="Ardaita Unity and Development Association (AUDA) is a community-driven charitable organization dedicated to fostering sustainable progress, equitable education, and accessible healthcare in the Ardaita region of West Arsi Zone, Oromia, Ethiopia."
+           data-am="አርዳይታ አንድነትና ልማት ማህበር (AUDA) በምዕራብ አርሲ ዞን፣ ኦሮሚያ፣ ኢትዮጵያ ውስጥ ዘላቂ ልማት፣ ፍትሃዊ ትምህርትና ተደራሽ የጤና አገልግሎትን ለማጎልበት የሚሰራ ማህበረሰብ ተኮር ድርጅት ነው።"
+           data-or="Ardaita Unity and Development Association (AUDA) dhaabbata hawaasa irraa hundaa'e yoo ta'u Aanaa Arsi Dhihaa, Oromiyaa, Itoophiyaa keessatti guddina itti fufinsa qabu, barnootaa qajeelaa fi fayyaa argachuu danda'amu cimsuuf hojjeta.">
+          Ardaita Unity and Development Association (AUDA) is a community-driven charitable organization dedicated to fostering sustainable progress, equitable education, and accessible healthcare in the Ardaita region of West Arsi Zone, Oromia, Ethiopia.
+        </p>
+        <p data-en="Founded by members of the community, our mission is to create sustainable, locally owned programs that improve livelihoods and wellbeing. We coordinate with local leaders and partner organizations to ensure culturally appropriate and effective interventions."
+           data-am="በማህበረሰቡ አባላት የተመሰረተ ድርጅታችን ዘላቂ እና በአካባቢ ባለቤትነት የሚመሩ ፕሮግራሞችን ለመፍጠር ይሰራል። የአካባቢ መሪዎችና ሸሪኮች ጋር ተናብቦ ይሰራል።"
+           data-or="Miseensota hawaasaa irraa hundaa'ee sagantaawwan itti fufinsa qaban fi naannoon abbaa ta'e uumuuf hojjetaa jira. Hoggantoota naannoo fi dhaabbilee hiriyaa waliin qindoominaan hojjeta.">
+          Founded by members of the community, our mission is to create sustainable, locally owned programs that improve livelihoods and wellbeing. We coordinate with local leaders and partner organizations to ensure culturally appropriate and effective interventions.
+        </p>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <h3 data-en="Vision" data-am="ራዕይ" data-or="Mul'ata">Vision</h3>
+        <p data-en="To build a healthy, educated, environmentally sustainable, and economically empowered community where every individual has the opportunity to thrive with dignity and unity."
+           data-am="ጤናማ፣ የተማረ፣ አካባቢያዊ ዘላቂነት ያለው እና ኢኮኖሚያዊ ብቃት ያለው ማህበረሰብ መፍጠር — ሁሉም ሰው ክብር እና አንድነት ይዞ ያድግ ዘንድ።"
+           data-or="Hawaasa fayyaa, barumsa, naannoo itti fufinsa qabu, fi dinagdeen jabaa ta'e ijaaruu — namni hundi ulfinaa fi tokkummaadhan guddachu danda'uuf.">
+          To build a healthy, educated, environmentally sustainable, and economically empowered community where every individual has the opportunity to thrive with dignity and unity.
+        </p>
+
+        <h3 data-en="Mission" data-am="ተልዕኮ" data-or="Ergama">Mission</h3>
+        <p data-en="AUDA is committed to improving the quality of life in our community by promoting health, expanding education, protecting the environment, and supporting economic activities."
+           data-am="AUDA ጤናን በማስፋፋት፣ ትምህርትን በማስፋፋት፣ አካባቢን በመጠበቅ እና ኢኮኖሚያዊ ተግባራትን በመደገፍ በማህበረሰባችን ውስጥ የኑሮ ጥራትን ለማሻሻል ቁርጠኛ ነው።"
+           data-or="AUDA fayyaa babal'isuu, barnoota babal'isuu, naannoo eeguu fi hojii dinagdee deeggaruun hawaasa keenya keessatti qulqullina jireenya fooyyesuuf kaka'umsa qaba.">
+          AUDA is committed to improving the quality of life in our community by promoting health, expanding education, protecting the environment, and supporting economic activities.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 data-en="Organizational Structure" data-am="የድርጅት መዋቅር" data-or="Caasaa Dhaabbataa">Organizational Structure</h3>
+      <div class="org-tree" aria-label="Organizational chart">
+        <div class="org-node root">Chairperson</div>
+        <div class="org-connector"></div>
+        <div class="org-node">Vice Chairperson</div>
+        <div class="org-connector"></div>
+        <div class="org-branch">
+          <div class="org-col">
+            <div class="org-node">Operational &amp; Admin Lead</div>
+          </div>
+          <div class="org-col">
+            <div class="org-node">Treasurer</div>
+          </div>
+          <div class="org-col">
+            <div class="org-node">Secretary</div>
+            <div class="org-connector"></div>
+            <div class="org-node">Public &amp; External Relations</div>
+          </div>
+          <div class="org-col">
+            <div class="org-node">Legal Lead</div>
+            <div class="org-connector"></div>
+            <div class="org-node">Legal Subcommittee</div>
+          </div>
+        </div>
+      </div>
+      <p class="small" style="margin-top:.75rem" data-en="Ardaita follows a focused governance model led by the Chairperson and Vice Chairperson, with functional leadership through Operational and Admin, Treasury, Secretariat, and Legal units."
+         data-am="አርዳይታ ሊቀ መንበርና ምክትል ሊቀ መንበር የሚመሩ ማህበር ሲሆን ዋና ሥራ አስፈጻሚ፣ ግምጃ ቤት፣ ጸሃፊ እና ሕጋዊ ክፍሎች ይዟል።"
+         data-or="Ardaita Pirezidaantii fi Itti Aanaa Pirezidaantii hogganamuu yoo ta'u, hojimaata Bulchiinsaa fi Hojii, Kuusaa Maallaqaa, Dambii fi Seeraan hogganama.">
+        Ardaita follows a focused governance model led by the Chairperson and Vice Chairperson, with functional leadership through Operational and Admin, Treasury, Secretariat, and Legal units.
+      </p>
+
+      <h3 style="margin-top:1rem" data-en="Core Values" data-am="መሰረታዊ እሴቶች" data-or="Gatii Bu'uraa">Core Values</h3>
+      <ul class="small" style="margin:.5rem 0 0 1.2rem;padding:0;display:grid;gap:.3rem">
+        <li data-en="Unity – Collective effort is the foundation of development." data-am="አንድነት – ጋራ ጥረት የልማት መሰረት ነው።" data-or="Tokkummaa – Yaaliin waloomu bu'ura misoomaa ti.">Unity – Collective effort is the foundation of development.</li>
+        <li data-en="Integrity – Transparency and accountability in all actions." data-am="ታማኝነት – በሁሉም ተግባር ግልጽነትና ተጠያቂነት።" data-or="Dhugummaa – Iftoominaa fi ittigaafatamummaa hojii hunda keessatti.">Integrity – Transparency and accountability in all actions.</li>
+        <li data-en="Compassion – Serving with empathy and prioritizing the vulnerable." data-am="ርህራሄ – ርህሩህ ሆኖ ማገልገልና ተጋላጮችን ቅድሚያ መስጠት።" data-or="Gaddifachuu – Hawwii qabuun tajaajiluu fi kan miidhame dura kaasuu.">Compassion – Serving with empathy and prioritizing the vulnerable.</li>
+        <li data-en="Empowerment – Building skills, knowledge, and economic opportunity." data-am="ማብቃት – ክህሎት፣ እውቀትና ኢኮኖሚያዊ ዕድል መፍጠር።" data-or="Humna Kennuu – Dandeettii, beekumsa fi carraa dinagdee ijaaruu.">Empowerment – Building skills, knowledge, and economic opportunity.</li>
+        <li data-en="Sustainability – Promoting long-term, responsible solutions." data-am="ዘላቂነት – ዘላቂ፣ ኃላፊነት የሚሰማቸው መፍትሔዎችን ማበረታታት።" data-or="Itti Fufinsa – Furmaata itti fufinsa qabu fi ittigaafatamummaa qabu jajjabeessuuu.">Sustainability – Promoting long-term, responsible solutions.</li>
+        <li data-en="Equity &amp; Inclusion – Equal opportunities regardless of background." data-am="ፍትሃዊነት እና ማካተት – ምንም ዓይነት ዳራ ሳይለይ እኩል ዕድል።" data-or="Qunamtii fi Hammatuu – Carraa walqixa eenyuyyuu osoo hin baasin.">Equity &amp; Inclusion – Equal opportunities regardless of background.</li>
+        <li data-en="Innovation – Creative, locally driven approaches to community challenges." data-am="ፈጠራ – ፈጠራዊ፣ አካባቢ ተኮር መፍትሔዎች።" data-or="Haaraa Uumuu – Qajeelfama hawaasaa deegaraa fi naannoo hogganamuu.">Innovation – Creative, locally driven approaches to community challenges.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INITIATIVES ===== -->
+<section id="initiatives" style="background:#f0f7f0;padding:2.5rem 0">
+  <div class="container fade-in">
+    <h2 data-en="Our Initiatives" data-am="ተነሳሽነቶቻችን" data-or="Sagantaawwan Keenya">Our Initiatives</h2>
+    <p class="section-intro" data-en="We design and implement community-led programs across five focus areas." data-am="ማህበረሰብ ተኮር ፕሮግራሞችን በአምስት ትኩረት መስኮች እንነድፋለን።" data-or="Sagantaawwan hawaasaa mogaalan gara sagantaa shaniitti hojjenna.">We design and implement community-led programs across five focus areas.</p>
+    <div class="grid grid-3" style="gap:1rem">
+
+      <div class="card fade-in">
+        <div class="initiative-icon env-bg">🌿</div>
+        <h3 data-en="Environmental Stewardship" data-am="አካባቢ ጥበቃ" data-or="Eegsisa Naannoo">Environmental Stewardship</h3>
+        <p data-en="Community reforestation, sustainable water resource management, environment awareness workshops, and waste reduction initiatives." data-am="የማህበረሰብ ደን ተከላ፣ ዘላቂ የውሃ አስተዳደር፣ የአካባቢ ግንዛቤ ወርክሾፖች፣ እና ቆሻሻ ቅነሳ።" data-or="Bosonni hawaasaa, bulchiinsa qabeenya bishaan itti fufinsa qabu, gabatee hubanno naannoo, fi hir'ina icciitaa.">Community reforestation, sustainable water resource management, environment awareness workshops, and waste reduction initiatives.</p>
+      </div>
+
+      <div class="card fade-in">
+        <div class="initiative-icon edu-bg">📚</div>
+        <h3 data-en="Education &amp; Youth" data-am="ትምህርት እና ወጣቶች" data-or="Barnootaa fi Dargaggoota">Education &amp; Youth</h3>
+        <p data-en="Primary school support, vocational training, digital literacy classes, and educational resource distribution to build skills and long-term opportunities." data-am="የመጀመሪያ ደረጃ ትምህርት ቤት ድጋፍ፣ ሙያ ስልጠና፣ ዲጂታል ማንበብ ፃፍ ክፍሎች፣ እና የትምህርት ቁሳቁሶች ስርጭት።" data-or="Gargaarsa mana barumsaa sadarkaa duraa, leenjii ogummaa, kutaalee barreessuu fi dubbisuu dijitaalaa, fi raabsa meeshaalee barnoota.">Primary school support, vocational training, digital literacy classes, and educational resource distribution to build skills and long-term opportunities.</p>
+      </div>
+
+      <div class="card fade-in">
+        <div class="initiative-icon health-bg">🏥</div>
+        <h3 data-en="Health &amp; Hygiene" data-am="ጤና እና ንፅህና" data-or="Fayyaa fi Qulqullummaa">Health &amp; Hygiene</h3>
+        <p data-en="Public health awareness campaigns, mental wellness support, preventive care education, vaccination outreach support, and medical resource facilitation." data-am="የህዝብ ጤና ዘመቻ፣ የአዕምሮ ጤና ድጋፍ፣ ፕሪቨንቲቭ ጥንቃቄ ትምህርት፣ ክትባት ድጋፍ፣ እና የህክምና ቁሳቁስ አቅርቦት።" data-or="Sagantaa misooma fayyaa hawaasaa, deeggarsa fayyaa sammuu, barnoota kunuunsa dursuu, deeggarsa daddabaruu talaallii, fi dandeettii qabeenya fayyaa.">Public health awareness campaigns, mental wellness support, preventive care education, vaccination outreach support, and medical resource facilitation.</p>
+      </div>
+
+      <div class="card fade-in">
+        <div class="initiative-icon econ-bg">📈</div>
+        <h3 data-en="Economic Activities" data-am="ኢኮኖሚያዊ ተግባራት" data-or="Hojii Dinagdee">Economic Activities</h3>
+        <p data-en="Micro-finance group support, small business mentorship, entrepreneurship training, and agricultural development support to enhance household income and self-reliance." data-am="የጥቃቅን ፋይናንስ ቡድን ድጋፍ፣ ትናንሽ ንግዶች ምክር፣ ሥራ ፈጠራ ስልጠና፣ እና የእርሻ ልማት ድጋፍ።" data-or="Deeggarsa garee maallaqa xiqqaa, gorsa daldalaa gad fageenya, leenjii hojii uumuu, fi deeggarsa misoooma qonnaa.">Micro-finance group support, small business mentorship, entrepreneurship training, and agricultural development support to enhance household income and self-reliance.</p>
+      </div>
+
+      <div class="card fade-in">
+        <div class="initiative-icon social-bg">🤝</div>
+        <h3 data-en="Social Care" data-am="ማህበራዊ እንክብካቤ" data-or="Kunuunsa Hawaasaa">Social Care</h3>
+        <p data-en="Protecting children and the elderly, supporting at-risk children, and assisting vulnerable elderly members of our community." data-am="ልጆችንና አዛውንቶችን መጠበቅ፣ አደጋ ላይ ያሉ ልጆችን መደገፍ፣ እና ተጋላጭ አዛውንቶችን መርዳት።" data-or="Daa'imman fi jaarsolii eeguu, daa'imman baayyee miidhamaa ta'an deeggaruu, fi manguddoo miidhamoo gargaaruu.">Protecting children and the elderly, supporting at-risk children, and assisting vulnerable elderly members of our community.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROJECTS ===== -->
+<section id="projects" class="container fade-in">
+  <h2 data-en="Current Projects &amp; Impact" data-am="ያሉ ፕሮጀክቶች እና ተፅዕኖ" data-or="Pirojektoota Ammaa fi Bu'aa">Current Projects &amp; Impact</h2>
+  <div style="display:grid;gap:1rem;margin-top:.5rem">
+
+    <div class="card project-card fade-in">
+      <img src="assets/Ardaita.jpg" alt="Community in Ardaita">
+      <div>
+        <h3 data-en="Village Tree Planting &amp; Nursery" data-am="የቀበሌ ዛፍ ተከላ እና ማቅቀሚ" data-or="Dhaabuu Muka Ganda fi Nursery">Village Tree Planting &amp; Nursery</h3>
+        <p data-en="Planted 5,000+ seedlings in erosion-prone areas and established a local nursery managed by women-led groups." data-am="5,000+ ዘር ባለ ችግኞችን ግርዶሽ አካባቢ ትክለናል እና ሴቶች የሚያስተዳድሩት የአካባቢ ማቅቀሚ አቋቁመናል።" data-or="Lafa haphachaa jirutti biqiltoota 5,000+ dhaabne, garee dubartoota hogganamu nursery naannoo hundeessine.">Planted 5,000+ seedlings in erosion-prone areas and established a local nursery managed by women-led groups.</p>
+      </div>
+    </div>
+
+    <div class="card project-card fade-in">
+      <img src="assets/Ardaita2.jpg" alt="School support in Ardaita">
+      <div>
+        <h3 data-en="School Supplies &amp; Teacher Training" data-am="የትምህርት ቁሳቁስ እና የመምህር ስልጠና" data-or="Meeshaalee Barnoota fi Leenjii Barsiisaa">School Supplies &amp; Teacher Training</h3>
+        <p data-en="Provided learning materials for primary schools in Ardaita and its surrounding areas, and organized teacher training on interactive, contextual lessons." data-am="አርዳይታ እና አካባቢዎቿ ለሚገኙ አንደኛ ደረጃ ትምህርት ቤቶች የትምህርት ቁሳቁስ ሰጥተናል፣ እና ይዘታዊ ትምህርቶች ላይ ለመምህራን ስልጠና ሰጥተናል።" data-or="Meeshaalee barnoota mana barumsaa sadarkaa jalqabaa Ardaita fi naannoo isii kenniine, barsiisota irratti leenjii barnoota hirmaataa fi haqaan deeggarame qopheessine.">Provided learning materials for primary schools in Ardaita and its surrounding areas, and organized teacher training on interactive, contextual lessons.</p>
+      </div>
+    </div>
+
+    <div class="card project-card fade-in">
+      <img src="assets/Board_Chair_Man.jpg" alt="Community health outreach">
+      <div>
+        <h3 data-en="Community Health Outreach" data-am="የማህበረሰብ ጤና ዘመቻ" data-or="Daddabarsa Fayyaa Hawaasaa">Community Health Outreach</h3>
+        <p data-en="Supported vaccination drives and trained 12 community health volunteers to monitor maternal and child health." data-am="የክትባት ዘመቻዎችን ደግፈናል እና 12 የማህበረሰብ ጤና በጎ ፈቃደኞችን ለእናቶችና ህጻናት ጤና ክትትል አሰልጥነናል።" data-or="Sagantaalee talaallii deeggarranii fi tola ooltota fayyaa hawaasaa 12 leenjisaniiru — fayyaa haadha fi daa'imaa to'achuuf.">Supported vaccination drives and trained 12 community health volunteers to monitor maternal and child health.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section id="gallery" style="background:#f0f7f0;padding:2.5rem 0">
+  <div class="container fade-in">
+    <h2 data-en="Project Gallery" data-am="ፕሮጀክት ምስሎች" data-or="Suuraa Pirojektii">Project Gallery</h2>
+    <p class="section-intro" data-en="Visuals from our community programs and activities in Ardaita." data-am="ከአርዳይታ ፕሮግራሞቻችን እና ተግባራቶቻችን የተነሱ ምስሎች።" data-or="Suuraalee sagantaawwan fi hojii keenya hawaasa Ardaita irra fudhame.">Visuals from our community programs and activities in Ardaita.</p>
+    <div class="gallery-grid">
+      <div class="gallery-item fade-in">
+        <img src="assets/Ardaita.jpg" alt="Ardaita community" loading="lazy">
+        <div class="gallery-caption" data-en="Ardaita Community" data-am="አርዳይታ ማህበረሰብ" data-or="Hawaasa Ardaita">Ardaita Community</div>
+      </div>
+      <div class="gallery-item fade-in">
+        <img src="assets/Ardaita2.jpg" alt="Ardaita landscape" loading="lazy">
+        <div class="gallery-caption" data-en="Ardaita Landscape" data-am="አርዳይታ ምድረ ገጽ" data-or="Naannoo Ardaita">Ardaita Landscape</div>
+      </div>
+      <div class="gallery-item fade-in">
+        <img src="assets/Board_Chair_Man.jpg" alt="Board leadership" loading="lazy">
+        <div class="gallery-caption" data-en="Board Leadership" data-am="የቦርድ አስተዳደር" data-or="Hoogganaa Boordii">Board Leadership</div>
+      </div>
+      <div class="gallery-item fade-in">
+        <img src="assets/Ardaita.jpg" alt="Community development" loading="lazy">
+        <div class="gallery-caption" data-en="Community Development" data-am="የማህበረሰብ ልማት" data-or="Misoomaa Hawaasaa">Community Development</div>
+      </div>
+      <div class="gallery-item fade-in">
+        <img src="assets/Ardaita2.jpg" alt="Environmental program" loading="lazy">
+        <div class="gallery-caption" data-en="Environmental Program" data-am="አካባቢ ጥበቃ ፕሮግራም" data-or="Sagantaa Naannoo">Environmental Program</div>
+      </div>
+      <div class="gallery-item fade-in">
+        <img src="assets/Board_Chair_Man.jpg" alt="Health outreach" loading="lazy">
+        <div class="gallery-caption" data-en="Health Outreach" data-am="የጤና ዘመቻ" data-or="Daddabarsa Fayyaa">Health Outreach</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESOURCES ===== -->
+<section id="resources" class="container fade-in">
+  <h2 data-en="Resources &amp; Documents" data-am="ሰነዶች እና ሀብቶች" data-or="Qabeenya fi Sanadoota">Resources &amp; Documents</h2>
+  <p class="section-intro" data-en="Download official AUDA documents in your preferred language." data-am="ኦፊሴላዊ AUDA ሰነዶችን በፈለጉት ቋንቋ ያውርዱ።" data-or="Sanadoota AUDA beekamoo afaan filannoo keetiin buufadhu.">Download official AUDA documents in your preferred language.</p>
+  <ul class="resource-list">
+    <li>
+      <a class="resource-item" href="assets/Ardaita_Amharic.pdf" download="Ardaita_Amharic.pdf" target="_blank" rel="noopener">
+        <div class="res-icon">PDF</div>
+        <div class="res-info">
+          <div class="res-name">Ardaita_Amharic.pdf</div>
+          <div class="res-desc" data-en="Official community development document in Amharic" data-am="ኦፊሴላዊ የማህበረሰብ ልማት ሰነድ (አማርኛ)" data-or="Sanadaa misoomaa hawaasaa mootummaa Amaariffaan">Official community development document in Amharic</div>
+        </div>
+        <span class="res-dl">⬇ Download</span>
+      </a>
+    </li>
+    <li>
+      <a class="resource-item" href="#" onclick="alert('Document coming soon. Contact us at info@ardaitaunity.org'); return false;">
+        <div class="res-icon">DOC</div>
+        <div class="res-info">
+          <div class="res-name">Ardaayita_Afaan_Oromo.docx</div>
+          <div class="res-desc" data-en="Community development document in Afaan Oromo" data-am="የማህበረሰብ ልማት ሰነድ (አፋን ኦሮሞ)" data-or="Sanadaa misoomaa hawaasaa Afaan Oromootiin">Community development document in Afaan Oromo</div>
+        </div>
+        <span class="res-dl">⬇ Download</span>
+      </a>
+    </li>
+    <li>
+      <a class="resource-item" href="#" onclick="alert('Document coming soon. Contact us at info@ardaitaunity.org'); return false;">
+        <div class="res-icon">DOC</div>
+        <div class="res-info">
+          <div class="res-name">Ardaita_English_Version.docx</div>
+          <div class="res-desc" data-en="Community development document in English" data-am="የማህበረሰብ ልማት ሰነድ (እንግሊዝኛ)" data-or="Sanadaa misoomaa hawaasaa Afaan Ingiliffaan">Community development document in English</div>
+        </div>
+        <span class="res-dl">⬇ Download</span>
+      </a>
+    </li>
+    <li>
+      <a class="resource-item" href="#" onclick="alert('Document coming soon. Contact us at info@ardaitaunity.org'); return false;">
+        <div class="res-icon">XLS</div>
+        <div class="res-info">
+          <div class="res-name">Members_Mapping_and_Registration_Form.xlsx</div>
+          <div class="res-desc" data-en="Member mapping and registration spreadsheet" data-am="የአባል ካርታ እና ምዝገባ ሉህ" data-or="Gabatee ramaddii fi galmeessaa miseensotaa">Member mapping and registration spreadsheet</div>
+        </div>
+        <span class="res-dl">⬇ Download</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+<!-- ===== GET INVOLVED ===== -->
+<section id="get-involved" style="background:#f0f7f0;padding:2.5rem 0">
+  <div class="container fade-in">
+    <h2 data-en="Get Involved" data-am="ይሳተፉ" data-or="Hirmaadhu">Get Involved</h2>
+    <div class="grid grid-2" style="gap:1.5rem;margin-top:.5rem">
+
+      <div class="card fade-in">
+        <h3 data-en="Volunteer" data-am="በፈቃደኝነት ይሳተፉ" data-or="Tola Ooltummaa">Volunteer</h3>
+        <p data-en="We welcome local and international volunteers who work alongside community members. Roles include teaching support, nursery management, and health outreach assistance."
+           data-am="ከማህበረሰቡ ጎን ለጎን የሚሰሩ የአካባቢ እና ዓለም አቀፍ በጎ ፈቃደኞችን እንቀበላለን። ሚናዎቹ ትምህርት ድጋፍ፣ ማቅቀሚ አስተዳደር እና የጤና ዘመቻ ድጋፍ ያካትታሉ።"
+           data-or="Tola ooltota naannoo fi idil-addunyaa miseensota hawaasaa cinaa hojjetan ni simanna. Gaheen isaa gargaarsa barnoota, bulchiinsa nursery fi gargaarsa daddabarsa fayyaa ni dabalata.">
+          We welcome local and international volunteers who work alongside community members. Roles include teaching support, nursery management, and health outreach assistance.
+        </p>
+        <form id="volunteerForm" onsubmit="submitVolunteer(event)" aria-label="Volunteer sign-up form">
+          <label for="vname" data-en="Full Name" data-am="ሙሉ ስም" data-or="Maqaa Guutuu">Full Name</label>
+          <input id="vname" name="name" required autocomplete="name" />
+          <label for="vemail" data-en="Email Address" data-am="ኢሜይል አድራሻ" data-or="Teessoo Imeelii">Email Address</label>
+          <input id="vemail" type="email" name="email" required autocomplete="email" />
+          <label for="vrole" data-en="Area of Interest" data-am="የፍላጎት ዘርፍ" data-or="Gara Fedhii">Area of Interest</label>
+          <select id="vrole" name="role" required>
+            <option value="">Select…</option>
+            <option value="environment" data-en="Environment" data-am="አካባቢ" data-or="Naannoo">Environment</option>
+            <option value="education" data-en="Education" data-am="ትምህርት" data-or="Barnootaa">Education</option>
+            <option value="health" data-en="Health" data-am="ጤና" data-or="Fayyaa">Health</option>
+            <option value="economic" data-en="Economic Activities" data-am="ኢኮኖሚያዊ ተግባራት" data-or="Hojii Dinagdee">Economic Activities</option>
+            <option value="other" data-en="Other" data-am="ሌሎች" data-or="Biroo">Other</option>
+          </select>
+          <button type="submit" data-en="Submit Application" data-am="ማመልከቻ ያስገቡ" data-or="Iyyata Galchi">Submit Application</button>
+        </form>
+      </div>
+
+      <div class="card fade-in">
+        <h3 data-en="Donate" data-am="ድጋፍ ያድርጉ" data-or="Deeggarsa Godhi">Donate</h3>
+        <p data-en="Your donation supports local projects, materials, and training. We prioritize transparency and local procurement to maximize impact."
+           data-am="ልዩ ድጋፍዎ የአካባቢ ፕሮጀክቶችን፣ ቁሳቁሶችን እና ስልጠናዎችን ይደግፋል። ተፅዕኖን ለማጉላት ግልጽነትና የአካባቢ ምዥዋ ቅድሚያ እናሰጣለን።"
+           data-or="Deeggarsi keessan pirojektoota naannoo, meeshaalee fi leenjii deegarra. Iftoominaa fi bitaata naannoo dursina akka dhiibbaan jabaatu.">
+          Your donation supports local projects, materials, and training. We prioritize transparency and local procurement to maximize impact.
+        </p>
+        <div class="donate-options">
+          <div class="donate-card" onclick="highlightDonate(this)">
+            <div class="amount">$1</div>
+            <div class="desc" data-en="Provides school supplies for one student" data-am="ለአንድ ተማሪ የትምህርት ቁሳቁስ ይሰጣል" data-or="Meeshaalee barnoota barataa tokkoof kenna">Provides school supplies for one student</div>
+          </div>
+          <div class="donate-card" onclick="highlightDonate(this)">
+            <div class="amount">$5</div>
+            <div class="desc" data-en="Supports a community health workshop" data-am="የማህበረሰብ ጤና ወርክሾፕ ይደግፋል" data-or="Gabatee fayyaa hawaasaa deegara">Supports a community health workshop</div>
+          </div>
+          <div class="donate-card" onclick="highlightDonate(this)">
+            <div class="amount">$10</div>
+            <div class="desc" data-en="Funds a conservation project" data-am="የጥበቃ ፕሮጀክት ያሸጋሪጋል" data-or="Pirojektii eegsisa maallaqa kenna">Funds a conservation project</div>
+          </div>
+          <div class="donate-card" onclick="highlightDonate(this)">
+            <div class="amount" data-en="Custom" data-am="ሌላ" data-or="Biroo">Custom</div>
+            <div class="desc" data-en="Any amount makes a difference" data-am="ማንኛውም መጠን ለውጥ ያደርጋል" data-or="Baay'inni kamiyyu garaagarummaa uuma">Any amount makes a difference</div>
+          </div>
+        </div>
+        <div class="bank-info" style="margin-top:1.25rem">
+          <h3 data-en="Bank Transfer" data-am="የባንክ ዝውውር" data-or="Dabarsa Baankii">Bank Transfer</h3>
+          <p class="small" data-en="Account Name: Ardaita Unity and Development Association" data-am="የሂሳብ ስም: አርዳይታ አንድነትና ልማት ማህበር" data-or="Maqaa Herreega: Ardaita Unity and Development Association">Account Name: Ardaita Unity and Development Association</p>
+          <p class="small"><strong>CBE:</strong> 1000XXXXXXXXXXXXX</p>
+          <p class="small" data-en="For bank transfers or in-kind support, contact our team." data-am="ለባንክ ዝውውሮች ወይም በዓይነት ድጋፍ ቡድናችንን ያነጋግሩ።" data-or="Dabarsa baankii ykn deeggarsa akaakuutiin, garee keenya quunnamaa.">For bank transfers or in-kind support, contact our team.</p>
+        </div>
+        <div style="margin-top:1rem">
+          <a class="btn-primary" href="#contact" data-en="Contact Us to Donate" data-am="ለድጋፍ ያናግሩን" data-or="Nu Quunnamaa Deeggaruuf">Contact Us to Donate</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact" class="container fade-in">
+  <h2 data-en="Contact &amp; Local Office" data-am="ያናግሩን እና የአካባቢ ጽ/ቤት" data-or="Nu Quunnamaa fi Biiroo Naannoo">Contact &amp; Local Office</h2>
+  <p class="section-intro" data-en="We operate with a small office in the Oromia region, West Arsi Zone, Ardaita, with rotating field teams." data-am="ኦሮሚያ ክልል፣ ምዕራብ አርሲ ዞን፣ አርዳይታ ትንሽ ጽ/ቤት ይዘናል።" data-or="Biiroo xiqqaa Naannoo Oromiyaa, Aanaa Arsi Dhihaa, Ardaita keessatti qabna.">We operate with a small office in the Oromia region, West Arsi Zone, Ardaita, with rotating field teams.</p>
+
+  <div class="grid grid-2" style="gap:1.5rem">
+    <div class="card fade-in">
+      <div class="contact-info">
+        <div class="contact-method">
+          <div class="contact-icon" aria-hidden="true">📍</div>
+          <div>
+            <strong data-en="Our Office" data-am="ጽ/ቤታችን" data-or="Biiroo Keenya">Our Office</strong>
+            <div class="small">Ardaita, West Arsi Zone, Oromia, Ethiopia</div>
+          </div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-icon" aria-hidden="true">✉️</div>
+          <div>
+            <strong data-en="Email Us" data-am="ኢሜይሉን ይጠቀሙ" data-or="Nu Imeeyilii">Email Us</strong>
+            <div class="small"><a href="mailto:info@ardaitaunity.org">info@ardaitaunity.org</a></div>
+            <div class="small"><a href="mailto:hiliyomi2012@gmail.com">hiliyomi2012@gmail.com</a></div>
+            <div class="small"><a href="mailto:emuabdoasratabdo@gmail.com">emuabdoasratabdo@gmail.com</a></div>
+            <div class="small"><a href="mailto:fishomed@gmail.com">fishomed@gmail.com</a></div>
+          </div>
+        </div>
+        <div class="contact-method">
+          <div class="contact-icon" aria-hidden="true">📞</div>
+          <div>
+            <strong data-en="Call Us" data-am="ይደውሉልን" data-or="Nu Bilbilaa">Call Us</strong>
+            <div class="small">+251 911 000 000</div>
+            <div class="small">+353 123 456 789</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card fade-in">
+      <h3 data-en="Send Us a Message" data-am="መልዕክት ይላኩ" data-or="Ergaa Nu Ergaa">Send Us a Message</h3>
+      <form id="contactForm" onsubmit="submitContact(event)" aria-label="Contact form">
+        <label for="cname" data-en="Name" data-am="ስም" data-or="Maqaa">Name</label>
+        <input id="cname" name="name" required autocomplete="name" />
+        <label for="cemail" data-en="Email Address" data-am="ኢሜይል አድራሻ" data-or="Teessoo Imeelii">Email Address</label>
+        <input id="cemail" type="email" name="email" autocomplete="email" />
+        <label for="cphone" data-en="Phone (optional)" data-am="ስልክ (አማራጭ)" data-or="Bilbila (Dirqama Miti)">Phone (optional)</label>
+        <input id="cphone" name="phone" autocomplete="tel" />
+        <label for="cmessage" data-en="Message" data-am="መልዕክት" data-or="Ergaa">Message</label>
+        <textarea id="cmessage" name="message" rows="4" required></textarea>
+        <button type="submit" data-en="Send Message" data-am="መልዕክት ላክ" data-or="Ergaa Ergi">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div style="margin-bottom:.5rem;font-weight:700;color:#fff">Ardaita Unity and Development Association (AUDA)</div>
+    <div class="small" style="color:rgba(255,255,255,.7)" data-en="Registered local charity. All programs driven by community priorities." data-am="ምዝገቡ የአካባቢ ሲቪል ማህበር። ሁሉም ፕሮግራሞች ማህበረሰቡ ባቀናበረ ቅደም ተከተል ይካሄዳሉ።" data-or="Dhaabbata faayidaa hawaasaa galmeeffame. Sagantaawwan hundi fedhii hawaasaa irraan hogganamu.">Registered local charity. All programs driven by community priorities.</div>
+    <div style="margin-top:.5rem;color:rgba(255,255,255,.6);font-size:.85rem">© 2026 Ardaita Unity and Development Association. All rights reserved.</div>
+    <div style="margin-top:.35rem;font-size:.82rem;color:rgba(255,255,255,.5)">Ardaita, West Arsi Zone, Oromia, Ethiopia · <a href="mailto:info@ardaitaunity.org">info@ardaitaunity.org</a></div>
+  </div>
+</footer>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+  // ── Language switcher ──────────────────────────────────────────────
+  var currentLang = 'en';
+
+  function setLang(lang) {
+    currentLang = lang;
+    // Update all elements with data-[lang] attributes
+    var elements = document.querySelectorAll('[data-en],[data-am],[data-or]');
+    elements.forEach(function(el) {
+      var text = el.getAttribute('data-' + lang);
+      if (text) {
+        // For input/textarea we set placeholder; for others set textContent
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          el.placeholder = text;
+        } else {
+          el.textContent = text;
+        }
+      }
+    });
+    // Highlight active button
+    ['en','am','or'].forEach(function(l) {
+      var btn = document.getElementById('btn-' + l);
+      if (btn) btn.classList.toggle('active', l === lang);
+    });
+    // Update html lang attribute
+    document.documentElement.lang = lang === 'am' ? 'am' : lang === 'or' ? 'om' : 'en';
+  }
+
+  // ── Form handlers ──────────────────────────────────────────────────
+  function submitVolunteer(e) {
+    e.preventDefault();
+    var name = document.getElementById('vname').value.trim();
+    if (!name) { alert('Please enter your name'); return; }
+    alert('Thank you, ' + name + '. We will contact you about volunteer opportunities.');
+    e.target.reset();
+  }
+
+  function submitContact(e) {
+    e.preventDefault();
+    var name = document.getElementById('cname').value.trim();
+    if (!name) { alert('Please enter your name'); return; }
+    alert('Thank you, ' + name + '. Your message has been received. We will respond shortly.');
+    e.target.reset();
+  }
+
+  // ── Donate card highlight ──────────────────────────────────────────
+  function highlightDonate(card) {
+    document.querySelectorAll('.donate-card').forEach(function(c) {
+      c.style.borderColor = '';
+      c.style.boxShadow = '';
+    });
+    card.style.borderColor = 'var(--primary)';
+    card.style.boxShadow = '0 4px 14px rgba(46,125,50,.2)';
+  }
+
+  // ── Intersection Observer for fade-in ─────────────────────────────
+  (function() {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(function(el) {
+      observer.observe(el);
+    });
+  })();
+
+  // ── Keyboard accessibility focus outline ───────────────────────────
+  (function() {
+    function handleFirstTab(e) {
+      if (e.key === 'Tab') {
+        document.body.classList.add('show-focus');
+        window.removeEventListener('keydown', handleFirstTab);
+      }
+    }
+    window.addEventListener('keydown', handleFirstTab);
+  })();
+</script>
 </body>
 </html>
