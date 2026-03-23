@@ -63,7 +63,7 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AUDA', 
+        title: const Text('Ardaita', 
           style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2)),
         actions: [
           _buildTopMenuItem(0, 'Home'),
@@ -234,7 +234,7 @@ class HomePage extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
                                 textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                               ),
-                              child: const Text('Support AUDA'),
+                              child: const Text('Support Ardaita'),
                             ),
                           ],
                         ),
@@ -272,7 +272,7 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 24),
                 const MaxWidthContainer(
                   child: Text(
-                    'Ardaita Unity and Development Association (AUDA) is a community-driven organization dedicated to fostering sustainable progress, equitable education, and accessible healthcare in the Ardaita region.',
+                    'Ardaita Unity and Development Association is a community-driven organization dedicated to fostering sustainable progress, equitable education, and accessible healthcare in the Ardaita region.',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18, height: 1.6),
                   ),
@@ -462,30 +462,82 @@ class WhoWeAreTab extends StatelessWidget {
 
           // Tree Structure
           Center(
-            child: Column(
-              children: [
-                _buildTreeLevel('General Assembly', 'Highest Authority', Icons.groups_rounded, isRoot: true),
-                _buildVerticalLine(),
-                _buildTreeLevel('Dejen Kuma(Phd)', 'Board Chairman', Icons.person_rounded, imagePath: 'assets/Board_Chair_Man.jpg'),
-                _buildVerticalLine(),
-
-                // Secondary row: Vice Chair, Secretary, Treasurer, Board Members
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Column(
+                children: [
+                  _buildTreeLevel('Chairperson', '', Icons.person_rounded, isRoot: true),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: 1032,
+                    height: 220,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 274,
+                          top: 44,
+                          child: _buildTreeLevel('Vice Chairperson', '', Icons.person_outline_rounded, width: 220),
+                        ),
+                        Positioned(
+                          left: 516,
+                          top: 0,
+                          child: _buildVerticalLine(height: 196),
+                        ),
+                        Positioned(
+                          left: 494,
+                          top: 118,
+                          child: Container(
+                            width: 22,
+                            height: 2,
+                            color: const Color(0xFF2E7D32),
+                          ),
+                        ),
+                        Positioned(
+                          left: 120,
+                          top: 196,
+                          child: Container(
+                            width: 792,
+                            height: 2,
+                            color: const Color(0xFF2E7D32),
+                          ),
+                        ),
+                        Positioned(left: 120, top: 196, child: _buildVerticalLine(height: 24)),
+                        Positioned(left: 384, top: 196, child: _buildVerticalLine(height: 24)),
+                        Positioned(left: 648, top: 196, child: _buildVerticalLine(height: 24)),
+                        Positioned(left: 912, top: 196, child: _buildVerticalLine(height: 24)),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildTreeLevel('TBD', 'Vice Chair', Icons.person_outline_rounded, width: 200),
-                      const SizedBox(width: 16),
-                      _buildTreeLevel('TBD', 'Secretary', Icons.edit_note_rounded, width: 200),
-                      const SizedBox(width: 16),
-                      _buildTreeLevel('TBD', 'Treasurer', Icons.account_balance_wallet_rounded, width: 200),
-                      const SizedBox(width: 16),
-                      _buildTreeLevel('Board Members', 'Community Reps', Icons.people_outline_rounded, width: 200),
+                      _buildTreeBranch(
+                        title: 'Operational and Admin Lead',
+                        icon: Icons.admin_panel_settings_rounded,
+                      ),
+                      const SizedBox(width: 24),
+                      _buildTreeBranch(
+                        title: 'Treasurer',
+                        icon: Icons.account_balance_wallet_rounded,
+                      ),
+                      const SizedBox(width: 24),
+                      _buildTreeBranchWithRightChild(
+                        title: 'Secretary',
+                        icon: Icons.edit_note_rounded,
+                        childTitle: 'Public and External Relations',
+                        childIcon: Icons.public_rounded,
+                      ),
+                      const SizedBox(width: 24),
+                      _buildTreeBranchWithRightChild(
+                        title: 'Legal Lead',
+                        icon: Icons.gavel_rounded,
+                        childTitle: 'Legal subcommittee',
+                        childIcon: Icons.balance_rounded,
+                      ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           
@@ -493,7 +545,7 @@ class WhoWeAreTab extends StatelessWidget {
           Text('Authority & Governance', style: Theme.of(context).textTheme.displayMedium),
           const SizedBox(height: 24),
           const Text(
-            'AUDA follows a best-practice democratic governance model. The General Assembly, composed of all members, holds the ultimate decision-making power. The Board Chairman translates this vision into strategy, while the specialized officers (Vice Chair, Secretary, Treasurer) and the Board Members ensure daily operational excellence and community representation.',
+            'Ardaita follows a focused governance model led by the Chairperson and Vice Chairperson, with functional leadership through Operational and Admin, Treasury, Secretariat, and Legal units. Public and External Relations and the Legal subcommittee provide specialized execution support under their respective leads.',
             style: TextStyle(fontSize: 18, height: 1.6),
           ),
         ],
@@ -501,9 +553,57 @@ class WhoWeAreTab extends StatelessWidget {
     );
   }
 
-  Widget _buildTreeLevel(String title, String subtitle, IconData icon, {bool isRoot = false, double width = 300, String? imagePath}) {
+  Widget _buildTreeBranch({
+    required String title,
+    required IconData icon,
+  }) {
+    return SizedBox(
+      width: 240,
+      child: Column(
+        children: [
+          const SizedBox(height: 0),
+          _buildTreeLevel(title, '', icon, width: 220),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTreeBranchWithRightChild({
+    required String title,
+    required IconData icon,
+    required String childTitle,
+    required IconData childIcon,
+  }) {
+    return SizedBox(
+      width: 240,
+      child: Column(
+        children: [
+          const SizedBox(height: 0),
+          _buildTreeLevel(title, '', icon, width: 220),
+          SizedBox(
+            width: 240,
+            height: 200,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(left: 120, top: 0, child: _buildVerticalLine(height: 50)),
+                Positioned(
+                  left: 10,
+                  top: 50,
+                  child: _buildTreeLevel(childTitle, '', childIcon, width: 220),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTreeLevel(String title, String subtitle, IconData icon, {bool isRoot = false, double width = 220, double height = 150, String? imagePath}) {
     return Container(
       width: width,
+      height: height,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: isRoot ? const Color(0xFF2E7D32) : Colors.white,
@@ -532,24 +632,26 @@ class WhoWeAreTab extends StatelessWidget {
               color: isRoot ? Colors.white : Colors.black87,
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            subtitle,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: isRoot ? Colors.white70 : Colors.green.shade700,
-              fontWeight: FontWeight.w500,
+          if (subtitle.isNotEmpty) ...[
+            const SizedBox(height: 4),
+            Text(
+              subtitle,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: isRoot ? Colors.white70 : Colors.green.shade700,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );
   }
 
-  Widget _buildVerticalLine() {
+  Widget _buildVerticalLine({double height = 40}) {
     return Container(
-      height: 40,
+      height: height,
       width: 2,
       color: const Color(0xFF2E7D32),
     );
@@ -576,7 +678,7 @@ class WhatWeDoTab extends StatelessWidget {
           Text('Mission', style: Theme.of(context).textTheme.displayMedium),
           const SizedBox(height: 16),
           const Text(
-            'Ardaita Unity and Development Association (AUDA) is a charitable organization committed to improving the quality of life in our community by:',
+            'Ardaita Unity and Development Association is a charitable organization committed to improving the quality of life in our community by:',
             style: TextStyle(fontSize: 18, height: 1.6),
           ),
           const SizedBox(height: 24),
@@ -686,7 +788,7 @@ class ProjectsPage extends StatelessWidget {
       {
         'title': 'Social Care',
         'subtitle': 'Care for Vulnerable children & elderly',
-        'icon': Icons.trending_up_rounded,
+        'icon': Icons.volunteer_activism_rounded,
         'activities': [
           'Protect Children & Elderly',
           'Support At-Risk Children',
@@ -782,6 +884,48 @@ class ProjectsPage extends StatelessWidget {
 class ResourcesPage extends StatelessWidget {
   const ResourcesPage({super.key});
 
+  static const List<Map<String, String>> _resources = [
+    {
+      'name': 'Ardaita_Amharic.pdf',
+      'assetPath': 'assets/Ardaita_Amharic.pdf',
+      'description': 'Official community development document in Amharic',
+    },
+    {
+      'name': 'Ardaayita _ Afaan_Oromo.docx',
+      'assetPath': 'assets/Ardaayita _ Afaan_Oromo.docx',
+      'description': 'Community development document in Afaan Oromo',
+    },
+    {
+      'name': 'Ardaita _ English Vesrion.docx',
+      'assetPath': 'assets/Ardaita _ English Vesrion.docx',
+      'description': 'Community development document in English',
+    },
+    {
+      'name': 'Members_Mapping_ and_Registration_Form_04Feb26.xlsx',
+      'assetPath': 'assets/Members_Mapping_ and_Registration_Form_04Feb26.xlsx',
+      'description': 'Member mapping and registration spreadsheet',
+    },
+  ];
+
+  IconData _iconForFile(String fileName) {
+    if (fileName.endsWith('.pdf')) {
+      return Icons.picture_as_pdf;
+    }
+    if (fileName.endsWith('.doc') || fileName.endsWith('.docx')) {
+      return Icons.description;
+    }
+    if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
+      return Icons.table_chart;
+    }
+    return Icons.insert_drive_file;
+  }
+
+  void _downloadResource(String assetPath, String fileName) {
+    html.AnchorElement(href: assetPath)
+      ..setAttribute('download', fileName)
+      ..click();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -796,25 +940,22 @@ class ResourcesPage extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-              itemCount: 1,
+              itemCount: _resources.length,
               separatorBuilder: (context, index) => const Divider(height: 1),
               itemBuilder: (context, index) {
+                final resource = _resources[index];
+                final fileName = resource['name']!;
+                final assetPath = resource['assetPath']!;
                 return ListTile(
                   contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                  leading: const CircleAvatar(
+                  leading: CircleAvatar(
                     backgroundColor: Color(0xFF2E7D32),
-                    child: Icon(Icons.picture_as_pdf, color: Colors.white),
+                    child: Icon(_iconForFile(fileName), color: Colors.white),
                   ),
-                  title: const Text('Ardaita_Amharic.pdf', style: TextStyle(fontWeight: FontWeight.w500)),
-                  subtitle: const Text('Official community development document in Amharic'),
+                  title: Text(fileName, style: const TextStyle(fontWeight: FontWeight.w500)),
+                  subtitle: Text(resource['description']!),
                   trailing: const Icon(Icons.download_rounded, color: Colors.green),
-                  onTap: () {
-                    html.AnchorElement(
-                      href: 'assets/Ardaita_Amharic.pdf',
-                    )
-                      ..setAttribute('download', 'Ardaita_Amharic.pdf')
-                      ..click();
-                  },
+                  onTap: () => _downloadResource(assetPath, fileName),
                 );
               },
             ),
