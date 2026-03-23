@@ -1,7 +1,9 @@
-// Flutter bootstrap loader
-window.addEventListener('load', function() {
-  var script = document.createElement('script');
-  script.src = "main.dart.js";
-  script.defer = true;
-  document.body.appendChild(script);
+{{flutter_js}}
+{{flutter_build_config}}
+
+_flutter.loader.load({
+  onEntrypointLoaded: async function(engineInitializer) {
+    let appRunner = await engineInitializer.initializeEngine();
+    await appRunner.runApp();
+  }
 });

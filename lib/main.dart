@@ -1,5 +1,5 @@
-import 'dart:html' as html;
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyTrendingWebApp());
@@ -808,12 +808,17 @@ class ResourcesPage extends StatelessWidget {
                   title: const Text('Ardaita_Amharic.pdf', style: TextStyle(fontWeight: FontWeight.w500)),
                   subtitle: const Text('Official community development document in Amharic'),
                   trailing: const Icon(Icons.download_rounded, color: Colors.green),
-                  onTap: () {
-                    html.AnchorElement(
-                      href: 'assets/Ardaita_Amharic.pdf',
-                    )
-                      ..setAttribute('download', 'Ardaita_Amharic.pdf')
-                      ..click();
+                  onTap: () async {
+                    final uri = Uri.base.resolve('assets/Ardaita_Amharic.pdf');
+                    if (!await launchUrl(uri)) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Could not open the document. Please try again.'),
+                          ),
+                        );
+                      }
+                    }
                   },
                 );
               },
