@@ -1,5 +1,5 @@
-import 'dart:html' as html;
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyTrendingWebApp());
@@ -61,21 +61,25 @@ class _MainLayoutState extends State<MainLayout> {
 
   @override
   Widget build(BuildContext context) {
+    final isWide = MediaQuery.of(context).size.width >= 900;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ardaita', 
           style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2)),
-        actions: [
-          _buildTopMenuItem(0, 'Home'),
-          _buildAboutUsMenu(),
-          _buildTopMenuItem(2, 'Initiatives'),
-          _buildTopMenuItem(3, 'Resources'),
-          _buildTopMenuItem(4, 'Gallery'),
-          _buildTopMenuItem(5, 'Contact Us'),
-          _buildTopMenuItem(6, 'Donate'),
-          const SizedBox(width: 20),
-        ],
+        actions: isWide
+            ? [
+                _buildTopMenuItem(0, 'Home'),
+                _buildAboutUsMenu(),
+                _buildTopMenuItem(2, 'Initiatives'),
+                _buildTopMenuItem(3, 'Resources'),
+                _buildTopMenuItem(4, 'Gallery'),
+                _buildTopMenuItem(5, 'Contact Us'),
+                _buildTopMenuItem(6, 'Donate'),
+                const SizedBox(width: 20),
+              ]
+            : null,
       ),
+      drawer: isWide ? null : _buildDrawer(context),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 400),
         transitionBuilder: (Widget child, Animation<double> animation) {
@@ -83,6 +87,54 @@ class _MainLayoutState extends State<MainLayout> {
         },
         child: _pages[_selectedIndex],
       ),
+    );
+  }
+
+  Widget _buildDrawer(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(color: Color(0xFF2E7D32)),
+            child: Text(
+              'Ardaita',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.2,
+              ),
+            ),
+          ),
+          _buildDrawerItem(context, 0, 'Home', Icons.home_rounded),
+          _buildDrawerItem(context, 1, 'About Us', Icons.info_rounded),
+          _buildDrawerItem(context, 2, 'Initiatives', Icons.eco_rounded),
+          _buildDrawerItem(context, 3, 'Resources', Icons.folder_rounded),
+          _buildDrawerItem(context, 4, 'Gallery', Icons.photo_library_rounded),
+          _buildDrawerItem(context, 5, 'Contact Us', Icons.contact_mail_rounded),
+          _buildDrawerItem(context, 6, 'Donate', Icons.favorite_rounded),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem(BuildContext context, int index, String label, IconData icon) {
+    final isSelected = _selectedIndex == index;
+    return ListTile(
+      leading: Icon(icon, color: isSelected ? const Color(0xFF2E7D32) : Colors.grey),
+      title: Text(
+        label,
+        style: TextStyle(
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          color: isSelected ? const Color(0xFF2E7D32) : Colors.black87,
+        ),
+      ),
+      selected: isSelected,
+      onTap: () {
+        setState(() => _selectedIndex = index);
+        Navigator.pop(context);
+      },
     );
   }
 
@@ -920,10 +972,17 @@ class ResourcesPage extends StatelessWidget {
     return Icons.insert_drive_file;
   }
 
-  void _downloadResource(String assetPath, String fileName) {
-    html.AnchorElement(href: assetPath)
-      ..setAttribute('download', fileName)
-      ..click();
+  void _downloadResource(String assetPath, BuildContext context) async {
+    final uri = Uri.base.resolve(assetPath);
+    if (!await launchUrl(uri)) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not open the document. Please try again.'),
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -955,7 +1014,7 @@ class ResourcesPage extends StatelessWidget {
                   title: Text(fileName, style: const TextStyle(fontWeight: FontWeight.w500)),
                   subtitle: Text(resource['description']!),
                   trailing: const Icon(Icons.download_rounded, color: Colors.green),
-                  onTap: () => _downloadResource(assetPath, fileName),
+                  onTap: () => _downloadResource(assetPath, context),
                 );
               },
             ),
@@ -1061,9 +1120,33 @@ class ContactUsPage extends StatelessWidget {
                   children: [
                     _buildContactMethod(Icons.location_on_rounded, 'Our Office', 'Ardaita, Ethiopia'),
                     const SizedBox(height: 24),
-                    _buildContactMethod(Icons.email_rounded, 'Email Us', 'info@ardaitaunity.org'),
+                    _buildContactMethod(
+                      Icons.email_rounded,
+                      'Email Us',
+                      'info@ardaitaunity.org',
+                      onTap: () async {
+                        final uri = Uri.parse('mailto:info@ardaitaunity.org');
+                        if (!await launchUrl(uri) && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Could not open email client.')),
+                          );
+                        }
+                      },
+                    ),
                     const SizedBox(height: 24),
-                    _buildContactMethod(Icons.phone_rounded, 'Call Us', '+251 911 000 000'),
+                    _buildContactMethod(
+                      Icons.phone_rounded,
+                      'Call Us',
+                      '+251 911 000 000',
+                      onTap: () async {
+                        final uri = Uri.parse('tel:+251911000000');
+                        if (!await launchUrl(uri) && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Could not open phone dialer.')),
+                          );
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -1108,19 +1191,36 @@ class ContactUsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildContactMethod(IconData icon, String title, String detail) {
-    return Row(
-      children: [
-        Icon(icon, color: Colors.green, size: 28),
-        const SizedBox(width: 16),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildContactMethod(IconData icon, String title, String detail,
+      {VoidCallback? onTap}) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        child: Row(
           children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            Text(detail, style: const TextStyle(fontSize: 16, color: Colors.black87)),
+            Icon(icon, color: Colors.green, size: 28),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                Text(
+                  detail,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: onTap != null ? const Color(0xFF2E7D32) : Colors.black87,
+                    decoration:
+                        onTap != null ? TextDecoration.underline : TextDecoration.none,
+                    decorationColor: const Color(0xFF2E7D32),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
-      ],
+      ),
     );
   }
 }
