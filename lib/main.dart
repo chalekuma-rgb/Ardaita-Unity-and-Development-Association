@@ -614,8 +614,8 @@ class WhoWeAreTab extends StatelessWidget {
                         title: 'Operational and Admin Lead',
                         subtitle: 'Dr.Tefaye Megersa',
                         icon: Icons.admin_panel_settings_rounded,
-                        childTitle: 'Operational Support',
-                        childSubtitle: 'Bizuayehu Chala and Cheru Fano',
+                        childTitle: 'Operational Support Team',
+                        childMembers: const ['Bizuayehu Chala', 'Cheru Fano'],
                         childIcon: Icons.support_agent_rounded,
                       ),
                       const SizedBox(width: 24),
@@ -641,9 +641,12 @@ class WhoWeAreTab extends StatelessWidget {
                         title: 'Legal Lead',
                         subtitle: 'Habib Amano',
                         icon: Icons.gavel_rounded,
-                        childTitle: 'Legal subcommittee',
-                        childSubtitle:
-                            'Asrat Abdo, Fitsum Husen and Mohammed Hayato',
+                        childTitle: 'Legal Subcommittee',
+                        childMembers: const [
+                          'Asrat Abdo',
+                          'Fitsum Husen',
+                          'Mohammed Hayato',
+                        ],
                         childIcon: Icons.balance_rounded,
                       ),
                     ],
@@ -690,6 +693,7 @@ class WhoWeAreTab extends StatelessWidget {
     required IconData icon,
     required String childTitle,
     String childSubtitle = '',
+    List<String>? childMembers,
     required IconData childIcon,
   }) {
     return SizedBox(
@@ -698,29 +702,23 @@ class WhoWeAreTab extends StatelessWidget {
         children: [
           const SizedBox(height: 0),
           _buildTreeLevel(title, subtitle, icon, width: 230),
-          SizedBox(
-            width: 240,
-            height: 250,
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Positioned(
-                  left: 120,
-                  top: 0,
-                  child: _buildVerticalLine(height: 50),
-                ),
-                Positioned(
-                  left: 5,
-                  top: 50,
-                  child: _buildTreeLevel(
-                    childTitle,
-                    childSubtitle,
-                    childIcon,
-                    width: 230,
-                  ),
-                ),
-              ],
-            ),
+          Column(
+            children: [
+              _buildVerticalLine(height: 50),
+              _buildTreeLevel(
+                childTitle,
+                childSubtitle,
+                childIcon,
+                width: 230,
+                height: childMembers == null ? 180 : null,
+                content: childMembers == null
+                    ? null
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: _buildMemberList(childMembers),
+                      ),
+              ),
+            ],
           ),
         ],
       ),
@@ -733,8 +731,9 @@ class WhoWeAreTab extends StatelessWidget {
     IconData icon, {
     bool isRoot = false,
     double width = 230,
-    double height = 180,
+    double? height = 180,
     String? imagePath,
+    Widget? content,
   }) {
     return Container(
       width: width,
@@ -753,6 +752,7 @@ class WhoWeAreTab extends StatelessWidget {
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           imagePath != null
               ? CircleAvatar(
@@ -788,8 +788,37 @@ class WhoWeAreTab extends StatelessWidget {
               ),
             ),
           ],
+          if (content != null) content,
         ],
       ),
+    );
+  }
+
+  Widget _buildMemberList(List<String> members) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final member in members)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 5, right: 8),
+                  child: Icon(
+                    Icons.circle,
+                    size: 8,
+                    color: Colors.green.shade700,
+                  ),
+                ),
+                Expanded(
+                  child: Text(member, style: const TextStyle(fontSize: 13)),
+                ),
+              ],
+            ),
+          ),
+      ],
     );
   }
 
