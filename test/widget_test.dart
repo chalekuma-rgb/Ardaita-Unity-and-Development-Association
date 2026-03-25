@@ -9,8 +9,6 @@ import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:kecho/main.dart';
-
 void main() {
   testWidgets('App renders main shell', (WidgetTester tester) async {
     await tester.binding.setSurfaceSize(const Size(1600, 900));

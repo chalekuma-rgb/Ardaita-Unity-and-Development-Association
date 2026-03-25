@@ -1,5 +1,5 @@
-import 'dart:html' as html;
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyTrendingWebApp());
@@ -27,9 +27,20 @@ class MyTrendingWebApp extends StatelessWidget {
           elevation: 2,
         ),
         textTheme: const TextTheme(
-          displayLarge: TextStyle(color: Color(0xFF2E7D32), fontWeight: FontWeight.bold, fontSize: 48),
-          displayMedium: TextStyle(color: Color(0xFF2E7D32), fontWeight: FontWeight.bold, fontSize: 32),
-          titleLarge: TextStyle(color: Color(0xFF2E7D32), fontWeight: FontWeight.w600),
+          displayLarge: TextStyle(
+            color: Color(0xFF2E7D32),
+            fontWeight: FontWeight.bold,
+            fontSize: 48,
+          ),
+          displayMedium: TextStyle(
+            color: Color(0xFF2E7D32),
+            fontWeight: FontWeight.bold,
+            fontSize: 32,
+          ),
+          titleLarge: TextStyle(
+            color: Color(0xFF2E7D32),
+            fontWeight: FontWeight.w600,
+          ),
           bodyLarge: TextStyle(fontSize: 18, height: 1.6),
         ),
       ),
@@ -63,8 +74,10 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ardaita', 
-          style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2)),
+        title: const Text(
+          'Ardaita',
+          style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2),
+        ),
         actions: [
           _buildTopMenuItem(0, 'Home'),
           _buildAboutUsMenu(),
@@ -94,7 +107,9 @@ class _MainLayoutState extends State<MainLayout> {
         onPressed: () => setState(() => _selectedIndex = index),
         style: TextButton.styleFrom(
           foregroundColor: isSelected ? Colors.white : Colors.green.shade100,
-          backgroundColor: isSelected ? Colors.white.withOpacity(0.1) : Colors.transparent,
+          backgroundColor: isSelected
+              ? Colors.white.withOpacity(0.1)
+              : Colors.transparent,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         child: Text(
@@ -120,14 +135,16 @@ class _MainLayoutState extends State<MainLayout> {
           });
         },
         itemBuilder: (context) => const [
-          PopupMenuItem<int?>(value: null, child: Text('About Us')), 
+          PopupMenuItem<int?>(value: null, child: Text('About Us')),
           PopupMenuItem<int?>(value: 0, child: Text('Who We Are')),
           PopupMenuItem<int?>(value: 1, child: Text('What We Do')),
         ],
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-            color: isSelected ? Colors.white.withOpacity(0.1) : Colors.transparent,
+            color: isSelected
+                ? Colors.white.withOpacity(0.1)
+                : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Row(
@@ -179,7 +196,10 @@ class HomePage extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Colors.black.withOpacity(0.7), Colors.transparent],
+                      colors: [
+                        Colors.black.withOpacity(0.7),
+                        Colors.transparent,
+                      ],
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
                     ),
@@ -206,10 +226,7 @@ class HomePage extends StatelessWidget {
                         const Text(
                           'Unity, Development, and Sustainable Growth for our Community',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 24),
                         ),
                         const SizedBox(height: 40),
                         Row(
@@ -220,8 +237,14 @@ class HomePage extends StatelessWidget {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
                                 foregroundColor: Colors.green.shade900,
-                                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-                                textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 32,
+                                  vertical: 20,
+                                ),
+                                textStyle: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               child: const Text('Explore Initiatives'),
                             ),
@@ -230,9 +253,18 @@ class HomePage extends StatelessWidget {
                               onPressed: () => onNavigate(6), // Donate
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: Colors.white,
-                                side: const BorderSide(color: Colors.white, width: 2),
-                                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-                                textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                side: const BorderSide(
+                                  color: Colors.white,
+                                  width: 2,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 32,
+                                  vertical: 20,
+                                ),
+                                textStyle: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               child: const Text('Support Ardaita'),
                             ),
@@ -245,7 +277,7 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
-          
+
           // Features/Stats Summary
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 40),
@@ -254,10 +286,25 @@ class HomePage extends StatelessWidget {
               runSpacing: 40,
               alignment: WrapAlignment.center,
               children: [
-                _buildStatItem(context, Icons.people, '1000+', 'Lives Impacted'),
-                _buildStatItem(context, Icons.school, '20+', 'Education Programs'),
+                _buildStatItem(
+                  context,
+                  Icons.people,
+                  '1000+',
+                  'Lives Impacted',
+                ),
+                _buildStatItem(
+                  context,
+                  Icons.school,
+                  '20+',
+                  'Education Programs',
+                ),
                 _buildStatItem(context, Icons.eco, '100+', 'Green Initiatives'),
-                _buildStatItem(context, Icons.trending_up, '24/7', 'Community Support'),
+                _buildStatItem(
+                  context,
+                  Icons.trending_up,
+                  '24/7',
+                  'Community Support',
+                ),
               ],
             ),
           ),
@@ -268,7 +315,10 @@ class HomePage extends StatelessWidget {
             color: Colors.white,
             child: Column(
               children: [
-                Text('Who We Are', style: Theme.of(context).textTheme.displayMedium),
+                Text(
+                  'Who We Are',
+                  style: Theme.of(context).textTheme.displayMedium,
+                ),
                 const SizedBox(height: 24),
                 const MaxWidthContainer(
                   child: Text(
@@ -280,19 +330,20 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 32),
                 TextButton(
                   onPressed: () => onNavigate(1),
-                  child: const Text('Read our full story →', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  child: const Text(
+                    'Read our full story →',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),
           ),
-          
+
           // Call to Action Bottom
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 40),
-            decoration: BoxDecoration(
-              color: Colors.green.shade50,
-            ),
+            decoration: BoxDecoration(color: Colors.green.shade50),
             child: Column(
               children: [
                 const Text(
@@ -305,14 +356,20 @@ class HomePage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green.shade800,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 20,
+                    ),
                   ),
-                  child: const Text('Get Involved Today', style: TextStyle(fontSize: 20)),
+                  child: const Text(
+                    'Get Involved Today',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
               ],
             ),
           ),
-          
+
           // Footer
           Container(
             padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
@@ -337,12 +394,20 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatItem(BuildContext context, IconData icon, String value, String label) {
+  Widget _buildStatItem(
+    BuildContext context,
+    IconData icon,
+    String value,
+    String label,
+  ) {
     return Column(
       children: [
         Icon(icon, size: 48, color: Colors.green.shade700),
         const SizedBox(height: 12),
-        Text(value, style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold)),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+        ),
         Text(label, style: const TextStyle(fontSize: 16, color: Colors.grey)),
       ],
     );
@@ -352,7 +417,11 @@ class HomePage extends StatelessWidget {
 class MaxWidthContainer extends StatelessWidget {
   final Widget child;
   final double maxWidth;
-  const MaxWidthContainer({super.key, required this.child, this.maxWidth = 800});
+  const MaxWidthContainer({
+    super.key,
+    required this.child,
+    this.maxWidth = 800,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -447,6 +516,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
     );
   }
 }
+
 class WhoWeAreTab extends StatelessWidget {
   const WhoWeAreTab({super.key});
 
@@ -457,7 +527,10 @@ class WhoWeAreTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Organizational Structure', style: Theme.of(context).textTheme.displayMedium),
+          Text(
+            'Organizational Structure',
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
           const SizedBox(height: 48),
 
           // Tree Structure
@@ -466,26 +539,36 @@ class WhoWeAreTab extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Column(
                 children: [
-                  _buildTreeLevel('Chairperson', '', Icons.person_rounded, isRoot: true),
+                  _buildTreeLevel(
+                    'Chairperson',
+                    'Dejen Kuma(PhD)',
+                    Icons.person_rounded,
+                    isRoot: false,
+                  ),
                   const SizedBox(height: 8),
                   SizedBox(
                     width: 1032,
-                    height: 220,
+                    height: 250,
                     child: Stack(
                       children: [
                         Positioned(
-                          left: 274,
+                          left: 264,
                           top: 44,
-                          child: _buildTreeLevel('Vice Chairperson', '', Icons.person_outline_rounded, width: 220),
+                          child: _buildTreeLevel(
+                            'Vice Chairperson',
+                            'Yasin Tufa',
+                            Icons.person_outline_rounded,
+                            width: 230,
+                          ),
                         ),
                         Positioned(
                           left: 516,
                           top: 0,
-                          child: _buildVerticalLine(height: 196),
+                          child: _buildVerticalLine(height: 230),
                         ),
                         Positioned(
                           left: 494,
-                          top: 118,
+                          top: 134,
                           child: Container(
                             width: 22,
                             height: 2,
@@ -494,44 +577,76 @@ class WhoWeAreTab extends StatelessWidget {
                         ),
                         Positioned(
                           left: 120,
-                          top: 196,
+                          top: 230,
                           child: Container(
                             width: 792,
                             height: 2,
                             color: const Color(0xFF2E7D32),
                           ),
                         ),
-                        Positioned(left: 120, top: 196, child: _buildVerticalLine(height: 24)),
-                        Positioned(left: 384, top: 196, child: _buildVerticalLine(height: 24)),
-                        Positioned(left: 648, top: 196, child: _buildVerticalLine(height: 24)),
-                        Positioned(left: 912, top: 196, child: _buildVerticalLine(height: 24)),
+                        Positioned(
+                          left: 120,
+                          top: 230,
+                          child: _buildVerticalLine(height: 20),
+                        ),
+                        Positioned(
+                          left: 384,
+                          top: 230,
+                          child: _buildVerticalLine(height: 20),
+                        ),
+                        Positioned(
+                          left: 648,
+                          top: 230,
+                          child: _buildVerticalLine(height: 20),
+                        ),
+                        Positioned(
+                          left: 912,
+                          top: 230,
+                          child: _buildVerticalLine(height: 20),
+                        ),
                       ],
                     ),
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildTreeBranch(
+                      _buildTreeBranchWithRightChild(
                         title: 'Operational and Admin Lead',
+                        subtitle: 'Dr.Tefaye Megersa',
                         icon: Icons.admin_panel_settings_rounded,
-                      ),
-                      const SizedBox(width: 24),
-                      _buildTreeBranch(
-                        title: 'Treasurer',
-                        icon: Icons.account_balance_wallet_rounded,
+                        childTitle: 'Operational Support Team',
+                        childMembers: const ['Bizuayehu Chala', 'Cheru Fano'],
+                        childIcon: Icons.support_agent_rounded,
                       ),
                       const SizedBox(width: 24),
                       _buildTreeBranchWithRightChild(
-                        title: 'Secretary',
+                        title: 'Treasurer',
+                        subtitle: 'Dereje Tilahun',
+                        icon: Icons.account_balance_wallet_rounded,
+                        childTitle: 'Treasurer Support',
+                        childSubtitle: 'Faruk Teshale',
+                        childIcon: Icons.payments_rounded,
+                      ),
+                      const SizedBox(width: 24),
+                      _buildTreeBranchWithRightChild(
+                        title: 'Secretary and PR lead',
+                        subtitle: 'Abdulkadir Kaltiso',
                         icon: Icons.edit_note_rounded,
-                        childTitle: 'Public and External Relations',
-                        childIcon: Icons.public_rounded,
+                        childTitle: 'Secretary and PR support',
+                        childSubtitle: 'Beshir Edao',
+                        childIcon: Icons.support_agent_rounded,
                       ),
                       const SizedBox(width: 24),
                       _buildTreeBranchWithRightChild(
                         title: 'Legal Lead',
+                        subtitle: 'Habib Amano',
                         icon: Icons.gavel_rounded,
-                        childTitle: 'Legal subcommittee',
+                        childTitle: 'Legal Subcommittee',
+                        childMembers: const [
+                          'Asrat Abdo',
+                          'Fitsum Husen',
+                          'Mohammed Hayato',
+                        ],
                         childIcon: Icons.balance_rounded,
                       ),
                     ],
@@ -540,12 +655,15 @@ class WhoWeAreTab extends StatelessWidget {
               ),
             ),
           ),
-          
+
           const SizedBox(height: 64),
-          Text('Authority & Governance', style: Theme.of(context).textTheme.displayMedium),
+          Text(
+            'Authority & Governance',
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
           const SizedBox(height: 24),
           const Text(
-            'Ardaita follows a focused governance model led by the Chairperson and Vice Chairperson, with functional leadership through Operational and Admin, Treasury, Secretariat, and Legal units. Public and External Relations and the Legal subcommittee provide specialized execution support under their respective leads.',
+            'The NGO Establishment Committee (NEsCo) serves as a temporary, mandate-driven body entrusted by the General Assembly to lead and coordinate the establishment of the Association. Its primary role is to facilitate all preparatory processes required for legal registration and initial operational readiness, including drafting foundational documents, guiding consultative discussions, mobilizing membership, and ensuring compliance with applicable legal requirements. NEsCo exercises delegated authority to make timely decisions necessary for these purposes, within the scope defined by the General Assembly, and operates in a transparent and accountable manner. Its mandate concludes upon the formal establishment of the Association and the transition to the duly constituted governing body.',
             style: TextStyle(fontSize: 18, height: 1.6),
           ),
         ],
@@ -555,6 +673,7 @@ class WhoWeAreTab extends StatelessWidget {
 
   Widget _buildTreeBranch({
     required String title,
+    String subtitle = '',
     required IconData icon,
   }) {
     return SizedBox(
@@ -562,7 +681,7 @@ class WhoWeAreTab extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 0),
-          _buildTreeLevel(title, '', icon, width: 220),
+          _buildTreeLevel(title, subtitle, icon, width: 230),
         ],
       ),
     );
@@ -570,8 +689,11 @@ class WhoWeAreTab extends StatelessWidget {
 
   Widget _buildTreeBranchWithRightChild({
     required String title,
+    String subtitle = '',
     required IconData icon,
     required String childTitle,
+    String childSubtitle = '',
+    List<String>? childMembers,
     required IconData childIcon,
   }) {
     return SizedBox(
@@ -579,28 +701,40 @@ class WhoWeAreTab extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 0),
-          _buildTreeLevel(title, '', icon, width: 220),
-          SizedBox(
-            width: 240,
-            height: 200,
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Positioned(left: 120, top: 0, child: _buildVerticalLine(height: 50)),
-                Positioned(
-                  left: 10,
-                  top: 50,
-                  child: _buildTreeLevel(childTitle, '', childIcon, width: 220),
-                ),
-              ],
-            ),
+          _buildTreeLevel(title, subtitle, icon, width: 230),
+          Column(
+            children: [
+              _buildVerticalLine(height: 50),
+              _buildTreeLevel(
+                childTitle,
+                childSubtitle,
+                childIcon,
+                width: 230,
+                height: childMembers == null ? 180 : null,
+                content: childMembers == null
+                    ? null
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: _buildMemberList(childMembers),
+                      ),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildTreeLevel(String title, String subtitle, IconData icon, {bool isRoot = false, double width = 220, double height = 150, String? imagePath}) {
+  Widget _buildTreeLevel(
+    String title,
+    String subtitle,
+    IconData icon, {
+    bool isRoot = false,
+    double width = 230,
+    double? height = 180,
+    String? imagePath,
+    Widget? content,
+  }) {
     return Container(
       width: width,
       height: height,
@@ -610,18 +744,28 @@ class WhoWeAreTab extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFF2E7D32), width: 2),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4)),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           imagePath != null
               ? CircleAvatar(
                   radius: 32,
                   backgroundImage: AssetImage(imagePath),
-                  onBackgroundImageError: (exception, stackTrace) => const Icon(Icons.person_rounded, size: 32),
+                  onBackgroundImageError: (exception, stackTrace) =>
+                      const Icon(Icons.person_rounded, size: 32),
                 )
-              : Icon(icon, color: isRoot ? Colors.white : const Color(0xFF2E7D32), size: 32),
+              : Icon(
+                  icon,
+                  color: isRoot ? Colors.white : const Color(0xFF2E7D32),
+                  size: 32,
+                ),
           const SizedBox(height: 12),
           Text(
             title,
@@ -644,17 +788,42 @@ class WhoWeAreTab extends StatelessWidget {
               ),
             ),
           ],
+          if (content != null) content,
         ],
       ),
     );
   }
 
-  Widget _buildVerticalLine({double height = 40}) {
-    return Container(
-      height: height,
-      width: 2,
-      color: const Color(0xFF2E7D32),
+  Widget _buildMemberList(List<String> members) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final member in members)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 5, right: 8),
+                  child: Icon(
+                    Icons.circle,
+                    size: 8,
+                    color: Colors.green.shade700,
+                  ),
+                ),
+                Expanded(
+                  child: Text(member, style: const TextStyle(fontSize: 13)),
+                ),
+              ],
+            ),
+          ),
+      ],
     );
+  }
+
+  Widget _buildVerticalLine({double height = 40}) {
+    return Container(height: height, width: 2, color: const Color(0xFF2E7D32));
   }
 }
 
@@ -682,20 +851,53 @@ class WhatWeDoTab extends StatelessWidget {
             style: TextStyle(fontSize: 18, height: 1.6),
           ),
           const SizedBox(height: 24),
-          _buildListItem('Promoting accessible and sustainable public health initiatives.', Icons.health_and_safety_outlined),
-          _buildListItem('Expanding equitable access to quality education and lifelong learning opportunities.', Icons.school_outlined),
-          _buildListItem('Protecting and restoring the environment through community-led conservation efforts.', Icons.eco_outlined),
-          _buildListItem('Supporting small-scale economic activities and entrepreneurship to enhance household income and self-reliance.', Icons.trending_up_outlined),
+          _buildListItem(
+            'Promoting accessible and sustainable public health initiatives.',
+            Icons.health_and_safety_outlined,
+          ),
+          _buildListItem(
+            'Expanding equitable access to quality education and lifelong learning opportunities.',
+            Icons.school_outlined,
+          ),
+          _buildListItem(
+            'Protecting and restoring the environment through community-led conservation efforts.',
+            Icons.eco_outlined,
+          ),
+          _buildListItem(
+            'Supporting small-scale economic activities and entrepreneurship to enhance household income and self-reliance.',
+            Icons.trending_up_outlined,
+          ),
           const SizedBox(height: 40),
           Text('Core Values', style: Theme.of(context).textTheme.displayMedium),
           const SizedBox(height: 16),
-          _buildCoreValue('1. Unity', 'We believe collective effort and community collaboration are the foundation of sustainable development.'),
-          _buildCoreValue('2. Integrity', 'We operate with transparency, accountability, and ethical responsibility in all our actions.'),
-          _buildCoreValue('3. Compassion', 'We serve with empathy, prioritizing the needs of vulnerable and underserved populations.'),
-          _buildCoreValue('4. Empowerment', 'We strengthen individuals and families by building skills, knowledge, and economic opportunities.'),
-          _buildCoreValue('5. Sustainability', 'We promote environmentally responsible and long-term solutions that benefit future generations.'),
-          _buildCoreValue('6. Equity and Inclusion', 'We ensure equal opportunities regardless of gender, age, background, or economic status.'),
-          _buildCoreValue('7. Innovation', 'We embrace creative, practical, and locally driven approaches to solving community challenges.'),
+          _buildCoreValue(
+            '1. Unity',
+            'We believe collective effort and community collaboration are the foundation of sustainable development.',
+          ),
+          _buildCoreValue(
+            '2. Integrity',
+            'We operate with transparency, accountability, and ethical responsibility in all our actions.',
+          ),
+          _buildCoreValue(
+            '3. Compassion',
+            'We serve with empathy, prioritizing the needs of vulnerable and underserved populations.',
+          ),
+          _buildCoreValue(
+            '4. Empowerment',
+            'We strengthen individuals and families by building skills, knowledge, and economic opportunities.',
+          ),
+          _buildCoreValue(
+            '5. Sustainability',
+            'We promote environmentally responsible and long-term solutions that benefit future generations.',
+          ),
+          _buildCoreValue(
+            '6. Equity and Inclusion',
+            'We ensure equal opportunities regardless of gender, age, background, or economic status.',
+          ),
+          _buildCoreValue(
+            '7. Innovation',
+            'We embrace creative, practical, and locally driven approaches to solving community challenges.',
+          ),
         ],
       ),
     );
@@ -726,7 +928,14 @@ class WhatWeDoTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.green)),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
+          ),
           const SizedBox(height: 4),
           Text(description, style: const TextStyle(fontSize: 18, height: 1.6)),
         ],
@@ -749,8 +958,8 @@ class ProjectsPage extends StatelessWidget {
           'Community reforestation projects',
           'Sustainable water resource management',
           'Environment awareness workshops',
-          'Waste reduction initiatives'
-        ]
+          'Waste reduction initiatives',
+        ],
       },
       {
         'title': 'Education',
@@ -760,8 +969,8 @@ class ProjectsPage extends StatelessWidget {
           'Primary school support programs',
           'Vocational training for youth',
           'Digital literacy classes',
-          'Educational resource distribution'
-        ]
+          'Educational resource distribution',
+        ],
       },
       {
         'title': 'Health',
@@ -771,8 +980,8 @@ class ProjectsPage extends StatelessWidget {
           'Public health awareness campaigns',
           'Mental wellness support sessions',
           'Preventive care education',
-          'Medical resource facilitation'
-        ]
+          'Medical resource facilitation',
+        ],
       },
       {
         'title': 'Economic activities',
@@ -782,8 +991,8 @@ class ProjectsPage extends StatelessWidget {
           'Micro-finance group support',
           'Small business mentorship',
           'Entrepreneurship training',
-          'Agricultural development support'
-        ]
+          'Agricultural development support',
+        ],
       },
       {
         'title': 'Social Care',
@@ -793,7 +1002,7 @@ class ProjectsPage extends StatelessWidget {
           'Protect Children & Elderly',
           'Support At-Risk Children',
           'Assist Vulnerable Elderly',
-        ]
+        ],
       },
     ];
 
@@ -802,7 +1011,10 @@ class ProjectsPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Trending Initiatives', style: Theme.of(context).textTheme.displayMedium),
+          Text(
+            'Trending Initiatives',
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
           const SizedBox(height: 32),
           GridView.builder(
             shrinkWrap: true,
@@ -836,22 +1048,44 @@ class ProjectsPage extends StatelessWidget {
                               color: Colors.green.shade50,
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Icon(item['icon'], color: Colors.green, size: 28),
+                            child: Icon(
+                              item['icon'],
+                              color: Colors.green,
+                              size: 28,
+                            ),
                           ),
                           const SizedBox(width: 16),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(item['title'], style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                                Text(item['subtitle'], style: const TextStyle(color: Colors.grey, fontSize: 13)),
+                                Text(
+                                  item['title'],
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  item['subtitle'],
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 13,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 20),
-                      const Text('Core Activities:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                      const Text(
+                        'Core Activities:',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
                       const SizedBox(height: 12),
                       Expanded(
                         child: ListView.builder(
@@ -862,8 +1096,19 @@ class ProjectsPage extends StatelessWidget {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('• ', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
-                                Expanded(child: Text(item['activities'][i], style: const TextStyle(fontSize: 14))),
+                                const Text(
+                                  '• ',
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    item['activities'][i],
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -920,10 +1165,15 @@ class ResourcesPage extends StatelessWidget {
     return Icons.insert_drive_file;
   }
 
-  void _downloadResource(String assetPath, String fileName) {
-    html.AnchorElement(href: assetPath)
-      ..setAttribute('download', fileName)
-      ..click();
+  Future<void> _openResource(BuildContext context, String assetPath) async {
+    final resourceUri = Uri.base.resolve(assetPath);
+    final opened = await launchUrl(resourceUri, webOnlyWindowName: '_blank');
+
+    if (!opened && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Unable to open the selected resource.')),
+      );
+    }
   }
 
   @override
@@ -935,7 +1185,10 @@ class ResourcesPage extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(40, 40, 40, 10),
-            child: Text('Resources', style: Theme.of(context).textTheme.displayMedium),
+            child: Text(
+              'Resources',
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
           ),
           Expanded(
             child: ListView.separated(
@@ -952,10 +1205,16 @@ class ResourcesPage extends StatelessWidget {
                     backgroundColor: Color(0xFF2E7D32),
                     child: Icon(_iconForFile(fileName), color: Colors.white),
                   ),
-                  title: Text(fileName, style: const TextStyle(fontWeight: FontWeight.w500)),
+                  title: Text(
+                    fileName,
+                    style: const TextStyle(fontWeight: FontWeight.w500),
+                  ),
                   subtitle: Text(resource['description']!),
-                  trailing: const Icon(Icons.download_rounded, color: Colors.green),
-                  onTap: () => _downloadResource(assetPath, fileName),
+                  trailing: const Icon(
+                    Icons.download_rounded,
+                    color: Colors.green,
+                  ),
+                  onTap: () => _openResource(context, assetPath),
                 );
               },
             ),
@@ -971,14 +1230,20 @@ class GalleryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> images = List.generate(10, (index) => 'assets/Ardaita.jpg');
+    final List<String> images = List.generate(
+      10,
+      (index) => 'assets/Ardaita.jpg',
+    );
 
     return Padding(
       padding: const EdgeInsets.all(40.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Project Visuals', style: Theme.of(context).textTheme.displayMedium),
+          Text(
+            'Project Visuals',
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
           const SizedBox(height: 32),
           Expanded(
             child: GridView.builder(
@@ -1002,8 +1267,11 @@ class GalleryPage extends StatelessWidget {
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Center(
-                              child: Icon(Icons.broken_image_outlined,
-                                  size: 40, color: Colors.green.shade200),
+                              child: Icon(
+                                Icons.broken_image_outlined,
+                                size: 40,
+                                color: Colors.green.shade200,
+                              ),
                             );
                           },
                         ),
@@ -1016,13 +1284,20 @@ class GalleryPage extends StatelessWidget {
                               gradient: LinearGradient(
                                 begin: Alignment.bottomCenter,
                                 end: Alignment.topCenter,
-                                colors: [Colors.black.withOpacity(0.6), Colors.transparent],
+                                colors: [
+                                  Colors.black.withOpacity(0.6),
+                                  Colors.transparent,
+                                ],
                               ),
                             ),
                             padding: const EdgeInsets.all(16),
                             child: Text(
                               'Visual Capture ${index + 1}',
-                              style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -1059,11 +1334,23 @@ class ContactUsPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildContactMethod(Icons.location_on_rounded, 'Our Office', 'Ardaita, Ethiopia'),
+                    _buildContactMethod(
+                      Icons.location_on_rounded,
+                      'Our Head Office',
+                      'Addis Ababa, Ethiopia',
+                    ),
                     const SizedBox(height: 24),
-                    _buildContactMethod(Icons.email_rounded, 'Email Us', 'info@ardaitaunity.org'),
+                    _buildContactMethod(
+                      Icons.email_rounded,
+                      'Email Us',
+                      'info@ardaitaunity.org',
+                    ),
                     const SizedBox(height: 24),
-                    _buildContactMethod(Icons.phone_rounded, 'Call Us', '+251 911 000 000'),
+                    _buildContactMethod(
+                      Icons.phone_rounded,
+                      'Call Us',
+                      '+251 911 000 000',
+                    ),
                   ],
                 ),
               ),
@@ -1080,20 +1367,45 @@ class ContactUsPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Send us a message', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      const Text(
+                        'Send us a message',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       const SizedBox(height: 24),
-                      const TextField(decoration: InputDecoration(labelText: 'Full Name', border: OutlineInputBorder())),
+                      const TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Full Name',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
                       const SizedBox(height: 16),
-                      const TextField(decoration: InputDecoration(labelText: 'Email Address', border: OutlineInputBorder())),
+                      const TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Email Address',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
                       const SizedBox(height: 16),
-                      const TextField(maxLines: 4, decoration: InputDecoration(labelText: 'Message', border: OutlineInputBorder())),
+                      const TextField(
+                        maxLines: 4,
+                        decoration: InputDecoration(
+                          labelText: 'Message',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
                       const SizedBox(height: 24),
                       ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF2E7D32),
                           foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 32,
+                            vertical: 16,
+                          ),
                         ),
                         child: const Text('Submit Message'),
                       ),
@@ -1116,8 +1428,14 @@ class ContactUsPage extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            Text(detail, style: const TextStyle(fontSize: 16, color: Colors.black87)),
+            Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            Text(
+              detail,
+              style: const TextStyle(fontSize: 16, color: Colors.black87),
+            ),
           ],
         ),
       ],
@@ -1137,12 +1455,19 @@ class DonatePage extends StatelessWidget {
         children: [
           const Icon(Icons.favorite_rounded, color: Colors.red, size: 80),
           const SizedBox(height: 24),
-          Text('Support Our Cause', style: Theme.of(context).textTheme.displayMedium),
+          Text(
+            'Support Our Cause',
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
           const SizedBox(height: 24),
           const Text(
             'Until the website integration is complete, please make your donation to the following account:',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
           ),
           const SizedBox(height: 16),
           Container(
@@ -1157,12 +1482,20 @@ class DonatePage extends StatelessWidget {
                 Text(
                   'Account Name: Ardaita Unity and Development Association',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Color(0xFF2E7D32)),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF2E7D32),
+                  ),
                 ),
                 SizedBox(height: 12),
                 Text(
                   'CBE: 1000XXXXXXXXXXXXX',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF2E7D32)),
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF2E7D32),
+                  ),
                 ),
               ],
             ),
@@ -1179,10 +1512,26 @@ class DonatePage extends StatelessWidget {
             runSpacing: 24,
             alignment: WrapAlignment.center,
             children: [
-              _buildDonationCard(context, '\$1', 'Provides school supplies for one student'),
-              _buildDonationCard(context, '\$5', 'Supports a local community health workshop'),
-              _buildDonationCard(context, '\$10', 'Funds a small-scale conservation project'),
-              _buildDonationCard(context, 'Custom', 'Any amount makes a significant difference'),
+              _buildDonationCard(
+                context,
+                '\$1',
+                'Provides school supplies for one student',
+              ),
+              _buildDonationCard(
+                context,
+                '\$5',
+                'Supports a local community health workshop',
+              ),
+              _buildDonationCard(
+                context,
+                '\$10',
+                'Funds a small-scale conservation project',
+              ),
+              _buildDonationCard(
+                context,
+                'Custom',
+                'Any amount makes a significant difference',
+              ),
             ],
           ),
           const SizedBox(height: 48),
@@ -1192,7 +1541,10 @@ class DonatePage extends StatelessWidget {
               backgroundColor: const Color(0xFF2E7D32),
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 20),
-              textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textStyle: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             child: const Text('Donate Now'),
           ),
@@ -1201,7 +1553,11 @@ class DonatePage extends StatelessWidget {
     );
   }
 
-  Widget _buildDonationCard(BuildContext context, String amount, String description) {
+  Widget _buildDonationCard(
+    BuildContext context,
+    String amount,
+    String description,
+  ) {
     return Container(
       width: 250,
       padding: const EdgeInsets.all(24),
@@ -1210,14 +1566,29 @@ class DonatePage extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.green.shade100),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4)),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: Column(
         children: [
-          Text(amount, style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.green)),
+          Text(
+            amount,
+            style: const TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
+          ),
           const SizedBox(height: 12),
-          Text(description, textAlign: TextAlign.center, style: const TextStyle(color: Colors.black54)),
+          Text(
+            description,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.black54),
+          ),
         ],
       ),
     );
