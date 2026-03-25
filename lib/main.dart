@@ -668,6 +668,22 @@ class WhoWeAreTab extends StatelessWidget {
     );
   }
 
+  Widget _buildTreeBranch({
+    required String title,
+    String subtitle = '',
+    required IconData icon,
+  }) {
+    return SizedBox(
+      width: 240,
+      child: Column(
+        children: [
+          const SizedBox(height: 0),
+          _buildTreeLevel(title, subtitle, icon, width: 230),
+        ],
+      ),
+    );
+  }
+
   Widget _buildTreeBranchWithRightChild({
     required String title,
     String subtitle = '',
