@@ -1,36 +1,13 @@
-name: Deploy Flutter Web to GitHub Pages
+# Static deployment is handled by static.yml
+# This file is kept for reference only and is disabled
+name: (Disabled) Legacy Deploy
 
 on:
-  push:
-    branches:
-      - main
-
-permissions:
-  contents: write
+  workflow_dispatch: # manual only, not on push
 
 jobs:
-  build-and-deploy:
+  noop:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.29.0'
-          channel: 'stable'
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Build Flutter Web
-        run: flutter build web --release --base-href /Ardaita-Unity-and-Development-Association/
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/web
+      - run: echo "Deployment is handled by static.yml"
 
