@@ -108,7 +108,7 @@ class _MainLayoutState extends State<MainLayout> {
         style: TextButton.styleFrom(
           foregroundColor: isSelected ? Colors.white : Colors.green.shade100,
           backgroundColor: isSelected
-              ? Colors.white.withOpacity(0.1)
+              ? Colors.white.withValues(alpha: 0.1)
               : Colors.transparent,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
@@ -143,7 +143,7 @@ class _MainLayoutState extends State<MainLayout> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
             color: isSelected
-                ? Colors.white.withOpacity(0.1)
+                ? Colors.white.withValues(alpha: 0.1)
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
@@ -197,7 +197,7 @@ class HomePage extends StatelessWidget {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Colors.black.withOpacity(0.7),
+                        Colors.black.withValues(alpha: 0.7),
                         Colors.transparent,
                       ],
                       begin: Alignment.bottomCenter,
@@ -474,8 +474,8 @@ class _AboutUsPageState extends State<AboutUsPage> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withOpacity(0.55),
-                  Colors.black.withOpacity(0.35),
+                  Colors.black.withValues(alpha: 0.55),
+                  Colors.black.withValues(alpha: 0.35),
                 ],
               ),
             ),
@@ -499,7 +499,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
                   : Container(
                       margin: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.93),
+                        color: Colors.white.withValues(alpha: 0.93),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: AnimatedSwitcher(
@@ -745,7 +745,7 @@ class WhoWeAreTab extends StatelessWidget {
         border: Border.all(color: const Color(0xFF2E7D32), width: 2),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -1285,7 +1285,7 @@ class GalleryPage extends StatelessWidget {
                                 begin: Alignment.bottomCenter,
                                 end: Alignment.topCenter,
                                 colors: [
-                                  Colors.black.withOpacity(0.6),
+                                  Colors.black.withValues(alpha: 0.6),
                                   Colors.transparent,
                                 ],
                               ),
@@ -1567,7 +1567,7 @@ class DonatePage extends StatelessWidget {
         border: Border.all(color: Colors.green.shade100),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
