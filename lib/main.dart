@@ -59,13 +59,20 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   int _selectedIndex = 0;
   int? _aboutUsSubTab;
+  int? _resourcesSubTab;
+  int? _volunteerSubTab;
 
   List<Widget> get _pages => [
-    HomePage(onNavigate: (index) => setState(() => _selectedIndex = index)),
+    HomePage(onNavigate: (index, [subTab]) {
+      setState(() {
+        _selectedIndex = index;
+        if (index == 4) _volunteerSubTab = subTab;
+      });
+    }),
     AboutUsPage(initialSubTab: _aboutUsSubTab),
     const ProjectsPage(),
-    const ResourcesPage(),
-    const GalleryPage(),
+    ResourcesWrapper(initialSubTab: _resourcesSubTab),
+    VolunteerWrapper(initialSubTab: _volunteerSubTab),
     const ContactUsPage(),
     const DonatePage(),
   ];
@@ -82,8 +89,8 @@ class _MainLayoutState extends State<MainLayout> {
           _buildTopMenuItem(0, 'Home'),
           _buildAboutUsMenu(),
           _buildTopMenuItem(2, 'Initiatives'),
-          _buildTopMenuItem(3, 'Resources'),
-          _buildTopMenuItem(4, 'Gallery'),
+          _buildResourcesMenu(),
+          _buildVolunteerMenu(),
           _buildTopMenuItem(5, 'Contact Us'),
           _buildTopMenuItem(6, 'Donate'),
           const SizedBox(width: 20),
@@ -170,10 +177,268 @@ class _MainLayoutState extends State<MainLayout> {
       ),
     );
   }
+
+  Widget _buildResourcesMenu() {
+    final isSelected = _selectedIndex == 3;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: PopupMenuButton<int?>(
+        onSelected: (value) {
+          setState(() {
+            _selectedIndex = 3;
+            _resourcesSubTab = value;
+          });
+        },
+        itemBuilder: (context) => const [
+          PopupMenuItem<int?>(value: null, child: Text('Resources')),
+          PopupMenuItem<int?>(value: 0, child: Text('Documents')),
+          PopupMenuItem<int?>(value: 1, child: Text('Gallery')),
+        ],
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? Colors.white.withOpacity(0.1)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Resources',
+                style: TextStyle(
+                  color: isSelected ? Colors.white : Colors.green.shade100,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Icon(
+                Icons.arrow_drop_down,
+                color: isSelected ? Colors.white : Colors.green.shade100,
+                size: 20,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildVolunteerMenu() {
+    final isSelected = _selectedIndex == 4;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: PopupMenuButton<int?>(
+        onSelected: (value) {
+          setState(() {
+            _selectedIndex = 4;
+            _volunteerSubTab = value;
+          });
+        },
+        itemBuilder: (context) => const [
+          PopupMenuItem<int?>(value: null, child: Text('Volunteer')),
+          PopupMenuItem<int?>(value: 0, child: Text('Become a Volunteer')),
+          PopupMenuItem<int?>(value: 1, child: Text('Our Volunteers')),
+        ],
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? Colors.white.withOpacity(0.1)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Volunteer',
+                style: TextStyle(
+                  color: isSelected ? Colors.white : Colors.green.shade100,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Icon(
+                Icons.arrow_drop_down,
+                color: isSelected ? Colors.white : Colors.green.shade100,
+                size: 20,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ResourcesWrapper extends StatefulWidget {
+  final int? initialSubTab;
+  const ResourcesWrapper({super.key, this.initialSubTab});
+
+  @override
+  State<ResourcesWrapper> createState() => _ResourcesWrapperState();
+}
+
+class _ResourcesWrapperState extends State<ResourcesWrapper> {
+  int? selectedSubTab;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedSubTab = widget.initialSubTab;
+  }
+
+  @override
+  void didUpdateWidget(ResourcesWrapper oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialSubTab != oldWidget.initialSubTab) {
+      selectedSubTab = widget.initialSubTab;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset('assets/Main_Page.jpg', fit: BoxFit.cover),
+        ),
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black.withOpacity(0.55),
+                  Colors.black.withOpacity(0.35),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Column(
+          children: [
+            Expanded(
+              child: selectedSubTab == null
+                  ? const Center(
+                      child: Text(
+                        'Select a resource section to view details',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                  : Container(
+                      margin: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.93),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        child: selectedSubTab == 0
+                            ? const ResourcesPage()
+                            : const GalleryPage(),
+                      ),
+                    ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class VolunteerWrapper extends StatefulWidget {
+  final int? initialSubTab;
+  const VolunteerWrapper({super.key, this.initialSubTab});
+
+  @override
+  State<VolunteerWrapper> createState() => _VolunteerWrapperState();
+}
+
+class _VolunteerWrapperState extends State<VolunteerWrapper> {
+  int? selectedSubTab;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedSubTab = widget.initialSubTab;
+  }
+
+  @override
+  void didUpdateWidget(VolunteerWrapper oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialSubTab != oldWidget.initialSubTab) {
+      selectedSubTab = widget.initialSubTab;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset('assets/Main_Page.jpg', fit: BoxFit.cover),
+        ),
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black.withOpacity(0.55),
+                  Colors.black.withOpacity(0.35),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Column(
+          children: [
+            Expanded(
+              child: selectedSubTab == null
+                  ? const Center(
+                      child: Text(
+                        'Select a section to start volunteering',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                  : Container(
+                      margin: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.93),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        child: selectedSubTab == 0
+                            ? const BecomeVolunteerPage()
+                            : const VolunteersListPage(),
+                      ),
+                    ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 }
 
 class HomePage extends StatelessWidget {
-  final Function(int) onNavigate;
+  final Function(int, [int?]) onNavigate;
   const HomePage({super.key, required this.onNavigate});
 
   @override
@@ -189,7 +454,7 @@ class HomePage extends StatelessWidget {
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/Ardaita2.jpg'),
+                    image: AssetImage('assets/Main_Page.jpg'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -229,14 +494,19 @@ class HomePage extends StatelessWidget {
                           style: TextStyle(color: Colors.white, fontSize: 24),
                         ),
                         const SizedBox(height: 40),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Wrap(
+                          spacing: 20,
+                          runSpacing: 20,
+                          alignment: WrapAlignment.center,
                           children: [
-                            ElevatedButton(
+                            OutlinedButton(
                               onPressed: () => onNavigate(2), // Initiatives
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.green.shade900,
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                side: const BorderSide(
+                                  color: Colors.white,
+                                  width: 2,
+                                ),
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 32,
                                   vertical: 20,
@@ -248,7 +518,25 @@ class HomePage extends StatelessWidget {
                               ),
                               child: const Text('Explore Initiatives'),
                             ),
-                            const SizedBox(width: 20),
+                            OutlinedButton(
+                              onPressed: () => onNavigate(4, 0), // Become a Volunteer
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                side: const BorderSide(
+                                  color: Colors.white,
+                                  width: 2,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 32,
+                                  vertical: 20,
+                                ),
+                                textStyle: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              child: const Text('Become a Volunteer'),
+                            ),
                             OutlinedButton(
                               onPressed: () => onNavigate(6), // Donate
                               style: OutlinedButton.styleFrom(
@@ -465,7 +753,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
     return Stack(
       children: [
         Positioned.fill(
-          child: Image.asset('assets/Ardaita2.jpg', fit: BoxFit.cover),
+          child: Image.asset('assets/Main_Page.jpg', fit: BoxFit.cover),
         ),
         Positioned.fill(
           child: Container(
@@ -544,6 +832,7 @@ class WhoWeAreTab extends StatelessWidget {
                     'Dejen Kuma(PhD)',
                     Icons.person_rounded,
                     isRoot: false,
+                    imagePath: 'assets/Board_Chair_Man.jpg',
                   ),
                   const SizedBox(height: 8),
                   SizedBox(
@@ -614,9 +903,13 @@ class WhoWeAreTab extends StatelessWidget {
                         title: 'Operational and Admin Lead',
                         subtitle: 'Dr.Tefaye Megersa',
                         icon: Icons.admin_panel_settings_rounded,
-                        childTitle: 'Operational Support Team',
-                        childMembers: const ['Bizuayehu Chala', 'Cheru Fano'],
+                        childTitle: 'Operational Support',
+                        childSubtitle: '',
                         childIcon: Icons.support_agent_rounded,
+                        customChildContent: _buildIndividualBulletList([
+                          'Bizuayehu Chala',
+                          'Cheru Fano',
+                        ]),
                       ),
                       const SizedBox(width: 24),
                       _buildTreeBranchWithRightChild(
@@ -641,13 +934,14 @@ class WhoWeAreTab extends StatelessWidget {
                         title: 'Legal Lead',
                         subtitle: 'Habib Amano',
                         icon: Icons.gavel_rounded,
-                        childTitle: 'Legal Subcommittee',
-                        childMembers: const [
+                        childTitle: 'Legal subcommittee',
+                        childSubtitle: '',
+                        childIcon: Icons.balance_rounded,
+                        customChildContent: _buildIndividualBulletList([
                           'Asrat Abdo',
                           'Fitsum Husen',
                           'Mohammed Hayato',
-                        ],
-                        childIcon: Icons.balance_rounded,
+                        ]),
                       ),
                     ],
                   ),
@@ -671,19 +965,41 @@ class WhoWeAreTab extends StatelessWidget {
     );
   }
 
-  Widget _buildTreeBranch({
-    required String title,
-    String subtitle = '',
-    required IconData icon,
-  }) {
-    return SizedBox(
-      width: 240,
-      child: Column(
-        children: [
-          const SizedBox(height: 0),
-          _buildTreeLevel(title, subtitle, icon, width: 230),
-        ],
-      ),
+  Widget _buildIndividualBulletList(List<String> names) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: names
+          .map(
+            (name) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    '• ',
+                    style: TextStyle(
+                      color: Color(0xFF2E7D32),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(
+                      name,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 
@@ -693,32 +1009,33 @@ class WhoWeAreTab extends StatelessWidget {
     required IconData icon,
     required String childTitle,
     String childSubtitle = '',
-    List<String>? childMembers,
     required IconData childIcon,
+    Widget? customChildContent,
   }) {
     return SizedBox(
       width: 240,
       child: Column(
         children: [
-          const SizedBox(height: 0),
           _buildTreeLevel(title, subtitle, icon, width: 230),
-          Column(
-            children: [
-              _buildVerticalLine(height: 50),
-              _buildTreeLevel(
-                childTitle,
-                childSubtitle,
-                childIcon,
-                width: 230,
-                height: childMembers == null ? 180 : null,
-                content: childMembers == null
-                    ? null
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 12),
-                        child: _buildMemberList(childMembers),
-                      ),
-              ),
-            ],
+          SizedBox(
+            width: 240,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Center(child: _buildVerticalLine(height: 50)),
+                Padding(
+                  padding: const EdgeInsets.only(top: 50, left: 5, right: 5),
+                  child: _buildTreeLevel(
+                    childTitle,
+                    childSubtitle,
+                    childIcon,
+                    width: 230,
+                    height: null,
+                    customContent: customChildContent,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -733,11 +1050,12 @@ class WhoWeAreTab extends StatelessWidget {
     double width = 230,
     double? height = 180,
     String? imagePath,
-    Widget? content,
+    Widget? customContent,
   }) {
     return Container(
       width: width,
       height: height,
+      constraints: height == null ? const BoxConstraints(minHeight: 180) : null,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: isRoot ? const Color(0xFF2E7D32) : Colors.white,
@@ -788,37 +1106,14 @@ class WhoWeAreTab extends StatelessWidget {
               ),
             ),
           ],
-          if (content != null) content,
+          if (customContent != null) ...[
+            const SizedBox(height: 12),
+            const Divider(height: 1, color: Colors.green),
+            const SizedBox(height: 8),
+            customContent,
+          ],
         ],
       ),
-    );
-  }
-
-  Widget _buildMemberList(List<String> members) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        for (final member in members)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 5, right: 8),
-                  child: Icon(
-                    Icons.circle,
-                    size: 8,
-                    color: Colors.green.shade700,
-                  ),
-                ),
-                Expanded(
-                  child: Text(member, style: const TextStyle(fontSize: 13)),
-                ),
-              ],
-            ),
-          ),
-      ],
     );
   }
 
@@ -1152,19 +1447,6 @@ class ResourcesPage extends StatelessWidget {
     },
   ];
 
-  IconData _iconForFile(String fileName) {
-    if (fileName.endsWith('.pdf')) {
-      return Icons.picture_as_pdf;
-    }
-    if (fileName.endsWith('.doc') || fileName.endsWith('.docx')) {
-      return Icons.description;
-    }
-    if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
-      return Icons.table_chart;
-    }
-    return Icons.insert_drive_file;
-  }
-
   Future<void> _openResource(BuildContext context, String assetPath) async {
     final resourceUri = Uri.base.resolve(assetPath);
     final opened = await launchUrl(resourceUri, webOnlyWindowName: '_blank');
@@ -1186,7 +1468,7 @@ class ResourcesPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(40, 40, 40, 10),
             child: Text(
-              'Resources',
+              'Documents',
               style: Theme.of(context).textTheme.displayMedium,
             ),
           ),
@@ -1201,9 +1483,9 @@ class ResourcesPage extends StatelessWidget {
                 final assetPath = resource['assetPath']!;
                 return ListTile(
                   contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                  leading: CircleAvatar(
+                  leading: const CircleAvatar(
                     backgroundColor: Color(0xFF2E7D32),
-                    child: Icon(_iconForFile(fileName), color: Colors.white),
+                    child: Icon(Icons.description, color: Colors.white),
                   ),
                   title: Text(
                     fileName,
@@ -1588,6 +1870,164 @@ class DonatePage extends StatelessWidget {
             description,
             textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.black54),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BecomeVolunteerPage extends StatefulWidget {
+  const BecomeVolunteerPage({super.key});
+
+  @override
+  State<BecomeVolunteerPage> createState() => _BecomeVolunteerPageState();
+}
+
+class _BecomeVolunteerPageState extends State<BecomeVolunteerPage> {
+  String? selectedInitiative;
+  final List<String> initiatives = [
+    'Environment protection',
+    'Education',
+    'Health',
+    'Economic activities',
+    'Social Care'
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(48.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Become a Volunteer',
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
+          const SizedBox(height: 32),
+          Container(
+            padding: const EdgeInsets.all(32),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.green.shade100),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Join our community of change-makers',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 24),
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Full Name',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Email Address',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    labelText: 'Choose Initiative',
+                    border: OutlineInputBorder(),
+                  ),
+                  value: selectedInitiative,
+                  items: initiatives.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedInitiative = newValue;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+                const TextField(
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    labelText: 'Tell us why you want to join',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF2E7D32),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                      vertical: 16,
+                    ),
+                  ),
+                  child: const Text('Submit Application'),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class VolunteersListPage extends StatelessWidget {
+  const VolunteersListPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, String>> mockVolunteers = [
+      {'name': 'Chalachew Kuma', 'initiative': 'Education', 'role': 'Teacher'},
+      {'name': 'Fikru H/Mariam', 'initiative': 'Enviroment Protection', 'role': 'Enviromental Activist'},
+      {'name': 'Haregot Kelay', 'initiative': 'Social Care', 'role': 'Youth Mentor'},
+      {'name': 'Mekete Kuma', 'initiative': 'Economic Activities', 'role': 'Community Outreach'},
+      {'name': 'Eyob Diriba', 'initiative': 'Health', 'role': 'Medical Advisor'},
+    ];
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(48.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Our Volunteers',
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
+          const SizedBox(height: 32),
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.green.shade100),
+            ),
+            child: DataTable(
+              headingRowColor: MaterialStateProperty.all(Colors.green.shade50),
+              columns: const [
+                DataColumn(label: Text('Name', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Initiative', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(label: Text('Role', style: TextStyle(fontWeight: FontWeight.bold))),
+              ],
+              rows: mockVolunteers.map((volunteer) {
+                return DataRow(cells: [
+                  DataCell(Text(volunteer['name']!)),
+                  DataCell(Text(volunteer['initiative']!)),
+                  DataCell(Text(volunteer['role']!)),
+                ]);
+              }).toList(),
+            ),
           ),
         ],
       ),
