@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'backend/app_backend.dart';
 import 'backend/form_validators.dart';
+import 'models/admin_submissions.dart';
 import 'models/contact_message.dart';
 import 'models/volunteer_application.dart';
 
@@ -84,6 +85,7 @@ class _MainLayoutState extends State<MainLayout> {
     VolunteerWrapper(initialSubTab: _volunteerSubTab),
     const ContactUsPage(),
     const DonatePage(),
+    const AdminPage(),
   ];
 
   @override
@@ -102,6 +104,7 @@ class _MainLayoutState extends State<MainLayout> {
           _buildVolunteerMenu(),
           _buildTopMenuItem(5, 'Contact Us'),
           _buildTopMenuItem(6, 'Donate'),
+          _buildTopMenuItem(7, 'Admin'),
           const SizedBox(width: 20),
         ],
       ),
@@ -1876,6 +1879,387 @@ class _ContactUsPageState extends State<ContactUsPage> {
         ),
       ],
     );
+  }
+}
+
+class AdminPage extends StatefulWidget {
+  const AdminPage({super.key});
+
+  @override
+  State<AdminPage> createState() => _AdminPageState();
+}
+
+class _AdminPageState extends State<AdminPage> {
+  final _tokenController = TextEditingController();
+  final _limitController = TextEditingController(text: '25');
+
+  bool _isLoading = false;
+  bool _obscureToken = true;
+  String? _feedbackMessage;
+  AdminSubmissionsSnapshot? _snapshot;
+
+  @override
+  void dispose() {
+    _tokenController.dispose();
+    _limitController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadSubmissions() async {
+    final apiClient = AppBackend.restApiClient;
+    final token = _tokenController.text.trim();
+    final limit = int.tryParse(_limitController.text.trim()) ?? 25;
+
+    if (apiClient == null) {
+      setState(() {
+        _feedbackMessage =
+            'This build does not have an API configured. Set API_BASE_URL for admin access.';
+      });
+      return;
+    }
+
+    if (token.isEmpty) {
+      setState(() {
+        _feedbackMessage = 'Enter the admin token to view submissions.';
+      });
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _feedbackMessage = null;
+    });
+
+    try {
+      final snapshot = await apiClient.fetchAdminSubmissions(token, limit: limit);
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _isLoading = false;
+        _snapshot = snapshot;
+      });
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _isLoading = false;
+        _feedbackMessage = _formatError(error);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final apiBaseUrl = AppBackend.configuration.apiBaseUrl;
+    final hasApi = apiBaseUrl.isNotEmpty;
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(48.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Admin', style: Theme.of(context).textTheme.displayMedium),
+          const SizedBox(height: 16),
+          Text(
+            'Use an admin token to read protected contact and volunteer submissions from the backend.',
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.green.shade100),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Backend connection',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  hasApi
+                      ? 'Connected to: $apiBaseUrl'
+                      : 'No API base URL is configured in this build.',
+                  style: TextStyle(
+                    color: hasApi ? Colors.black87 : Colors.orange.shade900,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Wrap(
+                  spacing: 16,
+                  runSpacing: 16,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 360,
+                      child: TextField(
+                        controller: _tokenController,
+                        obscureText: _obscureToken,
+                        decoration: InputDecoration(
+                          labelText: 'Admin token',
+                          border: const OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _obscureToken = !_obscureToken;
+                              });
+                            },
+                            icon: Icon(
+                              _obscureToken
+                                  ? Icons.visibility_off_rounded
+                                  : Icons.visibility_rounded,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 140,
+                      child: TextField(
+                        controller: _limitController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          labelText: 'Limit',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: _isLoading ? null : _loadSubmissions,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF2E7D32),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 18,
+                        ),
+                      ),
+                      icon: Icon(
+                        _isLoading ? Icons.sync_rounded : Icons.download_rounded,
+                      ),
+                      label: Text(
+                        _isLoading ? 'Loading...' : 'Load submissions',
+                      ),
+                    ),
+                  ],
+                ),
+                if (_feedbackMessage != null) ...[
+                  const SizedBox(height: 16),
+                  _buildBanner(_feedbackMessage!, success: false),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
+          if (_snapshot != null) ...[
+            Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                _buildMetricCard(
+                  'Contact messages',
+                  _snapshot!.contact.total.toString(),
+                  Icons.mail_outline_rounded,
+                ),
+                _buildMetricCard(
+                  'Volunteer applications',
+                  _snapshot!.volunteer.total.toString(),
+                  Icons.volunteer_activism_rounded,
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            _buildSubmissionSection(
+              title: 'Latest contact messages',
+              collection: _snapshot!.contact,
+              emptyState: 'No contact messages were found.',
+            ),
+            const SizedBox(height: 24),
+            _buildSubmissionSection(
+              title: 'Latest volunteer applications',
+              collection: _snapshot!.volunteer,
+              emptyState: 'No volunteer applications were found.',
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMetricCard(String label, String value, IconData icon) {
+    return Container(
+      width: 260,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.green.shade100),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.green.shade50,
+            foregroundColor: const Color(0xFF2E7D32),
+            child: Icon(icon),
+          ),
+          const SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(label, style: const TextStyle(color: Colors.black54)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSubmissionSection({
+    required String title,
+    required SubmissionCollection collection,
+    required String emptyState,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.green.shade100),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 8),
+          Text(
+            'Showing up to ${collection.limit} records out of ${collection.total}.',
+            style: const TextStyle(color: Colors.black54),
+          ),
+          const SizedBox(height: 20),
+          if (collection.items.isEmpty)
+            Text(emptyState, style: const TextStyle(color: Colors.black54))
+          else
+            ...collection.items.map(_buildSubmissionCard),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSubmissionCard(SubmissionItem item) {
+    final details = <String>[
+      if ((item.message ?? '').isNotEmpty) item.message!,
+      if ((item.initiative ?? '').isNotEmpty) 'Initiative: ${item.initiative}',
+      if ((item.motivation ?? '').isNotEmpty) item.motivation!,
+    ];
+
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.green.shade50.withOpacity(0.35),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.green.shade100),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  item.fullName,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Text(
+                _formatDate(item.createdAt),
+                style: const TextStyle(color: Colors.black54),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          SelectableText(
+            item.email,
+            style: const TextStyle(
+              color: Color(0xFF2E7D32),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          if (details.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            ...details.map(
+              (detail) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(detail, style: const TextStyle(height: 1.5)),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBanner(String message, {required bool success}) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: success ? Colors.green.shade50 : Colors.orange.shade50,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: success ? Colors.green.shade200 : Colors.orange.shade200,
+        ),
+      ),
+      child: Text(
+        message,
+        style: TextStyle(
+          color: success ? Colors.green.shade900 : Colors.orange.shade900,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  String _formatDate(String value) {
+    final parsed = DateTime.tryParse(value);
+    if (parsed == null) {
+      return value;
+    }
+
+    final local = parsed.toLocal();
+    final month = local.month.toString().padLeft(2, '0');
+    final day = local.day.toString().padLeft(2, '0');
+    final hour = local.hour.toString().padLeft(2, '0');
+    final minute = local.minute.toString().padLeft(2, '0');
+    return '${local.year}-$month-$day $hour:$minute';
+  }
+
+  String _formatError(Object error) {
+    final message = error.toString();
+    return message.startsWith('Bad state: ')
+        ? message.substring('Bad state: '.length)
+        : message;
   }
 }
 

@@ -124,3 +124,11 @@ Use environment variables:
 - `main` keeps the Flutter source and tracked `build/web` output
 - `gh-pages` serves the built Flutter app
 - the backend is deployed separately and called from the frontend by URL
+
+## Production Host Wiring
+
+The repository is prepared for a Render deployment via [render.yaml](../render.yaml).
+
+The GitHub Pages workflow reads `PRODUCTION_API_BASE_URL` from repository secrets and injects it into the Flutter production build with `--dart-define=API_BASE_URL=...`.
+
+If `RENDER_DEPLOY_HOOK_URL` is configured as a repository secret, the same workflow can also trigger a Render redeploy after pushes to `main`.

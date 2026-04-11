@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: kecho-backend
+    env: node
+    rootDir: backend
+    plan: free
+    autoDeploy: true
+    buildCommand: npm install
+    startCommand: node src/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 24.14.1
+      - key: PORT
+        value: 3000
+      - key: DATA_FILE
+        value: ./data/submissions.json
+      - key: ALLOWED_ORIGINS
+        value: https://chalekuma-rgb.github.io,http://localhost:3000,http://localhost:8080
+      - key: ADMIN_TOKEN
+        generateValue: true

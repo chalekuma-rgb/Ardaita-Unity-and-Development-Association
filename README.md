@@ -123,6 +123,22 @@ flutter build web \
 	--dart-define=API_BASE_URL=https://your-backend.example.com
 ```
 
+### Production Deployment Wiring
+
+The repository is now prepared for this deployment shape:
+
+- Flutter frontend on GitHub Pages
+- Node backend on Render using [render.yaml](render.yaml)
+
+To complete production wiring, configure these GitHub repository secrets:
+
+- `PRODUCTION_API_BASE_URL`
+	Example: `https://your-render-service.onrender.com`
+- `RENDER_DEPLOY_HOOK_URL`
+	Optional, but recommended for automatic backend redeploys after pushes to `main`
+
+Once `PRODUCTION_API_BASE_URL` is set, pushes to `main` will rebuild the GitHub Pages site with the live API base URL embedded into the production Flutter build.
+
 ### Build for Other Platforms
 
 ```bash

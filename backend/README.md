@@ -20,6 +20,18 @@ This directory contains a simple Express backend for the Ardaita website.
 3. Run `npm install`.
 4. Run `npm start`.
 
+## Render Deployment
+
+This repository includes a root-level [render.yaml](../render.yaml) blueprint for deploying the backend on Render.
+
+Expected production values:
+
+- `ALLOWED_ORIGINS=https://chalekuma-rgb.github.io`
+- generated `ADMIN_TOKEN`
+- `DATA_FILE=./data/submissions.json`
+
+After the Render service is created, copy its public URL into the GitHub repository secret `PRODUCTION_API_BASE_URL` so the production Flutter build can call the live backend.
+
 ## Storage
 
 Submitted data is written to `backend/data/submissions.json`.

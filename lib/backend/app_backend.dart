@@ -12,15 +12,19 @@ class AppBackend {
   static final BackendConfiguration configuration =
       BackendConfiguration.fromEnvironment();
 
+  static final RestApiClient? _restApiClient = configuration.hasApiBaseUrl
+      ? RestApiClient(configuration.apiBaseUrl)
+      : null;
+
   static FormSubmissionService _formSubmissionService = FormSubmissionService(
-    restApiClient: configuration.hasApiBaseUrl
-        ? RestApiClient(configuration.apiBaseUrl)
-        : null,
+    restApiClient: _restApiClient,
     enableFirebaseSync: false,
   );
 
   static FormSubmissionService get formSubmissionService =>
       _formSubmissionService;
+
+  static RestApiClient? get restApiClient => _restApiClient;
 
   static Future<void> initialize() async {
     FirebaseFormStore? firebaseFormStore;
@@ -42,9 +46,7 @@ class AppBackend {
     }
 
     _formSubmissionService = FormSubmissionService(
-      restApiClient: configuration.hasApiBaseUrl
-          ? RestApiClient(configuration.apiBaseUrl)
-          : null,
+      restApiClient: _restApiClient,
       firebaseFormStore: firebaseFormStore,
       enableFirebaseSync: configuration.enableFirebaseSync,
     );
