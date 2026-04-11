@@ -57,7 +57,47 @@ cd Ardaita-Unity-and-Development-Association
 flutter pub get
 ```
 
-### 4. Run the App (Development)
+### 4. Configure Form Backends
+
+The site now supports two backend paths:
+
+- a Node.js REST API in [backend](backend)
+- optional Firebase Firestore sync in the Flutter app
+
+Read the full architecture in [docs/backend-architecture.md](docs/backend-architecture.md).
+
+### 5. Run The Node Backend
+
+Install Node.js 20 or newer, then run:
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+The API will start on `http://localhost:3000` by default.
+
+### 6. Run The Flutter App Against The API
+
+```bash
+flutter run -d chrome --dart-define=API_BASE_URL=http://localhost:3000
+```
+
+To enable Firebase sync as well, provide Firebase values at runtime:
+
+```bash
+flutter run -d chrome \
+	--dart-define=API_BASE_URL=http://localhost:3000 \
+	--dart-define=ENABLE_FIREBASE_SYNC=true \
+	--dart-define=FIREBASE_API_KEY=your-key \
+	--dart-define=FIREBASE_APP_ID=your-app-id \
+	--dart-define=FIREBASE_MESSAGING_SENDER_ID=your-sender-id \
+	--dart-define=FIREBASE_PROJECT_ID=your-project-id \
+	--dart-define=FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+```
+
+### 7. Run the App (Development)
 
 ```bash
 flutter run -d chrome
@@ -70,10 +110,18 @@ flutter run -d chrome
 ### Build for Web
 
 ```bash
-flutter build web
+flutter build web --base-href /Ardaita-Unity-and-Development-Association/
 ```
 
 The compiled output will be in the `build/web/` directory. Deploy the contents of that directory to any static web hosting service (e.g., Firebase Hosting, GitHub Pages, Netlify, or any web server).
+
+If you need live form submissions in the deployed app, build with your production API URL:
+
+```bash
+flutter build web \
+	--base-href /Ardaita-Unity-and-Development-Association/ \
+	--dart-define=API_BASE_URL=https://your-backend.example.com
+```
 
 ### Build for Other Platforms
 

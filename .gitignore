@@ -32,6 +32,9 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+backend/node_modules/
+backend/data/submissions.json
+backend/.env
 
 # Symbolication related
 app.*.symbols

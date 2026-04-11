@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-void main() {
+import 'backend/app_backend.dart';
+import 'backend/form_validators.dart';
+import 'models/contact_message.dart';
+import 'models/volunteer_application.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AppBackend.initialize();
   runApp(const MyTrendingWebApp());
 }
 
@@ -1604,11 +1611,82 @@ class GalleryPage extends StatelessWidget {
   }
 }
 
-class ContactUsPage extends StatelessWidget {
+class ContactUsPage extends StatefulWidget {
   const ContactUsPage({super.key});
 
   @override
+  State<ContactUsPage> createState() => _ContactUsPageState();
+}
+
+class _ContactUsPageState extends State<ContactUsPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _messageController = TextEditingController();
+
+  bool _isSubmitting = false;
+  String? _feedbackMessage;
+  bool _submissionSucceeded = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    final formState = _formKey.currentState;
+    if (formState == null || !formState.validate()) {
+      return;
+    }
+
+    setState(() {
+      _isSubmitting = true;
+      _feedbackMessage = null;
+    });
+
+    try {
+      final result = await AppBackend.formSubmissionService.submitContact(
+        ContactMessage(
+          fullName: _nameController.text.trim(),
+          email: _emailController.text.trim(),
+          message: _messageController.text.trim(),
+        ),
+      );
+
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _isSubmitting = false;
+        _submissionSucceeded = true;
+        _feedbackMessage = result.message;
+      });
+
+      _formKey.currentState?.reset();
+      _nameController.clear();
+      _emailController.clear();
+      _messageController.clear();
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _isSubmitting = false;
+        _submissionSucceeded = false;
+        _feedbackMessage = _formatError(error);
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final backendConfigured = AppBackend.formSubmissionService.isConfigured;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(48.0),
       child: Column(
@@ -1657,6 +1735,20 @@ class ContactUsPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if (!backendConfigured) ...[
+                        _buildFeedbackBanner(
+                          'Live submissions are disabled in this build. Set API_BASE_URL or enable Firebase sync to receive messages.',
+                          success: false,
+                        ),
+                        const SizedBox(height: 24),
+                      ],
+                      if (_feedbackMessage != null) ...[
+                        _buildFeedbackBanner(
+                          _feedbackMessage!,
+                          success: _submissionSucceeded,
+                        ),
+                        const SizedBox(height: 24),
+                      ],
                       const Text(
                         'Send us a message',
                         style: TextStyle(
@@ -1665,39 +1757,65 @@ class ContactUsPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 24),
-                      const TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Full Name',
-                          border: OutlineInputBorder(),
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextFormField(
+                              controller: _nameController,
+                              decoration: const InputDecoration(
+                                labelText: 'Full Name',
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) => FormValidators.minLength(
+                                value,
+                                'Full name',
+                                2,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            TextFormField(
+                              controller: _emailController,
+                              decoration: const InputDecoration(
+                                labelText: 'Email Address',
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: FormValidators.email,
+                            ),
+                            const SizedBox(height: 16),
+                            TextFormField(
+                              controller: _messageController,
+                              maxLines: 4,
+                              decoration: const InputDecoration(
+                                labelText: 'Message',
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) => FormValidators.minLength(
+                                value,
+                                'Message',
+                                10,
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                            ElevatedButton(
+                              onPressed: _isSubmitting ? null : _submit,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF2E7D32),
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 32,
+                                  vertical: 16,
+                                ),
+                              ),
+                              child: Text(
+                                _isSubmitting
+                                    ? 'Submitting...'
+                                    : 'Submit Message',
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      const TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Email Address',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      const TextField(
-                        maxLines: 4,
-                        decoration: InputDecoration(
-                          labelText: 'Message',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF2E7D32),
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 32,
-                            vertical: 16,
-                          ),
-                        ),
-                        child: const Text('Submit Message'),
                       ),
                     ],
                   ),
@@ -1708,6 +1826,34 @@ class ContactUsPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildFeedbackBanner(String message, {required bool success}) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: success ? Colors.green.shade50 : Colors.orange.shade50,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: success ? Colors.green.shade200 : Colors.orange.shade200,
+        ),
+      ),
+      child: Text(
+        message,
+        style: TextStyle(
+          color: success ? Colors.green.shade900 : Colors.orange.shade900,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  String _formatError(Object error) {
+    final message = error.toString();
+    return message.startsWith('Bad state: ')
+        ? message.substring('Bad state: '.length)
+        : message;
   }
 
   Widget _buildContactMethod(IconData icon, String title, String detail) {
@@ -1893,7 +2039,14 @@ class BecomeVolunteerPage extends StatefulWidget {
 }
 
 class _BecomeVolunteerPageState extends State<BecomeVolunteerPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _motivationController = TextEditingController();
   String? selectedInitiative;
+  bool _isSubmitting = false;
+  String? _feedbackMessage;
+  bool _submissionSucceeded = false;
   final List<String> initiatives = [
     'Environment protection',
     'Education',
@@ -1903,7 +2056,74 @@ class _BecomeVolunteerPageState extends State<BecomeVolunteerPage> {
   ];
 
   @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _motivationController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    final formState = _formKey.currentState;
+    if (formState == null || !formState.validate()) {
+      return;
+    }
+
+    if (selectedInitiative == null || selectedInitiative!.trim().isEmpty) {
+      setState(() {
+        _submissionSucceeded = false;
+        _feedbackMessage = 'Please choose an initiative before submitting.';
+      });
+      return;
+    }
+
+    setState(() {
+      _isSubmitting = true;
+      _feedbackMessage = null;
+    });
+
+    try {
+      final result = await AppBackend.formSubmissionService.submitVolunteer(
+        VolunteerApplication(
+          fullName: _nameController.text.trim(),
+          email: _emailController.text.trim(),
+          initiative: selectedInitiative!.trim(),
+          motivation: _motivationController.text.trim(),
+        ),
+      );
+
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _isSubmitting = false;
+        _submissionSucceeded = true;
+        _feedbackMessage = result.message;
+        selectedInitiative = null;
+      });
+
+      _formKey.currentState?.reset();
+      _nameController.clear();
+      _emailController.clear();
+      _motivationController.clear();
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _isSubmitting = false;
+        _submissionSucceeded = false;
+        _feedbackMessage = _formatError(error);
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final backendConfigured = AppBackend.formSubmissionService.isConfigured;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(48.0),
       child: Column(
@@ -1924,63 +2144,99 @@ class _BecomeVolunteerPageState extends State<BecomeVolunteerPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (!backendConfigured) ...[
+                  _buildFeedbackBanner(
+                    'Live submissions are disabled in this build. Set API_BASE_URL or enable Firebase sync to receive volunteer applications.',
+                    success: false,
+                  ),
+                  const SizedBox(height: 24),
+                ],
+                if (_feedbackMessage != null) ...[
+                  _buildFeedbackBanner(
+                    _feedbackMessage!,
+                    success: _submissionSucceeded,
+                  ),
+                  const SizedBox(height: 24),
+                ],
                 const Text(
                   'Join our community of change-makers',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 24),
-                const TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Full Name',
-                    border: OutlineInputBorder(),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextFormField(
+                        controller: _nameController,
+                        decoration: const InputDecoration(
+                          labelText: 'Full Name',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) =>
+                            FormValidators.minLength(value, 'Full name', 2),
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          labelText: 'Email Address',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: FormValidators.email,
+                      ),
+                      const SizedBox(height: 16),
+                      DropdownButtonFormField<String>(
+                        decoration: const InputDecoration(
+                          labelText: 'Choose Initiative',
+                          border: OutlineInputBorder(),
+                        ),
+                        initialValue: selectedInitiative,
+                        items: initiatives.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        validator: (value) =>
+                            FormValidators.requiredField(value, 'Initiative'),
+                        onChanged: (newValue) {
+                          setState(() {
+                            selectedInitiative = newValue;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _motivationController,
+                        maxLines: 4,
+                        decoration: const InputDecoration(
+                          labelText: 'Tell us why you want to join',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) =>
+                            FormValidators.minLength(value, 'Motivation', 10),
+                      ),
+                      const SizedBox(height: 24),
+                      ElevatedButton(
+                        onPressed: _isSubmitting ? null : _submit,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF2E7D32),
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 32,
+                            vertical: 16,
+                          ),
+                        ),
+                        child: Text(
+                          _isSubmitting
+                              ? 'Submitting...'
+                              : 'Submit Application',
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 16),
-                const TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Email Address',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                    labelText: 'Choose Initiative',
-                    border: OutlineInputBorder(),
-                  ),
-                  initialValue: selectedInitiative,
-                  items: initiatives.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedInitiative = newValue;
-                    });
-                  },
-                ),
-                const SizedBox(height: 16),
-                const TextField(
-                  maxLines: 4,
-                  decoration: InputDecoration(
-                    labelText: 'Tell us why you want to join',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF2E7D32),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 16,
-                    ),
-                  ),
-                  child: const Text('Submit Application'),
                 ),
               ],
             ),
@@ -1988,6 +2244,34 @@ class _BecomeVolunteerPageState extends State<BecomeVolunteerPage> {
         ],
       ),
     );
+  }
+
+  Widget _buildFeedbackBanner(String message, {required bool success}) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: success ? Colors.green.shade50 : Colors.orange.shade50,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: success ? Colors.green.shade200 : Colors.orange.shade200,
+        ),
+      ),
+      child: Text(
+        message,
+        style: TextStyle(
+          color: success ? Colors.green.shade900 : Colors.orange.shade900,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  String _formatError(Object error) {
+    final message = error.toString();
+    return message.startsWith('Bad state: ')
+        ? message.substring('Bad state: '.length)
+        : message;
   }
 }
 
