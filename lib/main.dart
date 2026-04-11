@@ -835,7 +835,6 @@ class WhoWeAreTab extends StatelessWidget {
                     'Dejen Kuma(PhD)',
                     Icons.person_rounded,
                     isRoot: false,
-                    imagePath: 'assets/Board_Chair_Man.jpg',
                   ),
                   const SizedBox(height: 8),
                   SizedBox(
@@ -909,6 +908,7 @@ class WhoWeAreTab extends StatelessWidget {
                         childTitle: 'Operational Support',
                         childSubtitle: '',
                         childIcon: Icons.support_agent_rounded,
+                        showChildDivider: false,
                         customChildContent: _buildIndividualBulletList([
                           'Bizuayehu Chala',
                           'Cheru Fano',
@@ -940,6 +940,7 @@ class WhoWeAreTab extends StatelessWidget {
                         childTitle: 'Legal subcommittee',
                         childSubtitle: '',
                         childIcon: Icons.balance_rounded,
+                        showChildDivider: false,
                         customChildContent: _buildIndividualBulletList([
                           'Asrat Abdo',
                           'Fitsum Husen',
@@ -1013,6 +1014,7 @@ class WhoWeAreTab extends StatelessWidget {
     required String childTitle,
     String childSubtitle = '',
     required IconData childIcon,
+    bool showChildDivider = true,
     Widget? customChildContent,
   }) {
     return SizedBox(
@@ -1034,6 +1036,7 @@ class WhoWeAreTab extends StatelessWidget {
                     childIcon,
                     width: 230,
                     height: null,
+                    showCustomDivider: showChildDivider,
                     customContent: customChildContent,
                   ),
                 ),
@@ -1053,6 +1056,7 @@ class WhoWeAreTab extends StatelessWidget {
     double width = 230,
     double? height = 180,
     String? imagePath,
+    bool showCustomDivider = true,
     Widget? customContent,
   }) {
     return Container(
@@ -1111,7 +1115,8 @@ class WhoWeAreTab extends StatelessWidget {
           ],
           if (customContent != null) ...[
             const SizedBox(height: 12),
-            const Divider(height: 1, color: Colors.green),
+            if (showCustomDivider)
+              const Divider(height: 1, color: Colors.green),
             const SizedBox(height: 8),
             customContent,
           ],
