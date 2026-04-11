@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Ardaita-Unity-and-Development-Association.iml" filepath="$PROJECT_DIR$/.idea/Ardaita-Unity-and-Development-Association.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Ardaita.iml" filepath="$PROJECT_DIR$/Ardaita.iml" />
     </modules>
   </component>
 </project>

@@ -63,12 +63,14 @@ class _MainLayoutState extends State<MainLayout> {
   int? _volunteerSubTab;
 
   List<Widget> get _pages => [
-    HomePage(onNavigate: (index, [subTab]) {
-      setState(() {
-        _selectedIndex = index;
-        if (index == 4) _volunteerSubTab = subTab;
-      });
-    }),
+    HomePage(
+      onNavigate: (index, [subTab]) {
+        setState(() {
+          _selectedIndex = index;
+          if (index == 4) _volunteerSubTab = subTab;
+        });
+      },
+    ),
     AboutUsPage(initialSubTab: _aboutUsSubTab),
     const ProjectsPage(),
     ResourcesWrapper(initialSubTab: _resourcesSubTab),
@@ -519,7 +521,8 @@ class HomePage extends StatelessWidget {
                               child: const Text('Explore Initiatives'),
                             ),
                             OutlinedButton(
-                              onPressed: () => onNavigate(4, 0), // Become a Volunteer
+                              onPressed: () =>
+                                  onNavigate(4, 0), // Become a Volunteer
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: Colors.white,
                                 side: const BorderSide(
@@ -1772,7 +1775,7 @@ class DonatePage extends StatelessWidget {
                 ),
                 SizedBox(height: 12),
                 Text(
-                  'CBE: 1000XXXXXXXXXXXXX',
+                  'CBE: 1000758051367',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -1891,7 +1894,7 @@ class _BecomeVolunteerPageState extends State<BecomeVolunteerPage> {
     'Education',
     'Health',
     'Economic activities',
-    'Social Care'
+    'Social Care',
   ];
 
   @override
@@ -1940,7 +1943,7 @@ class _BecomeVolunteerPageState extends State<BecomeVolunteerPage> {
                     labelText: 'Choose Initiative',
                     border: OutlineInputBorder(),
                   ),
-                  value: selectedInitiative,
+                  initialValue: selectedInitiative,
                   items: initiatives.map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -1990,10 +1993,26 @@ class VolunteersListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, String>> mockVolunteers = [
       {'name': 'Chalachew Kuma', 'initiative': 'Education', 'role': 'Teacher'},
-      {'name': 'Fikru H/Mariam', 'initiative': 'Enviroment Protection', 'role': 'Enviromental Activist'},
-      {'name': 'Haregot Kelay', 'initiative': 'Social Care', 'role': 'Youth Mentor'},
-      {'name': 'Mekete Kuma', 'initiative': 'Economic Activities', 'role': 'Community Outreach'},
-      {'name': 'Eyob Diriba', 'initiative': 'Health', 'role': 'Medical Advisor'},
+      {
+        'name': 'Fikru H/Mariam',
+        'initiative': 'Enviroment Protection',
+        'role': 'Enviromental Activist',
+      },
+      {
+        'name': 'Haregot Kelay',
+        'initiative': 'Social Care',
+        'role': 'Youth Mentor',
+      },
+      {
+        'name': 'Mekete Kuma',
+        'initiative': 'Economic Activities',
+        'role': 'Community Outreach',
+      },
+      {
+        'name': 'Eyob Diriba',
+        'initiative': 'Health',
+        'role': 'Medical Advisor',
+      },
     ];
 
     return SingleChildScrollView(
@@ -2014,18 +2033,35 @@ class VolunteersListPage extends StatelessWidget {
               border: Border.all(color: Colors.green.shade100),
             ),
             child: DataTable(
-              headingRowColor: MaterialStateProperty.all(Colors.green.shade50),
+              headingRowColor: WidgetStateProperty.all(Colors.green.shade50),
               columns: const [
-                DataColumn(label: Text('Name', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Initiative', style: TextStyle(fontWeight: FontWeight.bold))),
-                DataColumn(label: Text('Role', style: TextStyle(fontWeight: FontWeight.bold))),
+                DataColumn(
+                  label: Text(
+                    'Name',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Initiative',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Role',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
               ],
               rows: mockVolunteers.map((volunteer) {
-                return DataRow(cells: [
-                  DataCell(Text(volunteer['name']!)),
-                  DataCell(Text(volunteer['initiative']!)),
-                  DataCell(Text(volunteer['role']!)),
-                ]);
+                return DataRow(
+                  cells: [
+                    DataCell(Text(volunteer['name']!)),
+                    DataCell(Text(volunteer['initiative']!)),
+                    DataCell(Text(volunteer['role']!)),
+                  ],
+                );
               }).toList(),
             ),
           ),
