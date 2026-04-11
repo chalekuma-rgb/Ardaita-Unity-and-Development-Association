@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "kecho",
+            "name": "NGO",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "kecho (profile mode)",
+            "name": "NGO (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "kecho (release mode)",
+            "name": "NGO (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

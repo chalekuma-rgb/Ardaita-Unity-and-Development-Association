@@ -1,5 +1,5 @@
 {
-  "name": "kecho-backend",
+  "name": "ngo-backend",
   "version": "1.0.0",
   "private": true,
   "description": "Simple Express backend for Ardaita website forms.",

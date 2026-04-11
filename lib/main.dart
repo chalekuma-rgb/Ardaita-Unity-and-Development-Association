@@ -1931,7 +1931,10 @@ class _AdminPageState extends State<AdminPage> {
     });
 
     try {
-      final snapshot = await apiClient.fetchAdminSubmissions(token, limit: limit);
+      final snapshot = await apiClient.fetchAdminSubmissions(
+        token,
+        limit: limit,
+      );
       if (!mounted) {
         return;
       }
@@ -2044,7 +2047,9 @@ class _AdminPageState extends State<AdminPage> {
                         ),
                       ),
                       icon: Icon(
-                        _isLoading ? Icons.sync_rounded : Icons.download_rounded,
+                        _isLoading
+                            ? Icons.sync_rounded
+                            : Icons.download_rounded,
                       ),
                       label: Text(
                         _isLoading ? 'Loading...' : 'Load submissions',
@@ -2146,7 +2151,10 @@ class _AdminPageState extends State<AdminPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           Text(
             'Showing up to ${collection.limit} records out of ${collection.total}.',

@@ -1,4 +1,4 @@
-import 'package:kecho/main.dart' as app;
+import 'package:ngo/main.dart' as app;
 
 void main() {
   app.main();

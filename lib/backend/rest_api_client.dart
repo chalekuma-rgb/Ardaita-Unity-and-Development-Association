@@ -39,9 +39,7 @@ class RestApiClient {
       headers: _adminHeaders(adminToken),
     );
 
-    return AdminSubmissionsSnapshot.fromJson(
-      await _parseJsonMap(response),
-    );
+    return AdminSubmissionsSnapshot.fromJson(await _parseJsonMap(response));
   }
 
   Future<void> _postJson(String path, Map<String, dynamic> body) async {

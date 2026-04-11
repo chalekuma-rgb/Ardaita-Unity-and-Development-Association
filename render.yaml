@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: kecho-backend
+    name: ngo-backend
     env: node
     rootDir: backend
     plan: free

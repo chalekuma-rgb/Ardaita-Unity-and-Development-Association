@@ -84,7 +84,7 @@ app.get('/api/health', async (_request, response) => {
   await store.ensureFile();
   response.json({
     ok: true,
-    service: 'kecho-backend',
+    service: 'ngo-backend',
     adminConfigured: config.adminToken.length > 0,
   });
 });

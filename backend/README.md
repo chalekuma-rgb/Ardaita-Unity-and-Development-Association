@@ -1,4 +1,4 @@
-# Kecho Backend
+# NGO Backend
 
 This directory contains a simple Express backend for the Ardaita website.
 
