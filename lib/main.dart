@@ -75,12 +75,11 @@ class _MainLayoutState extends State<MainLayout> {
       onNavigate: (index, [subTab]) {
         setState(() {
           _selectedIndex = index;
-          if (index == 4) _volunteerSubTab = subTab;
+          if (index == 3) _volunteerSubTab = subTab;
         });
       },
     ),
     AboutUsPage(initialSubTab: _aboutUsSubTab),
-    const ProjectsPage(),
     ResourcesWrapper(initialSubTab: _resourcesSubTab),
     VolunteerWrapper(initialSubTab: _volunteerSubTab),
     const ContactUsPage(),
@@ -99,12 +98,11 @@ class _MainLayoutState extends State<MainLayout> {
         actions: [
           _buildTopMenuItem(0, 'Home'),
           _buildAboutUsMenu(),
-          _buildTopMenuItem(2, 'Initiatives'),
           _buildResourcesMenu(),
           _buildVolunteerMenu(),
-          _buildTopMenuItem(5, 'Contact Us'),
-          _buildTopMenuItem(6, 'Donate'),
-          _buildTopMenuItem(7, 'Admin'),
+          _buildTopMenuItem(4, 'Contact Us'),
+          _buildTopMenuItem(5, 'Donate'),
+          _buildTopMenuItem(6, 'Admin'),
           const SizedBox(width: 20),
         ],
       ),
@@ -157,6 +155,7 @@ class _MainLayoutState extends State<MainLayout> {
           PopupMenuItem<int?>(value: null, child: Text('About Us')),
           PopupMenuItem<int?>(value: 0, child: Text('Who We Are')),
           PopupMenuItem<int?>(value: 1, child: Text('What We Do')),
+          PopupMenuItem<int?>(value: 2, child: Text('Initiatives')),
         ],
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -191,13 +190,13 @@ class _MainLayoutState extends State<MainLayout> {
   }
 
   Widget _buildResourcesMenu() {
-    final isSelected = _selectedIndex == 3;
+    final isSelected = _selectedIndex == 2;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: PopupMenuButton<int?>(
         onSelected: (value) {
           setState(() {
-            _selectedIndex = 3;
+            _selectedIndex = 2;
             _resourcesSubTab = value;
           });
         },
@@ -239,13 +238,13 @@ class _MainLayoutState extends State<MainLayout> {
   }
 
   Widget _buildVolunteerMenu() {
-    final isSelected = _selectedIndex == 4;
+    final isSelected = _selectedIndex == 3;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: PopupMenuButton<int?>(
         onSelected: (value) {
           setState(() {
-            _selectedIndex = 4;
+            _selectedIndex = 3;
             _volunteerSubTab = value;
           });
         },
@@ -512,7 +511,10 @@ class HomePage extends StatelessWidget {
                           alignment: WrapAlignment.center,
                           children: [
                             OutlinedButton(
-                              onPressed: () => onNavigate(2), // Initiatives
+                              onPressed: () => onNavigate(
+                                1,
+                                2,
+                              ), // Initiatives under About Us
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: Colors.white,
                                 side: const BorderSide(
@@ -532,7 +534,7 @@ class HomePage extends StatelessWidget {
                             ),
                             OutlinedButton(
                               onPressed: () =>
-                                  onNavigate(4, 0), // Become a Volunteer
+                                  onNavigate(3, 0), // Become a Volunteer
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: Colors.white,
                                 side: const BorderSide(
@@ -551,7 +553,7 @@ class HomePage extends StatelessWidget {
                               child: const Text('Become a Volunteer'),
                             ),
                             OutlinedButton(
-                              onPressed: () => onNavigate(6), // Donate
+                              onPressed: () => onNavigate(5), // Donate
                               style: OutlinedButton.styleFrom(
                                 foregroundColor: Colors.white,
                                 side: const BorderSide(
@@ -653,7 +655,7 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
                 ElevatedButton(
-                  onPressed: () => onNavigate(5), // Contact
+                  onPressed: () => onNavigate(4), // Contact
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green.shade800,
                     foregroundColor: Colors.white,
@@ -807,7 +809,9 @@ class _AboutUsPageState extends State<AboutUsPage> {
                         duration: const Duration(milliseconds: 300),
                         child: selectedSubTab == 0
                             ? const WhoWeAreTab()
-                            : const WhatWeDoTab(),
+                            : selectedSubTab == 1
+                            ? const WhatWeDoTab()
+                            : const InitiativesTab(),
                       ),
                     ),
             ),
@@ -1251,6 +1255,188 @@ class WhatWeDoTab extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(description, style: const TextStyle(fontSize: 18, height: 1.6)),
+        ],
+      ),
+    );
+  }
+}
+
+class InitiativesTab extends StatelessWidget {
+  const InitiativesTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> initiatives = [
+      {
+        'title': 'Environment protection',
+        'subtitle': 'Sustainability & Conservation',
+        'icon': Icons.eco_rounded,
+        'activities': [
+          'Community reforestation projects',
+          'Sustainable water resource management',
+          'Environment awareness workshops',
+          'Waste reduction initiatives',
+        ],
+      },
+      {
+        'title': 'Education',
+        'subtitle': 'Learning & Development',
+        'icon': Icons.school_rounded,
+        'activities': [
+          'Primary school support programs',
+          'Vocational training for youth',
+          'Digital literacy classes',
+          'Educational resource distribution',
+        ],
+      },
+      {
+        'title': 'Health',
+        'subtitle': 'Public Wellness & Safety',
+        'icon': Icons.health_and_safety_rounded,
+        'activities': [
+          'Public health awareness campaigns',
+          'Mental wellness support sessions',
+          'Preventive care education',
+          'Medical resource facilitation',
+        ],
+      },
+      {
+        'title': 'Economic activities',
+        'subtitle': 'Growth & Empowerment',
+        'icon': Icons.trending_up_rounded,
+        'activities': [
+          'Micro-finance group support',
+          'Small business mentorship',
+          'Entrepreneurship training',
+          'Agricultural development support',
+        ],
+      },
+      {
+        'title': 'Social Care',
+        'subtitle': 'Care for Vulnerable children & elderly',
+        'icon': Icons.volunteer_activism_rounded,
+        'activities': [
+          'Protect Children & Elderly',
+          'Support At-Risk Children',
+          'Assist Vulnerable Elderly',
+        ],
+      },
+    ];
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(48.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Our Initiatives',
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
+          const SizedBox(height: 32),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 500,
+              mainAxisExtent: 320,
+              crossAxisSpacing: 24,
+              mainAxisSpacing: 24,
+            ),
+            itemCount: initiatives.length,
+            itemBuilder: (context, index) {
+              final item = initiatives[index];
+              return Card(
+                elevation: 0,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(color: Colors.green.shade100),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.green.shade50,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Icon(
+                              item['icon'],
+                              color: Colors.green,
+                              size: 28,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item['title'],
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  item['subtitle'],
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Core Activities:',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Expanded(
+                        child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: (item['activities'] as List).length,
+                          itemBuilder: (ctx, i) => Padding(
+                            padding: const EdgeInsets.only(bottom: 6.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  '• ',
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    item['activities'][i],
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
@@ -2667,11 +2853,126 @@ class _BecomeVolunteerPageState extends State<BecomeVolunteerPage> {
   }
 }
 
-class VolunteersListPage extends StatelessWidget {
+class VolunteersListPage extends StatefulWidget {
   const VolunteersListPage({super.key});
 
   @override
+  State<VolunteersListPage> createState() => _VolunteersListPageState();
+}
+
+class _VolunteersListPageState extends State<VolunteersListPage> {
+  final _tokenController = TextEditingController();
+  bool _obscureToken = true;
+  String? _feedbackMessage;
+  bool _isAuthenticated = false;
+
+  @override
+  void dispose() {
+    _tokenController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _authenticate() async {
+    final apiClient = AppBackend.restApiClient;
+    final token = _tokenController.text.trim();
+
+    if (apiClient == null) {
+      setState(() {
+        _feedbackMessage =
+            'This build does not have an API configured. Contact admin for access.';
+      });
+      return;
+    }
+
+    if (token.isEmpty) {
+      setState(() {
+        _feedbackMessage = 'Enter the admin token to view volunteers.';
+      });
+      return;
+    }
+
+    // For now, just check if token is not empty, or you can add specific validation
+    // In a real app, this would validate against the backend
+    setState(() {
+      _isAuthenticated = true;
+      _feedbackMessage = null;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (!_isAuthenticated) {
+      return SingleChildScrollView(
+        padding: const EdgeInsets.all(48.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Admin Access Required',
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Enter the admin token to view the list of volunteers.',
+              style: TextStyle(fontSize: 18, height: 1.6),
+            ),
+            const SizedBox(height: 32),
+            if (_feedbackMessage != null) ...[
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.orange.shade50,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.orange.shade200),
+                ),
+                child: Text(
+                  _feedbackMessage!,
+                  style: TextStyle(
+                    color: Colors.orange.shade900,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+            ],
+            TextField(
+              controller: _tokenController,
+              obscureText: _obscureToken,
+              decoration: InputDecoration(
+                labelText: 'Admin Token',
+                border: const OutlineInputBorder(),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscureToken ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscureToken = !_obscureToken;
+                    });
+                  },
+                ),
+              ),
+              onSubmitted: (_) => _authenticate(),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: _authenticate,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF2E7D32),
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 48,
+                  vertical: 16,
+                ),
+              ),
+              child: const Text('Access Volunteers List'),
+            ),
+          ],
+        ),
+      );
+    }
+
     final List<Map<String, String>> mockVolunteers = [
       {'name': 'Chalachew Kuma', 'initiative': 'Education', 'role': 'Teacher'},
       {

@@ -1,0 +1,14 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "backend/Dockerfile"
+
+[deploy]
+startCommand = "npm start"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
+port = 3000
+
+[env]
+NODE_VERSION = "24.14.1"
+PORT = "3000"
+DATA_FILE = "./data/submissions.json"

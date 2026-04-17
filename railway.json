@@ -1,0 +1,14 @@
+{
+  "$schema": "https://railway.app/schema.json",
+  "build": {
+    "builder": "dockerfile",
+    "buildpacks": []
+  },
+  "deploy": {
+    "restartPolicyType": "on_failure",
+    "restartPolicyMaxRetries": 10,
+    "startCommand": "npm start",
+    "dockerfile": "Dockerfile",
+    "registryCredential": "railway"
+  }
+}
