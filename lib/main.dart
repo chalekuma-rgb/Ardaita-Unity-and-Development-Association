@@ -1751,8 +1751,8 @@ class ResourcesPage extends StatelessWidget {
       'description': 'Community development document in Afaan Oromo',
     },
     {
-      'name': 'Ardaita _ English Vesrion.docx',
-      'assetPath': 'assets/Ardaita _ English Vesrion.docx',
+      'name': 'Ardaita_English Vesrion.docx',
+      'assetPath': 'assets/Ardaita_English Vesrion.docx',
       'description': 'Community development document in English',
     },
     {
@@ -2054,7 +2054,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                     _buildContactMethod(
                       Icons.email_rounded,
                       'Email Us',
-                      'info@ardaitaunity.org',
+                      'kumachale@gmail.com',
                     ),
                     const SizedBox(height: 24),
                     _buildContactMethod(
