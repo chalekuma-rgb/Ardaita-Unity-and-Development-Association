@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
-# of the product and file versions while build-number is used as the build suffix.
+# of the product and file-number is used as the build suffix.
 version: 1.0.0+1
 
 environment:
@@ -86,7 +86,6 @@ flutter:
     - "assets/Ardaayita _ Afaan_Oromo.docx"
     - "assets/Members_Mapping_ and_Registration_Form_04Feb26.xlsx"
     - assets/Home_page.jpg
-    - assets/1.doc
     - assets/2.docx
     - assets/3.docx
     - assets/Board members meeting minutes.docx
