@@ -168,8 +168,20 @@ flutter test
 
 ---
 
+## Supabase Integration
+
+This project is integrated with Supabase for backend form submissions. For detailed setup and configuration, see [SUPABASE_INTEGRATION.md](./SUPABASE_INTEGRATION.md).
+
+**Quick Start:**
+```bash
+flutter run -d chrome --dart-define=API_BASE_URL=https://qkvroehsycfvrlfclskp.supabase.co/rest/v1
+```
+
+---
+
 ## Resources
 
 - [Flutter documentation](https://docs.flutter.dev/)
 - [Flutter installation guide](https://docs.flutter.dev/get-started/install)
 - [pub.dev – Dart & Flutter package repository](https://pub.dev)
+- [Supabase Documentation](https://supabase.com/docs)
