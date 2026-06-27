@@ -26,7 +26,7 @@ const config = {
       pass: String(process.env.SMTP_PASS || '').trim(),
     },
     from: String(process.env.EMAIL_FROM || 'noreply@ardaitaunity.org').trim(),
-    to: String(process.env.EMAIL_TO || 'info@ardaitaunity.org').trim(),
+    to: String(process.env.EMAIL_TO || 'kumachale@gmail.com').trim(),
   },
 };
 
