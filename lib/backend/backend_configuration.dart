@@ -1,3 +1,5 @@
+import 'js_api_base_url.dart';
+
 class BackendConfiguration {
   const BackendConfiguration({
     required this.apiBaseUrl,
@@ -5,9 +7,14 @@ class BackendConfiguration {
   });
 
   factory BackendConfiguration.fromEnvironment() {
+    final environmentValue = const String.fromEnvironment(
+      'API_BASE_URL',
+      defaultValue: '',
+    );
+    final jsValue = getJsApiBaseUrl();
     return BackendConfiguration(
       apiBaseUrl: _normalizeBaseUrl(
-        const String.fromEnvironment('API_BASE_URL', defaultValue: ''),
+        environmentValue.isNotEmpty ? environmentValue : jsValue,
       ),
       enableFirebaseSync: const bool.fromEnvironment(
         'ENABLE_FIREBASE_SYNC',
