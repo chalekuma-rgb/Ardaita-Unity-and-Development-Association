@@ -1778,7 +1778,11 @@ class ResourcesPage extends StatelessWidget {
   ];
 
   Future<void> _openResource(BuildContext context, String assetPath) async {
-    final resourceUri = Uri.base.resolve(assetPath);
+    // Convert asset path to GitHub raw content URL
+    final fileName = assetPath.replaceFirst('assets/', '');
+    final githubUrl =
+        'https://github.com/chalekuma-rgb/Ardaita-Unity-and-Development-Association/raw/main/assets/$fileName';
+    final resourceUri = Uri.parse(githubUrl);
     final opened = await launchUrl(resourceUri, webOnlyWindowName: '_blank');
 
     if (!opened && context.mounted) {
@@ -1844,7 +1848,10 @@ class GalleryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, String>> images = [
       {'path': 'assets/Home_page.jpg', 'name': 'Home_page'},
-      {'path': 'assets/The Chair and his Vice.jpg', 'name': 'The Chair and his Vice.jpg'},
+      {
+        'path': 'assets/The Chair and his Vice.jpg',
+        'name': 'The Chair and his Vice.jpg',
+      },
       {'path': 'assets/Ardaita.jpg', 'name': 'Ardaita'},
       {'path': 'assets/Logo.png', 'name': 'Logo'},
       {'path': 'assets/Finance Team.jpg', 'name': 'Finance Team'},
@@ -2937,7 +2944,7 @@ class _BecomeVolunteerPageState extends State<BecomeVolunteerPage> {
                         controller: _motivationController,
                         maxLines: 4,
                         decoration: const InputDecoration(
-                          labelText: 'Tell us why you want to join',
+                          labelText: 'Tell us what inspired you to volunteer',
                           border: OutlineInputBorder(),
                         ),
                         validator: (value) =>
