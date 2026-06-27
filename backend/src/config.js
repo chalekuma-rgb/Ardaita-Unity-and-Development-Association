@@ -16,6 +16,18 @@ const config = {
     projectRoot,
     process.env.DATA_FILE || './data/submissions.json',
   ),
+  email: {
+    enabled: process.env.SMTP_HOST ? true : false,
+    host: String(process.env.SMTP_HOST || '').trim(),
+    port: Number.parseInt(process.env.SMTP_PORT || '587', 10),
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: {
+      user: String(process.env.SMTP_USER || '').trim(),
+      pass: String(process.env.SMTP_PASS || '').trim(),
+    },
+    from: String(process.env.EMAIL_FROM || 'noreply@ardaitaunity.org').trim(),
+    to: String(process.env.EMAIL_TO || 'info@ardaitaunity.org').trim(),
+  },
 };
 
 module.exports = { config };

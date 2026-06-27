@@ -4,12 +4,14 @@ const helmet = require('helmet');
 
 const { config } = require('./config');
 const { SubmissionStore } = require('./store');
+const { MailService } = require('./mail');
 const {
   validateContactPayload,
   validateVolunteerPayload,
 } = require('./validation');
 
 const store = new SubmissionStore(config.dataFile);
+const mailService = new MailService(config.email);
 
 const app = express();
 
@@ -133,6 +135,15 @@ app.post('/api/volunteer', async (request, response, next) => {
     }
 
     const record = await store.append('volunteer', result.data);
+    
+    // Send email notification
+    try {
+      await mailService.sendVolunteerNotification(record);
+    } catch (emailError) {
+      console.error('Failed to send email notification:', emailError);
+      // Don't fail the API request if email fails
+    }
+    
     response.status(201).json({ ok: true, item: record });
   } catch (error) {
     next(error);
