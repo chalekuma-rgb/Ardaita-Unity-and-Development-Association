@@ -75,6 +75,8 @@ class _MainLayoutState extends State<MainLayout> {
       onNavigate: (index, [subTab]) {
         setState(() {
           _selectedIndex = index;
+          if (index == 1) _aboutUsSubTab = subTab;
+          if (index == 2) _resourcesSubTab = subTab;
           if (index == 3) _volunteerSubTab = subTab;
         });
       },
@@ -91,9 +93,23 @@ class _MainLayoutState extends State<MainLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Ardaita',
-          style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2),
+        title: Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            image: const DecorationImage(
+              image: AssetImage('assets/Logo.png'),
+              fit: BoxFit.cover,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
         ),
         actions: [
           _buildTopMenuItem(0, 'Home'),
@@ -316,7 +332,7 @@ class _ResourcesWrapperState extends State<ResourcesWrapper> {
     return Stack(
       children: [
         Positioned.fill(
-          child: Image.asset('assets/Main_Page.jpg', fit: BoxFit.cover),
+          child: Image.asset('assets/Home_page.jpg', fit: BoxFit.cover),
         ),
         Positioned.fill(
           child: Container(
@@ -397,7 +413,7 @@ class _VolunteerWrapperState extends State<VolunteerWrapper> {
     return Stack(
       children: [
         Positioned.fill(
-          child: Image.asset('assets/Main_Page.jpg', fit: BoxFit.cover),
+          child: Image.asset('assets/Home_Page.jpg', fit: BoxFit.cover),
         ),
         Positioned.fill(
           child: Container(
@@ -460,22 +476,25 @@ class HomePage extends StatelessWidget {
           // Hero Section
           Stack(
             children: [
-              Container(
-                height: 500,
+              SizedBox(
+                height: 520,
                 width: double.infinity,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/Main_Page.jpg'),
-                    fit: BoxFit.cover,
-                  ),
+                child: Image.asset(
+                  'assets/Home_page.jpg',
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
                 ),
+              ),
+              Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Colors.black.withOpacity(0.7),
+                        Colors.black.withOpacity(0.72),
+                        Colors.black.withOpacity(0.24),
                         Colors.transparent,
                       ],
+                      stops: [0.0, 0.45, 1.0],
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
                     ),
@@ -489,6 +508,7 @@ class HomePage extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        const SizedBox(height: 32),
                         const Text(
                           'Empowering Ardaita Together',
                           textAlign: TextAlign.center,
@@ -678,14 +698,53 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
             color: Colors.green.shade900,
             width: double.infinity,
-            child: const Column(
+            child: Column(
               children: [
-                Text(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        image: const DecorationImage(
+                          image: AssetImage('assets/Logo.png'),
+                          fit: BoxFit.cover,
+                        ),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.5),
+                          width: 2,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Ardaita Unity and Development Association',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Empowering Communities Together',
+                          style: TextStyle(color: Colors.white70, fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                const Text(
                   '© 2026 Ardaita Unity and Development Association. All rights reserved.',
                   style: TextStyle(color: Colors.white70),
                 ),
-                SizedBox(height: 8),
-                Text(
+                const SizedBox(height: 8),
+                const Text(
                   'Ardaita, Ethiopia | info@ardaitaunity.org',
                   style: TextStyle(color: Colors.white54),
                 ),
@@ -768,7 +827,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
     return Stack(
       children: [
         Positioned.fill(
-          child: Image.asset('assets/Main_Page.jpg', fit: BoxFit.cover),
+          child: Image.asset('assets/Home_Page.jpg', fit: BoxFit.cover),
         ),
         Positioned.fill(
           child: Container(
@@ -832,6 +891,32 @@ class WhoWeAreTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Logo at the top
+          Center(
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                image: const DecorationImage(
+                  image: AssetImage('assets/Logo.png'),
+                  fit: BoxFit.cover,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+                border: Border.all(
+                  color: Colors.green.withOpacity(0.3),
+                  width: 2,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
           Text(
             'Organizational Structure',
             style: Theme.of(context).textTheme.displayMedium,
@@ -1328,6 +1413,32 @@ class InitiativesTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Logo at the top
+          Center(
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                image: const DecorationImage(
+                  image: AssetImage('assets/Logo.png'),
+                  fit: BoxFit.cover,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+                border: Border.all(
+                  color: Colors.green.withOpacity(0.3),
+                  width: 2,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
           Text(
             'Our Initiatives',
             style: Theme.of(context).textTheme.displayMedium,
@@ -1645,6 +1756,21 @@ class ResourcesPage extends StatelessWidget {
       'description': 'Community development document in English',
     },
     {
+      'name': '1.doc',
+      'assetPath': 'assets/1.doc',
+      'description': 'Board establishement document in Amharic',
+    },
+    {
+      'name': '2.docx',
+      'assetPath': 'assets/2.docx',
+      'description': 'Board establishement document in Amharic',
+    },
+    {
+      'name': '3.docx',
+      'assetPath': 'assets/3.docx',
+      'description': 'Board establishement document in Amharic',
+    },
+    {
       'name': 'Members_Mapping_ and_Registration_Form_04Feb26.xlsx',
       'assetPath': 'assets/Members_Mapping_ and_Registration_Form_04Feb26.xlsx',
       'description': 'Member mapping and registration spreadsheet',
@@ -1716,10 +1842,31 @@ class GalleryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> images = List.generate(
-      10,
-      (index) => 'assets/Ardaita.jpg',
-    );
+    final List<Map<String, String>> images = [
+      {'path': 'assets/Home_page.jpg', 'name': 'Home_page'},
+      {'path': 'assets/The Chair and his Vice.jpg', 'name': 'The Chair and his Vice.jpg'},
+      {'path': 'assets/Ardaita.jpg', 'name': 'Ardaita'},
+      {'path': 'assets/Logo.png', 'name': 'Logo'},
+      {'path': 'assets/Finance Team.jpg', 'name': 'Finance Team'},
+      {'path': 'assets/Group Admins.jpg', 'name': 'Group Admins'},
+      {'path': 'assets/Legal Team.jpg', 'name': 'Legal Team'},
+      {'path': 'assets/Operational Team.jpg', 'name': 'Operational Team'},
+      {
+        'path': 'assets/Public relations team.jpg',
+        'name': 'Public relations team',
+      },
+      {'path': 'assets/Team Adama.jpg', 'name': 'Team Adama'},
+      {
+        'path': 'assets/Team Addis Ababa (2).jpg',
+        'name': 'Team Addis Ababa (2)',
+      },
+      {'path': 'assets/Team Addis Ababa.jpg', 'name': 'Team Addis Ababa'},
+      {'path': 'assets/Team Adraita.jpg', 'name': 'Team Adraita'},
+      {'path': 'assets/Team Ardaita (2).jpg', 'name': 'Team Ardaita (2)'},
+      {'path': 'assets/Team Ardaita.jpg', 'name': 'Team Ardaita'},
+      {'path': 'assets/Team Assela.jpg', 'name': 'Team Assela'},
+      {'path': 'assets/Team Hawasa.jpg', 'name': 'Team Hawasa'},
+    ];
 
     return Padding(
       padding: const EdgeInsets.all(40.0),
@@ -1749,7 +1896,7 @@ class GalleryPage extends StatelessWidget {
                       fit: StackFit.expand,
                       children: [
                         Image.asset(
-                          images[index],
+                          images[index]['path']!,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Center(
@@ -1778,7 +1925,7 @@ class GalleryPage extends StatelessWidget {
                             ),
                             padding: const EdgeInsets.all(16),
                             child: Text(
-                              'Visual Capture ${index + 1}',
+                              images[index]['name']!,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
