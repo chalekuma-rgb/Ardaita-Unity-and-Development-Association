@@ -2054,7 +2054,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                     _buildContactMethod(
                       Icons.email_rounded,
                       'Email Us',
-                      'kumachale@gmail.com',
+                      'info@ardaitaunity.org',
                     ),
                     const SizedBox(height: 24),
                     _buildContactMethod(

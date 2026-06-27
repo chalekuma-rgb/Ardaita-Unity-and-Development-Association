@@ -35,6 +35,13 @@ jobs:
           --base-href /Ardaita-Unity-and-Development-Association/
           --dart-define=API_BASE_URL=${PRODUCTION_API_BASE_URL}
 
+      - name: Prepare GitHub Pages site
+        run: |
+          rm -rf docs
+          mkdir -p docs
+          cp -R build/web/. docs/
+          touch docs/.nojekyll
+
       - name: Trigger backend deployment (Render)
         if: ${{ env.RENDER_DEPLOY_HOOK_URL != '' }}
         run: curl -fsSL -X POST "$RENDER_DEPLOY_HOOK_URL"
@@ -47,5 +54,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/web
+          publish_dir: ./docs
 
