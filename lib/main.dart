@@ -99,7 +99,7 @@ class _MainLayoutState extends State<MainLayout> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             image: const DecorationImage(
-              image: AssetImage('assets/Logo.png'),
+              image: AssetImage('assets/New_Logo.jpg'),
               fit: BoxFit.cover,
             ),
             boxShadow: [
@@ -709,7 +709,7 @@ class HomePage extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         image: const DecorationImage(
-                          image: AssetImage('assets/Logo.png'),
+                          image: AssetImage('assets/New_Logo.jpg'),
                           fit: BoxFit.cover,
                         ),
                         border: Border.all(
@@ -899,7 +899,7 @@ class WhoWeAreTab extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 image: const DecorationImage(
-                  image: AssetImage('assets/Logo.png'),
+                  image: AssetImage('assets/New_Logo.jpg'),
                   fit: BoxFit.cover,
                 ),
                 boxShadow: [
@@ -1421,7 +1421,7 @@ class InitiativesTab extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 image: const DecorationImage(
-                  image: AssetImage('assets/Logo.png'),
+                  image: AssetImage('assets/New_Logo.jpg'),
                   fit: BoxFit.cover,
                 ),
                 boxShadow: [
@@ -1853,7 +1853,7 @@ class GalleryPage extends StatelessWidget {
         'name': 'The Chair and his Vice.jpg',
       },
       {'path': 'assets/Ardaita.jpg', 'name': 'Ardaita'},
-      {'path': 'assets/Logo.png', 'name': 'Logo'},
+      {'path': 'assets/New_Logo.jpg', 'name': 'New logo'},
       {'path': 'assets/Finance Team.jpg', 'name': 'Finance Team'},
       {'path': 'assets/Group Admins.jpg', 'name': 'Group Admins'},
       {'path': 'assets/Legal Team.jpg', 'name': 'Legal Team'},
