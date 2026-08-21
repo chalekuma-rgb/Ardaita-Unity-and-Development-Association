@@ -998,9 +998,9 @@ class WhoWeAreTab extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildTreeBranchWithRightChild(
-                        title: 'Operational and Admin Lead',
+                        title: 'Operational Lead',
                         subtitle: 'Dr.Tefaye Megersa',
-                        icon: Icons.admin_panel_settings_rounded,
+                        icon: Icons.business_center_rounded,
                         childTitle: 'Operational Support',
                         childSubtitle: '',
                         childIcon: Icons.support_agent_rounded,
@@ -1852,7 +1852,6 @@ class GalleryPage extends StatelessWidget {
       {'path': 'assets/Ardaita.jpg', 'name': 'Ardaita'},
       {'path': 'assets/New_Logo.jpg', 'name': 'New logo'},
       {'path': 'assets/Finance Team.jpg', 'name': 'Finance Team'},
-      {'path': 'assets/Group Admins.jpg', 'name': 'Group Admins'},
       {'path': 'assets/Legal Team.jpg', 'name': 'Legal Team'},
       {'path': 'assets/Operational Team.jpg', 'name': 'Operational Team'},
       {
@@ -2623,118 +2622,8 @@ class VolunteersListPage extends StatefulWidget {
 }
 
 class _VolunteersListPageState extends State<VolunteersListPage> {
-  final _tokenController = TextEditingController();
-  bool _obscureToken = true;
-  String? _feedbackMessage;
-  bool _isAuthenticated = false;
-
-  @override
-  void dispose() {
-    _tokenController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _authenticate() async {
-    final apiClient = AppBackend.restApiClient;
-    final token = _tokenController.text.trim();
-
-    if (apiClient == null) {
-      setState(() {
-        _feedbackMessage =
-            'This build does not have an API configured. Contact admin for access.';
-      });
-      return;
-    }
-
-    if (token.isEmpty) {
-      setState(() {
-        _feedbackMessage = 'Enter the admin token to view volunteers.';
-      });
-      return;
-    }
-
-    // For now, just check if token is not empty, or you can add specific validation
-    // In a real app, this would validate against the backend
-    setState(() {
-      _isAuthenticated = true;
-      _feedbackMessage = null;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (!_isAuthenticated) {
-      return SingleChildScrollView(
-        padding: const EdgeInsets.all(48.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Admin Access Required',
-              style: Theme.of(context).textTheme.displayMedium,
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Enter the admin token to view the list of volunteers.',
-              style: TextStyle(fontSize: 18, height: 1.6),
-            ),
-            const SizedBox(height: 32),
-            if (_feedbackMessage != null) ...[
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.orange.shade50,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.orange.shade200),
-                ),
-                child: Text(
-                  _feedbackMessage!,
-                  style: TextStyle(
-                    color: Colors.orange.shade900,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 24),
-            ],
-            TextField(
-              controller: _tokenController,
-              obscureText: _obscureToken,
-              decoration: InputDecoration(
-                labelText: 'Admin Token',
-                border: const OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscureToken ? Icons.visibility : Icons.visibility_off,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _obscureToken = !_obscureToken;
-                    });
-                  },
-                ),
-              ),
-              onSubmitted: (_) => _authenticate(),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: _authenticate,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF2E7D32),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 48,
-                  vertical: 16,
-                ),
-              ),
-              child: const Text('Access Volunteers List'),
-            ),
-          ],
-        ),
-      );
-    }
-
     final List<Map<String, String>> mockVolunteers = [
       {'name': 'Chalachew Kuma', 'initiative': 'Education', 'role': 'Teacher'},
       {
