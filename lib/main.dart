@@ -18,7 +18,7 @@ class MyTrendingWebApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Ardaita Unity and Development Association',
+      title: 'Ardaita and its Surrounding Charittable Association',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
@@ -642,7 +642,7 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 24),
                 const MaxWidthContainer(
                   child: Text(
-                    'Ardaita Unity and Development Association is a community-driven organization dedicated to fostering sustainable progress, equitable education, and accessible healthcare in the Ardaita region.',
+                    'Ardaita and its Surrounding Charittable Association is a community-driven organization dedicated to fostering sustainable progress, equitable education, and accessible healthcare in the Ardaita region.',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18, height: 1.6),
                   ),
@@ -720,7 +720,7 @@ class HomePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Ardaita Unity and Development Association',
+                          'Ardaita and its Surrounding Charittable Association',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -737,7 +737,7 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 const Text(
-                  '© 2026 Ardaita Unity and Development Association. All rights reserved.',
+                  '© 2026 Ardaita and its Surrounding Charittable Association. All rights reserved.',
                   style: TextStyle(color: Colors.white70),
                 ),
                 const SizedBox(height: 8),
@@ -998,9 +998,9 @@ class WhoWeAreTab extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildTreeBranchWithRightChild(
-                        title: 'Operational Lead',
+                        title: 'Operational and Admin Lead',
                         subtitle: 'Dr.Tefaye Megersa',
-                        icon: Icons.business_center_rounded,
+                        icon: Icons.admin_panel_settings_rounded,
                         childTitle: 'Operational Support',
                         childSubtitle: '',
                         childIcon: Icons.support_agent_rounded,
@@ -1246,7 +1246,7 @@ class WhatWeDoTab extends StatelessWidget {
           Text('Mission', style: Theme.of(context).textTheme.displayMedium),
           const SizedBox(height: 16),
           const Text(
-            'Ardaita Unity and Development Association is a charitable organization committed to improving the quality of life in our community by:',
+            'Ardaita and its Surrounding Charittable Association is a charitable organization committed to improving the quality of life in our community by:',
             style: TextStyle(fontSize: 18, height: 1.6),
           ),
           const SizedBox(height: 24),
@@ -2255,7 +2255,7 @@ class DonatePage extends StatelessWidget {
             child: const Column(
               children: [
                 Text(
-                  'Account Name: Ardaita Unity and Development Association',
+                  'Account Name: Ardaita and its Surrounding Charittable Association',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,
